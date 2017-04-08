@@ -1,0 +1,4 @@
+<resources>
+    <string name="app_name">ArgMusicPlayer</string>
+    <string name="error_message"><b>An error has occured!</b>\n(tap to hide)</string>
+</resources>

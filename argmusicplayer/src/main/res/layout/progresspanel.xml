@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="48dp"
+    android:padding="3dp"
+    android:gravity="center_horizontal"
+    android:background="#d300ff8c">
+
+    <RelativeLayout
+        android:layout_width="45dp"
+        android:layout_height="45dp"
+        android:id="@+id/relLayClock"
+        android:layout_marginLeft="25dp">
+        <ImageView
+            android:layout_width="45dp"
+            android:layout_height="45dp"
+            android:id="@+id/imgViewProgressClock"
+            android:src="@drawable/saet_tevahi" />
+
+        <ImageView
+            android:layout_width="45dp"
+            android:layout_height="45dp"
+            android:id="@+id/imgViewProgressMinute"
+            android:src="@drawable/saet_ibre_dk"
+            android:layout_alignLeft="@+id/imgViewProgressClock"
+            android:layout_alignTop="@+id/imgViewProgressClock"
+            android:layout_alignBottom="@+id/imgViewProgressClock"
+            android:layout_alignRight="@+id/imgViewProgressClock"/>
+        <ImageView
+            android:layout_width="45dp"
+            android:layout_height="45dp"
+            android:id="@+id/imgViewProgressHour"
+            android:src="@drawable/saet_ibre_saet"
+            android:layout_alignLeft="@+id/imgViewProgressClock"
+            android:layout_alignTop="@+id/imgViewProgressClock"
+            android:layout_alignBottom="@+id/imgViewProgressClock"
+            android:layout_alignRight="@+id/imgViewProgressClock"/>
+
+    </RelativeLayout>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="100dp"
+        android:text="Wait page is loading"
+        android:id="@+id/tvProgressMessage"
+        android:layout_toRightOf="@+id/relLayClock"
+        android:gravity="center"
+        android:typeface="serif"
+        android:textIsSelectable="false"
+        android:textSize="18dp"
+        android:layout_marginRight="15dp"
+        android:layout_marginLeft="10dp" />
+
+</RelativeLayout>
