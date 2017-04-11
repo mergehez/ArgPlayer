@@ -77,11 +77,10 @@ protected void onCreate(Bundle savedInstanceState) {
 	//... other codes ...
 	ArgAudio audio1 = new ArgAudio("Singer1","Audio1",url,AudioType.URL);
 	//Define audio2, audio3, audio4 ......
-	ArgAudioList playlist = new ArgAudioList(true)
-									.add(audio1)
-									.add(audio2)
-									.add(audio3)
-									.add(audio4);
+	ArgAudioList playlist = new ArgAudioList(true).add(audio1)
+						.add(audio2)
+						.add(audio3)
+						.add(audio4);
 	ArgPlayerSmallView argMusicPlayer = (ArgPlayerSmallView) findViewById(R.id.argmusicplayer);
 	argMusicPlayer.playPlaylist(playlist );
 	//... other codes ...
