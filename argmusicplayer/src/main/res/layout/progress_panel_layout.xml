@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#d300ff8c"
+    android:gravity="center"
+    android:padding="3dp">
+
+    <RelativeLayout
+        android:id="@+id/relLayClock"
+        android:layout_width="wrap_content"
+        android:layout_height="100dp"
+        android:gravity="center"
+        android:layout_marginLeft="25dp">
+
+        <ImageView
+            android:id="@+id/imgViewProgressClock"
+            android:layout_width="45dp"
+            android:layout_height="45dp"
+            android:src="@drawable/saet_tevahi" />
+
+        <ImageView
+            android:id="@+id/imgViewProgressMinute"
+            android:layout_width="45dp"
+            android:layout_height="45dp"
+            android:layout_alignBottom="@+id/imgViewProgressClock"
+            android:layout_alignLeft="@+id/imgViewProgressClock"
+            android:layout_alignRight="@+id/imgViewProgressClock"
+            android:layout_alignTop="@+id/imgViewProgressClock"
+            android:src="@drawable/saet_ibre_dk" />
+
+        <ImageView
+            android:id="@+id/imgViewProgressHour"
+            android:layout_width="45dp"
+            android:layout_height="45dp"
+            android:layout_alignBottom="@+id/imgViewProgressClock"
+            android:layout_alignLeft="@+id/imgViewProgressClock"
+            android:layout_alignRight="@+id/imgViewProgressClock"
+            android:layout_alignTop="@+id/imgViewProgressClock"
+            android:src="@drawable/saet_ibre_saet" />
+
+    </RelativeLayout>
+
+    <TextView
+        android:id="@+id/tvProgressMessage"
+        android:layout_width="wrap_content"
+        android:layout_height="100dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="15dp"
+        android:layout_toRightOf="@+id/relLayClock"
+        android:gravity="center"
+        android:text="Wait page is loading"
+        android:textIsSelectable="false"
+        android:textSize="18dp"
+        android:typeface="serif" />
+
+</RelativeLayout>

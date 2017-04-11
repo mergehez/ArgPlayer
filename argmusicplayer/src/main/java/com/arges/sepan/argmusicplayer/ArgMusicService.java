@@ -1,6 +1,5 @@
 package com.arges.sepan.argmusicplayer;
 
-import android.app.AlarmManager;
 import android.app.Service;
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -8,8 +7,10 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.res.AssetFileDescriptor;
 import android.media.AudioManager;
+import android.media.MediaMetadataRetriever;
 import android.media.MediaPlayer;
 import android.net.Uri;
+import android.os.Handler;
 import android.os.IBinder;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -17,21 +18,25 @@ import android.util.Log;
 
 import java.io.File;
 import java.io.IOException;
-import com.arges.sepan.argmusicplayer.ArgMusicPlayer.ErrorType;
-import com.arges.sepan.argmusicplayer.ArgListener.*;
 
-import static com.arges.sepan.argmusicplayer.ArgMusicPlayer.ErrorType.EMPTY_PLAYLIST;
-import static com.arges.sepan.argmusicplayer.ArgMusicPlayer.ErrorType.NO_AUDIO_SETTED;
-import static com.arges.sepan.argmusicplayer.AudioState.*;
-import static com.arges.sepan.argmusicplayer.CmdVar.*;
+import com.arges.sepan.argmusicplayer.IndependentClasses.Arg.*;
+import com.arges.sepan.argmusicplayer.IndependentClasses.ArgAudioList;
+import com.arges.sepan.argmusicplayer.Enums.AudioState;
+import com.arges.sepan.argmusicplayer.Enums.AudioType;
+import com.arges.sepan.argmusicplayer.Enums.ErrorType;
+import com.arges.sepan.argmusicplayer.IndependentClasses.ArgAudio;
+
+import static com.arges.sepan.argmusicplayer.Enums.AudioState.*;
+import static com.arges.sepan.argmusicplayer.Enums.AudioType.URL;
+import static com.arges.sepan.argmusicplayer.IndependentClasses.Arg.CmdVar.*;
 
 public class ArgMusicService extends Service implements MediaPlayer.OnPreparedListener, MediaPlayer.OnCompletionListener,
                                                         MediaPlayer.OnBufferingUpdateListener, MediaPlayer.OnErrorListener {
-    private MediaPlayer mediaPlayer;
-    private AlarmManager alarmManager;
+    private static MediaPlayer mediaPlayer;
     private AudioManager.OnAudioFocusChangeListener afChangeListener;
     private boolean isRepeatPlaylist = false;
-    private ArgAudioList currentPlaylist = new ArgAudioList();
+    private boolean playlistError = true;
+    private ArgAudioList currentPlaylist = new ArgAudioList(true);
     private ArgAudio currentAudio;
     private OnPreparedListener onPreparedListener;
     private OnTimeChangeListener onTimeChangeListener;
@@ -41,16 +46,30 @@ public class ArgMusicService extends Service implements MediaPlayer.OnPreparedLi
     private OnPlayingListener onPlayingListener;
     private OnPlaylistAudioChangedListener onPlaylistAudioChangedListener;
     private OnPlaylistStateChangedListener onPlaylistStateChangedListener;
+    private OnEmbeddedImageReadyListener onEmbeddedImageReadyListener;
     private int playAudioPercent = 50;
     private Context context;
-    protected AudioState audioState = NO_ACTION;
+    protected static AudioState audioState = NO_ACTION;
+    protected static String progressMessage = "Audio is loading..";
+    protected static boolean progressCancellation = false;
+    protected static boolean errorViewCancellation = false;
+    protected static boolean nextPrevButtons = true;
+    protected static int playButtonResId = R.drawable.arg_music_play;
+    protected static int pauseButtonResId = R.drawable.arg_music_pause;
+    protected static int repeatButtonResId = R.drawable.arg_music_repeat;
+    protected static int repeatNotButtonResId = R.drawable.arg_music_repeat_not;
 
-    public ArgMusicService(){}
+    protected interface OnPlaylistStateChangedListener{
+        void onPlaylistStateChanged(boolean isPlaylist, ArgAudioList playlist);
+    }
+    protected interface OnEmbeddedImageReadyListener{
+        void onEmbeddedImageReady(byte[] byteArray);
+    }
     public ArgMusicService(Context context){
         this.context = context;
-
     }
-
+    public ArgMusicService(){}
+    public boolean isOK(){return context!=null;}
     // <setters-getters>
     protected void setOnPreparedListener(OnPreparedListener onPreparedListener) { this.onPreparedListener = onPreparedListener; }
     protected void setOnTimeChangeListener(OnTimeChangeListener onTimeChangeListener) { this.onTimeChangeListener = onTimeChangeListener; }
@@ -60,20 +79,27 @@ public class ArgMusicService extends Service implements MediaPlayer.OnPreparedLi
     protected void setOnPlayingListener(OnPlayingListener onPlayingListener) { this.onPlayingListener = onPlayingListener; }
     protected void setOnPlaylistAudioChangedListener(OnPlaylistAudioChangedListener onPlaylistAudioChangedListener) { this.onPlaylistAudioChangedListener = onPlaylistAudioChangedListener; }
     protected void setOnPlaylistStateChangedListener(OnPlaylistStateChangedListener onPlaylistStateChangedListener) { this.onPlaylistStateChangedListener = onPlaylistStateChangedListener; }
+    protected void setOnEmbeddeImageReadyListener(OnEmbeddedImageReadyListener onEmbeddedImageReadyListener) { this.onEmbeddedImageReadyListener = onEmbeddedImageReadyListener; }
+    //protected void setOnProgressStartedListener(OnProgressStartedListener onProgressStartedListener) { this.onProgressStartedListener = onProgressStartedListener; }
     protected long getDuration() {  return mediaPlayer.getDuration();  }
     protected ArgAudio getCurrentAudio(){  return currentAudio; }
     protected void setCurrentAudio(@NonNull ArgAudio audio){  this.currentAudio = audio; }
     protected void setCurrentPlaylist(ArgAudioList argAudioList){ this.currentPlaylist = argAudioList;}
     protected ArgAudioList getCurrentPlaylist(){return this.currentPlaylist;}
-    protected void setRepeatPlaylist(boolean repeatPlaylist){this.isRepeatPlaylist = repeatPlaylist;}
+    protected void setRepeatPlaylist(boolean repeatPlaylist){
+        this.isRepeatPlaylist = repeatPlaylist;
+        if(isPlaylist()) currentPlaylist.setRepeat(repeatPlaylist);
+    }
     protected boolean getRepeatPlaylist(){return isRepeatPlaylist;}
+    protected void setPlaylistError(boolean playlistError){this.playlistError = playlistError;}
+    protected boolean getPlaylistError(){return playlistError; }
     protected void playAudioAfterPercent(int percent){this.playAudioPercent=percent;}
     protected AudioState getAudioState(){return audioState;}
     protected boolean isPlaylist(){return currentPlaylist!=null;}
     // </setters-getters>
 
     // <checkers>
-    protected boolean isCurrentAudio(ArgAudio audio){return audio.equals(currentAudio);}
+    protected boolean isCurrentAudio(ArgAudio audio){return audio!=null && audio.equals(currentAudio);}
     private boolean isAudioValid(String path, AudioType type){
         switch (type){
             case ASSETS:
@@ -97,6 +123,28 @@ public class ArgMusicService extends Service implements MediaPlayer.OnPreparedLi
 
     // <ServiceOverrides>
     @Override public int onStartCommand(Intent intent, int flags, int startId) {
+        String action = intent.getAction();
+        if(action!=null)
+            switch (action){
+                case "com.arges.intent.service.PLAYPAUSE":
+                    if(audioState==PLAYING)
+                        pause();
+                    else
+                        continuePlaying();
+                    break;
+                case "com.arges.intent.service.STOP":
+                    stop();
+                    break;
+                case "com.arges.intent.service.NEXT":
+                    playNextAudio();
+                    break;
+                case "com.arges.intent.service.PREV":
+                    playPrevAudio();
+                    break;
+                case "com.arges.intent.service.CONTINUE":
+                    continuePlaying();
+                    break;
+            }
         return super.onStartCommand(intent, flags, startId);
     }
     @Override public void onDestroy() {
@@ -109,7 +157,7 @@ public class ArgMusicService extends Service implements MediaPlayer.OnPreparedLi
         currentPlaylist = playlist;
         if(currentPlaylist.size()==0){
             killMediaPlayer();
-            publishError(EMPTY_PLAYLIST,"Seems you have loaded an empty playlist!");
+            publishError(ErrorType.EMPTY_PLAYLIST,"Seems you have loaded an empty playlist!");
             return false;
         }
         if(currentPlaylist.equals(temp))return false;
@@ -122,19 +170,20 @@ public class ArgMusicService extends Service implements MediaPlayer.OnPreparedLi
         currentAudio = audio;
         if(audio==null){
             killMediaPlayer();
-            publishError(NO_AUDIO_SETTED,"Seems you did not load an audio!");
+            publishError(ErrorType.NO_AUDIO_SETTED,"Seems you did not load an audio!");
         }else{
             if(audio.equals(temp)) return;
             if(isAudioValid(audio.getPath(),audio.getType())){
                 try{
                     killMediaPlayer();
-                    mediaPlayer = ArgMusicService.getLoadedMediaPlayer(context,audio);
+                    mediaPlayer = getLoadedMediaPlayer(context,audio);
                     mediaPlayer.setOnPreparedListener(this);
                     mediaPlayer.setOnBufferingUpdateListener(this);
                     mediaPlayer.setOnCompletionListener(this);
                     mediaPlayer.setOnErrorListener(this);
-                    if(audio.getType()==AudioType.URL)  mediaPlayer.prepareAsync();
+                    if(audio.getType()== URL)  mediaPlayer.prepareAsync();
                     else    mediaPlayer.prepare();
+                    mediaPlayerTimeOutCheck();
                     // Other actions will be performed in onBufferingUpdate and OnPrepared methods
                 }catch (Exception e){
                     e.printStackTrace();
@@ -142,6 +191,18 @@ public class ArgMusicService extends Service implements MediaPlayer.OnPreparedLi
             }else{
                 publishInvalidFileError(audio.getType(),audio.getPath());
             }
+        }
+    }
+    protected void playPlaylistItem(int index){
+        if(index == currentPlaylist.getCurrentIndex())
+            return;
+        if(isPlaylist() && !(index<0 || index>=currentPlaylist.size())){
+            pauseMediaPlayer();
+            audioState=NO_ACTION;
+            currentPlaylist.goTo(index);
+            onPlaylistAudioChangedListener.onPlaylistAudioChanged(currentPlaylist,currentPlaylist.getCurrentIndex());
+        }else{
+            publishError(ErrorType.NO_AUDIO_SETTED,"Invalid index or Empty Playlist");
         }
     }
     protected void playSingleAudio(ArgAudio audio){   // Use when play new single audio, not for resuming a paused audio
@@ -170,6 +231,12 @@ public class ArgMusicService extends Service implements MediaPlayer.OnPreparedLi
             playAudio(audio);
         }
     }
+    protected void playNextAudio(){
+        playPlaylistItem(currentPlaylist.getNextIndex());
+    }
+    protected void playPrevAudio(){
+        playPlaylistItem(currentPlaylist.getPrevIndex());
+    }
     protected void stop(){
         if( mediaPlayer != null ){
             pauseMediaPlayer();
@@ -179,7 +246,18 @@ public class ArgMusicService extends Service implements MediaPlayer.OnPreparedLi
     protected void seekTo(int time){
         if(mediaPlayer!=null) mediaPlayer.seekTo(time);
     }
-
+    private void mediaPlayerTimeOutCheck(){
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                if(audioState == NO_ACTION)
+                    if(playlistError)
+                        publishError(ErrorType.MEDIAPLAYER_TIMEOUT,"Url resource has not been prepared in 30 seconds");
+                    else
+                        playNextAudio();
+            }
+        },30000);
+    }
     //<MediaPlayerOverrides>
     @Override @Nullable public IBinder onBind(Intent intent) {
         return null;
@@ -198,16 +276,17 @@ public class ArgMusicService extends Service implements MediaPlayer.OnPreparedLi
     }
     @Override public void onPrepared(MediaPlayer mp){
         if(currentAudio==null) return;
-        if(currentAudio.getType() != AudioType.URL){
+        if(currentAudio.getType() != URL){
             onPlayingListener.onPlaying();
             startMediaPlayer();
             updateTimeThread();
         }
-        onPreparedListener.onPrepared(currentAudio.getTitle(),mediaPlayer.getDuration());
+        onPreparedListener.onPrepared(currentAudio,mediaPlayer.getDuration());
     }
     @Override public void onCompletion(MediaPlayer mp) {
         stopMediaPlayer();
         if(isPlaylist() && currentPlaylist.hasNext()){
+            currentPlaylist.goToNext();
             onPlaylistAudioChangedListener.onPlaylistAudioChanged(currentPlaylist,currentPlaylist.getCurrentIndex());
         }else
             onCompletedListener.onCompleted();
@@ -235,7 +314,7 @@ public class ArgMusicService extends Service implements MediaPlayer.OnPreparedLi
     }
     //</ErrorFunctions>
 
-    private void updateTimeThread(){
+    protected void updateTimeThread(){
         new Thread(){
             @Override
             public void run() {
@@ -251,7 +330,9 @@ public class ArgMusicService extends Service implements MediaPlayer.OnPreparedLi
             }
         }.start();
     }
-    private static MediaPlayer getLoadedMediaPlayer(Context context, ArgAudio audio) throws IOException {
+    private MediaPlayer getLoadedMediaPlayer(Context context, ArgAudio audio) throws IOException {
+        MediaMetadataRetriever retriever = new MediaMetadataRetriever();
+
         AssetFileDescriptor descriptor;
         MediaPlayer player = new MediaPlayer();
         player.setAudioStreamType(AudioManager.STREAM_MUSIC);
@@ -259,19 +340,25 @@ public class ArgMusicService extends Service implements MediaPlayer.OnPreparedLi
             case ASSETS:
                 descriptor = context.getAssets().openFd(audio.getPath());
                 player.setDataSource(descriptor.getFileDescriptor(), descriptor.getStartOffset(), descriptor.getLength());
+                retriever.setDataSource(descriptor.getFileDescriptor(), descriptor.getStartOffset(), descriptor.getLength());
                 descriptor.close();
                 break;
             case RAW:
                 descriptor = context.getResources().openRawResourceFd(Integer.parseInt(audio.getPath()));
                 player.setDataSource(descriptor.getFileDescriptor(), descriptor.getStartOffset(), descriptor.getLength());
+                retriever.setDataSource(descriptor.getFileDescriptor(), descriptor.getStartOffset(), descriptor.getLength());
                 descriptor.close();
                 break;
             case URL:
                 player.setDataSource(audio.getPath()); break;
             case FILE_PATH:
-                player.setDataSource(context, Uri.parse(audio.getPath()));  break;
+                player.setDataSource(context, Uri.parse(audio.getPath()));
+                retriever.setDataSource(context, Uri.parse(audio.getPath()));
+                break;
             default: break;
         }
+        onEmbeddedImageReadyListener.onEmbeddedImageReady(audio.getType()!=AudioType.URL ? retriever.getEmbeddedPicture() : null);
+
         return player;
     }
     private void killMediaPlayer(){
@@ -288,7 +375,7 @@ public class ArgMusicService extends Service implements MediaPlayer.OnPreparedLi
             // 2. Kill off any other play back sources
             forceMusicStop();
             // 3. Register broadcast receiver for player intents
-            setupBroadcastReceiver();
+            registerReceiver();
         }
         mediaPlayer.start();
         audioState = PLAYING;
@@ -298,14 +385,15 @@ public class ArgMusicService extends Service implements MediaPlayer.OnPreparedLi
             mediaPlayer.pause();
             audioState= PAUSED;
             abandonAudioFocus();
+            unRegisterReceiver();
         }
     }
     private void stopMediaPlayer(){
         if (mAudioFocusGranted && audioState==PLAYING) {
             mediaPlayer.stop();
             audioState=STOPPED;
-            // 2. Give up audio focus
             abandonAudioFocus();
+            unRegisterReceiver();
         }
     }
 
@@ -320,14 +408,19 @@ public class ArgMusicService extends Service implements MediaPlayer.OnPreparedLi
             switch (focusChange) {
                 case AudioManager.AUDIOFOCUS_GAIN:
                     Log.i(AUDIO_FOCUS_TAG, "AUDIOFOCUS_GAIN");
+                    mediaPlayer.setVolume(1f, 1f);
                     if(audioState== PAUSED) continuePlaying();
                     else playAudio(currentAudio);
                     break;
                 case AudioManager.AUDIOFOCUS_GAIN_TRANSIENT:
                     Log.i(AUDIO_FOCUS_TAG, "AUDIOFOCUS_GAIN_TRANSIENT");
+                    if(audioState== PAUSED) continuePlaying();
+                    else playAudio(currentAudio);
                     break;
                 case AudioManager.AUDIOFOCUS_GAIN_TRANSIENT_MAY_DUCK:
                     Log.i(AUDIO_FOCUS_TAG, "AUDIOFOCUS_GAIN_TRANSIENT_MAY_DUCK");
+                    if(audioState== PAUSED) continuePlaying();
+                    else playAudio(currentAudio);
                     break;
                 case AudioManager.AUDIOFOCUS_LOSS:
                     Log.e(AUDIO_FOCUS_TAG, "AUDIOFOCUS_LOSS");
@@ -339,6 +432,7 @@ public class ArgMusicService extends Service implements MediaPlayer.OnPreparedLi
                     break;
                 case AudioManager.AUDIOFOCUS_LOSS_TRANSIENT_CAN_DUCK:
                     Log.e(AUDIO_FOCUS_TAG, "AUDIOFOCUS_LOSS_TRANSIENT_CAN_DUCK");
+                    if(audioState==PLAYING) mediaPlayer.setVolume(0.1f, 0.1f);
                     break;
                 case AudioManager.AUDIOFOCUS_REQUEST_FAILED:
                     Log.e(AUDIO_FOCUS_TAG, "AUDIOFOCUS_REQUEST_FAILED");
@@ -363,8 +457,7 @@ public class ArgMusicService extends Service implements MediaPlayer.OnPreparedLi
                 mAudioFocusGranted = true;
             } else {
                 // FAILED
-                Log.e("RequestAudioFocus",
-                        ">>>>>>>>>>>>> FAILED TO GET AUDIO FOCUS <<<<<<<<<<<<<<<<<<<<<<<<");
+                Log.e("RequestAudioFocus", "> FAILED TO GET AUDIO FOCUS <");
             }
         }
         return mAudioFocusGranted;
@@ -378,18 +471,13 @@ public class ArgMusicService extends Service implements MediaPlayer.OnPreparedLi
             mAudioFocusGranted = false;
         } else {
             // FAILED
-            Log.e("AbandonAudioFocus",
-                    ">>>>>>>>>>>>> FAILED TO ABANDON AUDIO FOCUS <<<<<<<<<<<<<<<<<<<<<<<<");
+            Log.e("AbandonAudioFocus",  "> FAILED TO ABANDON AUDIO FOCUS <");
         }
         mOnAudioFocusChangeListener = null;
     }
     private void checkAudioFocus(){
-        // 1. Acquire audio focus
         if (!mAudioFocusGranted && requestAudioFocus()) {
-            // 2. Kill off any other play back sources
             forceMusicStop();
-            // 3. Register broadcast receiver for player intents
-            setupBroadcastReceiver();
         }
     }
     private void forceMusicStop() {
@@ -403,34 +491,38 @@ public class ArgMusicService extends Service implements MediaPlayer.OnPreparedLi
         }
     }
     private boolean mReceiverRegistered = false;
-    private void setupBroadcastReceiver() {
+    private BroadcastReceiver myReceiver = new BecomingNoisyReceiver();
+    protected void registerReceiver() {
         // Do the right thing when something else tries to play
         if (!mReceiverRegistered) {
             IntentFilter commandFilter = new IntentFilter();
             commandFilter.addAction(SERVICE_CMD);
             commandFilter.addAction(PAUSE_SERVICE_CMD);
             commandFilter.addAction(PLAY_SERVICE_CMD);
-            context.registerReceiver(new BecomingNoisyReceiver(), commandFilter);
+            context.registerReceiver(myReceiver, commandFilter);
             mReceiverRegistered = true;
         }
     }
+    private void unRegisterReceiver(){
+        context.unregisterReceiver(myReceiver);
+        mReceiverRegistered = false;
+    }
     private class BecomingNoisyReceiver extends BroadcastReceiver {
-        ArgMusicService service = new ArgMusicService();
         @Override
         public void onReceive(Context context, Intent intent) {
             String action = intent.getAction();
             String cmd = intent.getStringExtra(CMD_NAME);
             Log.i("BecomingNoisyReceiver", "intent.onReceive " + action + " / " + cmd);
             if (AudioManager.ACTION_AUDIO_BECOMING_NOISY.equals(action)) {
-                new ArgMusicService().pause();
+                mediaPlayer.pause();
             }if (PAUSE_SERVICE_CMD.equals(action)
                     || (SERVICE_CMD.equals(action) && CMD_PAUSE.equals(cmd))) {
-                if(audioState == PAUSE_CMD) service.continuePlaying();
+                if(audioState == PAUSE_CMD) continuePlaying();
             }
 
             if (PLAY_SERVICE_CMD.equals(action)
                     || (SERVICE_CMD.equals(action) && CMD_PLAY.equals(cmd))) {
-                service.pause();
+                mediaPlayer.pause();
                 audioState = PAUSE_CMD;
             }
         }

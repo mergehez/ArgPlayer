@@ -16,6 +16,9 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".SmallPlayerActivity" />
+        <activity android:name=".LargePlayerActivity" />
+        <activity android:name=".FullScreenPlayerActivity"/>
     </application>
 
 </manifest>

@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Base application theme. -->
+    <style name="ArgPlayerTheme" parent="Theme.AppCompat.Light">
+        <!-- Customize your theme here. -->
+        <item name="buttonStyle">@style/ArgPlayerButton</item>
+    </style>
+
+    <style name="ArgPlayerButton" parent="@android:style/android:Widget.ImageButton">
+        <item name="android:background">@drawable/back_imagebutton</item>
+    </style>
+</resources>

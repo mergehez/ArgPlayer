@@ -1,0 +1,215 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="#eee"
+    android:gravity="center_horizontal"
+    android:paddingLeft="2dp"
+    android:paddingRight="2dp">
+
+    <RelativeLayout
+        android:id="@+id/viewFlipper"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/seperator"
+        android:layout_alignParentTop="true">
+
+        <LinearLayout
+            android:id="@+id/layPanelPlaylist"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="#eee"
+            android:orientation="vertical"
+            android:visibility="invisible">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="#ddd"
+                android:paddingBottom="5dp"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp"
+                android:paddingTop="5dp"
+                android:weightSum="1">
+
+                <TextView
+                    android:id="@+id/tvAudioCountPlaylist"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="161 songs"
+                    android:textSize="15sp" />
+
+                <TextView
+                    android:id="@+id/tvPositonPlaylist"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:text="2 / 161" />
+            </RelativeLayout>
+
+            <ScrollView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:fillViewport="true">
+
+                <com.arges.sepan.argmusicplayer.Views.ArgPlaylistListView
+                    android:id="@+id/listViewPlaylist"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:divider="#ffe"
+                    android:dividerHeight="0.5dp"
+                    tools:listitem="@layout/player_playlist_item" />
+            </ScrollView>
+        </LinearLayout>
+
+        <ImageView
+            android:id="@+id/imageViewAudio"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="#00ffffff"
+            android:padding="20dp"
+            android:scaleType="fitCenter"
+            android:visibility="visible"
+            app:srcCompat="@drawable/mergesoft" />
+
+    </RelativeLayout>
+
+    <View
+        android:id="@+id/seperator"
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"
+        android:layout_above="@+id/arg_music_panel_layout"
+        android:background="#000" />
+    <RelativeLayout
+        android:id="@+id/arg_music_panel_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/layControls"
+        android:paddingBottom="5dp"
+        android:paddingTop="5dp">
+
+        <TextView
+            android:id="@+id/tvAudioName"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_alignParentTop="false"
+            android:gravity="center"
+            android:padding="5dp"
+            android:paddingLeft="45dp"
+            android:paddingRight="45dp"
+            android:text="Andreo Bocelli - Caruso"
+            android:textStyle="bold" />
+
+        <ImageButton
+            android:id="@+id/btnRepeat"
+            android:layout_width="45dp"
+            android:layout_height="45dp"
+            android:layout_alignParentRight="true"
+            android:background="#00ffffff"
+            android:padding="8dp"
+            android:scaleType="fitCenter"
+            android:src="@drawable/arg_music_repeat_not" />
+
+        <TextView
+            android:id="@+id/tvTimeNow"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tvAudioName"
+            android:layout_marginLeft="5dp"
+            android:text="00:00" />
+
+        <TextView
+            android:id="@+id/tvTimeTotal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_below="@+id/tvAudioName"
+            android:text="04:20" />
+
+        <SeekBar
+            android:id="@+id/seekBar"
+            style="@style/Widget.AppCompat.SeekBar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="false"
+            android:layout_alignParentRight="false"
+            android:layout_below="@+id/tvTimeNow"
+            android:layout_gravity="center_horizontal"
+            android:max="2"
+            android:progress="1" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/layControls"
+        android:layout_width="match_parent"
+        android:layout_height="70dp"
+        android:layout_alignParentBottom="true"
+        android:gravity="center_vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="70dp"
+            android:gravity="center"
+            android:orientation="horizontal"
+            android:paddingBottom="10dp"
+            android:paddingTop="10dp">
+
+            <ImageButton
+                android:id="@+id/btnPrev"
+                android:layout_width="55dp"
+                android:layout_height="48dp"
+                android:scaleType="fitCenter"
+                android:src="@drawable/arg_music_prev_large" />
+
+            <ImageButton
+                android:id="@+id/btnPlayPause"
+                android:layout_width="72dp"
+                android:layout_height="72dp"
+                android:scaleType="fitCenter"
+                android:src="@drawable/arg_music_play" />
+
+            <ImageButton
+                android:id="@+id/btnNext"
+                android:layout_width="55dp"
+                android:layout_height="48dp"
+                android:scaleType="fitCenter"
+                android:src="@drawable/arg_music_next_large" />
+
+        </LinearLayout>
+
+        <ImageButton
+            android:id="@+id/btnViewFlipper"
+            android:layout_width="45dp"
+            android:layout_height="45dp"
+            android:layout_alignParentRight="true"
+            android:layout_marginTop="12.5dp"
+            android:background="#00ffffff"
+            android:padding="8dp"
+            android:scaleType="fitCenter"
+            app:srcCompat="@drawable/arg_music_playlist" />
+    </RelativeLayout>
+
+    <com.arges.sepan.argmusicplayer.Views.ArgProgressView
+        android:id="@+id/arg_music_progress"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/arg_music_panel_layout"
+        android:layout_alignTop="@+id/arg_music_panel_layout"
+        android:visibility="gone">
+
+    </com.arges.sepan.argmusicplayer.Views.ArgProgressView>
+
+    <com.arges.sepan.argmusicplayer.Views.ArgErrorView
+        android:id="@+id/arg_music_error_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/arg_music_panel_layout"
+        android:layout_alignTop="@+id/arg_music_panel_layout"
+        android:visibility="gone">
+
+    </com.arges.sepan.argmusicplayer.Views.ArgErrorView>
+
+</RelativeLayout>

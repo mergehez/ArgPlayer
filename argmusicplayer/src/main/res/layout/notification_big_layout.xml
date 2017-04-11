@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="128dp"
+    android:gravity="center_vertical"
+    android:paddingLeft="10dp">
+
+    <ImageView
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:id="@+id/iViewBigNotif"
+        android:src="@drawable/mergesoftlogo"
+        android:layout_centerVertical="true"
+        android:padding="2dp" />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/arg_music_panel_layout"
+        android:orientation="vertical"
+        android:gravity="center_horizontal|bottom"
+        android:layout_toRightOf="@id/iViewBigNotif">
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="80dp"
+            android:id="@+id/layInfoBigNotif"
+            android:orientation="vertical"
+            android:layout_alignParentLeft="true"
+            android:gravity="bottom"
+            android:padding="5dp"
+            android:weightSum="1">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:maxHeight="55dp"
+                android:id="@+id/tvAudioNameBigNotif"
+                android:text="Nîzamettîn Ariç - Zînê"
+                android:gravity="left"
+                android:paddingTop="5dp"
+                android:paddingBottom="2dp"
+                android:paddingRight="35dp" />
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="25dp"
+                android:layout_below="@+id/tvAudioName"
+                android:gravity="center_vertical"
+                android:id="@+id/relLayProgressBigNotif">
+
+                <TextView
+                    android:id="@+id/tvTimeNowBigNotif"
+                    android:layout_width="wrap_content"
+                    android:layout_height="20dp"
+                    android:layout_alignParentLeft="true"
+                    android:gravity="center"
+                    android:text="00:00"
+                    android:textSize="12sp" />
+
+                <ProgressBar
+                    android:id="@+id/seekBarBigNotif"
+                    style="?android:attr/progressBarStyleHorizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="5dp"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentRight="true"
+                    android:layout_below="@+id/tvTimeNowBigNotif"
+                    android:layout_centerVertical="true"
+                    android:paddingLeft="2dp"
+                    android:paddingRight="2dp" />
+
+                <TextView
+                    android:id="@+id/tvTimeTotalBigNotif"
+                    android:layout_width="wrap_content"
+                    android:layout_height="20dp"
+                    android:layout_alignParentRight="true"
+                    android:gravity="center"
+                    android:text="00:00"
+                    android:textSize="12sp" />
+            </RelativeLayout>
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/layControlsBigNotif"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:gravity="center"
+            android:orientation="horizontal">
+
+            <ImageButton
+                android:id="@+id/btnPrevBigNotif"
+                android:layout_width="48dp"
+                android:layout_height="match_parent"
+                android:background="@drawable/back_notif_control"
+                android:padding="10dp"
+                android:scaleType="fitXY"
+                android:src="@drawable/arg_notif_prev" />
+            <ImageButton
+                android:id="@+id/btnPlayPauseBigNotif"
+                android:layout_width="48dp"
+                android:layout_height="match_parent"
+                android:background="@drawable/back_notif_control"
+                android:padding="5dp"
+                android:scaleType="fitXY"
+                android:src="@drawable/arg_notif_pause" />
+
+            <ImageButton
+                android:id="@+id/btnNextBigNotif"
+                android:layout_width="48dp"
+                android:layout_height="match_parent"
+                android:background="@drawable/back_notif_control"
+                android:padding="10dp"
+                android:scaleType="fitXY"
+                android:src="@drawable/arg_notif_next" />
+
+        </LinearLayout>
+    </LinearLayout>
+
+    <ImageButton
+        android:id="@+id/btnCloseBigNotif"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginRight="5dp"
+        android:layout_marginTop="5dp"
+        android:background="@drawable/back_notif_control"
+        android:padding="5dp"
+        android:scaleType="fitXY"
+        android:src="@drawable/arg_notif_close" />
+
+</RelativeLayout>

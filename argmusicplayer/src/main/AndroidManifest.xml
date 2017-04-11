@@ -3,9 +3,31 @@
     package="com.arges.sepan.argmusicplayer">
     <uses-permission android:name="android.permission.INTERNET"/>
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
-    <application android:allowBackup="true" android:label="@string/app_name"
+    <application android:allowBackup="true"
+        android:label="@string/app_name"
         android:supportsRtl="true">
-
+        <receiver android:name=".ArgNotificationReceiver"
+            android:enabled="true"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="com.arges.intent.PLAYPAUSE"/>
+                <action android:name="com.arges.intent.NEXT"/>
+                <action android:name="com.arges.intent.PREV"/>
+                <action android:name="com.arges.intent.HOME"/>
+                <action android:name="com.arges.intent.CLOSE"/>
+            </intent-filter>
+        </receiver>
+        <service android:name=".ArgMusicService"
+            android:enabled="true"
+            android:exported="true"
+            android:permission="android.permission.INTERNET">
+            <intent-filter>
+                <action android:name="com.arges.intent.service.PLAYPAUSE"/>
+                <action android:name="com.arges.intent.service.NEXT"/>
+                <action android:name="com.arges.intent.service.PREV"/>
+                <action android:name="com.arges.intent.service.STOP"/>
+            </intent-filter>
+        </service>
     </application>
 
 </manifest>
