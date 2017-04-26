@@ -32,7 +32,7 @@ public class ArgNotification extends Notification {
         mNotificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
         notification = new Builder(context).getNotification();
         notification.when=System.currentTimeMillis();
-        notification.tickerText="Radyoya Tirşikê";
+        notification.tickerText="ArgPlayer";
         notification.icon= R.drawable.mergesoftlogo;
         //notification.largeIcon = R.drawable.mergesoftlogo;
 
