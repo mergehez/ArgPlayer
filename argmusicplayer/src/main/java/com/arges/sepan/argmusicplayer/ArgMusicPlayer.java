@@ -26,7 +26,6 @@ abstract class ArgMusicPlayer{
     private OnErrorListener onErrorListener;
     private OnPlayingListener onPlayingListener;
     private OnPlaylistAudioChangedListener onPlaylistAudioChangedListener;
-    private ArgNotification notification;
 
     public static ArgMusicPlayer instance;
     
@@ -55,7 +54,6 @@ abstract class ArgMusicPlayer{
         this.service = new ArgMusicService(context);
         this.cv = new Arg.Convertions(context);
         instance = this;
-        this.notification = new ArgNotification(context, "My Audio", 1);
         service.setOnPreparedListener(new OnPreparedListener() {
             @Override
             public void onPrepared(ArgAudio audio, int duration) {
@@ -76,8 +74,7 @@ abstract class ArgMusicPlayer{
             @Override
             public void onPaused() {
                 setPlayPauseAsPlay();
-                if(ArgNotification.getNotif())
-                    ArgNotification.switchPlayPause(false);
+                if(ArgNotification.getNotif()) ArgNotification.switchPlayPause(false);
                 ArgMusicPlayer.this.onPaused();
             }
         });
@@ -122,7 +119,7 @@ abstract class ArgMusicPlayer{
             public void onPlaylistAudioChanged(ArgAudioList playlist, int currentAudioIndex) {
                 if(!service.isCurrentAudio(playlist.getCurrentAudio())){
                     startProgress();
-                    ArgNotification.startIsLoading(playlist.hasNext(),playlist.hasPrev());
+                    if(ArgNotification.getNotif()) ArgNotification.startIsLoading(playlist.hasNext(),playlist.hasPrev());
                 }
                 service.playAudio(playlist.getCurrentAudio());
                 ArgMusicPlayer.this.onPlaylistAudioChanged(playlist,currentAudioIndex);
@@ -147,13 +144,12 @@ abstract class ArgMusicPlayer{
             setPlayPauseAsPause();
             service.updateTimeThread();
             setSeekBarMax((int)getDuration());
-            service.registerReceiver();
         }
     }
 
-    protected void continuePlaylistOnError(){ service.setPlaylistError(false);}
-    protected void stopPlaylistOnError(){ service.setPlaylistError(true); }
-    protected void setNotif(boolean notif){ ArgNotification.setNotif(notif);}
+    protected void continuePlaylistOnError(){ service.setPlaylistError(false); }
+    protected void stopPlaylistOnError()    { service.setPlaylistError(true);  }
+    protected void setNotif(boolean notif)  { ArgNotification.setNotif(notif); }
     protected void onClick(View v){
         if(v!=null){
             int i = v.getId();
@@ -214,11 +210,14 @@ abstract class ArgMusicPlayer{
         setSeekBarProgresss(0);
         setTimeNowText("00:00");
     }
-    protected void seekTo(int progress){ service.seekTo(progress); }
+    protected boolean seekTo(int progress){ return service.seekTo(progress); }
+    protected boolean forward(int milliSec, boolean willPlay){ return service.forward(milliSec,willPlay);}
+    protected boolean backward(int milliSec, boolean willPlay){ return service.backward(milliSec,willPlay);}
     protected void playAudioAfterPercent(int percent){service.playAudioAfterPercent(percent);}
     protected boolean isPlaying(){ return service.getAudioState() == PLAYING; }
     protected boolean isPaused(){ return service.getAudioState() == PAUSED; }
     protected long getDuration(){return service.getDuration();}
+    protected long getCurrentPosition(){return service.getCurrentPosition();}
     protected ArgAudio getCurrentAudio() { return service.getCurrentAudio(); }
     protected boolean hasNextAudio(){return service.isPlaylist() && service.getCurrentPlaylist().hasNext();}
     protected boolean hasPrevAudio(){return service.isPlaylist() && service.getCurrentPlaylist().hasPrev();}
