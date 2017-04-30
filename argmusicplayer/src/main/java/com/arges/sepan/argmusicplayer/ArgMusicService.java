@@ -1,10 +1,8 @@
 package com.arges.sepan.argmusicplayer;
 
 import android.app.Service;
-import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
-import android.content.IntentFilter;
 import android.content.res.AssetFileDescriptor;
 import android.media.AudioManager;
 import android.media.MediaMetadataRetriever;
@@ -26,9 +24,11 @@ import com.arges.sepan.argmusicplayer.Enums.AudioType;
 import com.arges.sepan.argmusicplayer.Enums.ErrorType;
 import com.arges.sepan.argmusicplayer.IndependentClasses.ArgAudio;
 
+import static android.media.AudioManager.AUDIOFOCUS_GAIN;
+import static android.media.AudioManager.AUDIOFOCUS_REQUEST_GRANTED;
+import static android.media.AudioManager.STREAM_MUSIC;
 import static com.arges.sepan.argmusicplayer.Enums.AudioState.*;
 import static com.arges.sepan.argmusicplayer.Enums.AudioType.URL;
-import static com.arges.sepan.argmusicplayer.IndependentClasses.Arg.CmdVar.*;
 
 public class ArgMusicService extends Service implements MediaPlayer.OnPreparedListener, MediaPlayer.OnCompletionListener,
                                                         MediaPlayer.OnBufferingUpdateListener, MediaPlayer.OnErrorListener {
@@ -49,6 +49,8 @@ public class ArgMusicService extends Service implements MediaPlayer.OnPreparedLi
     private OnEmbeddedImageReadyListener onEmbeddedImageReadyListener;
     private int playAudioPercent = 50;
     private Context context;
+    private AudioManager audioManager;
+    private long timeWhenPaused = 0;
     protected static AudioState audioState = NO_ACTION;
     protected static String progressMessage = "Audio is loading..";
     protected static boolean progressCancellation = false;
@@ -67,6 +69,7 @@ public class ArgMusicService extends Service implements MediaPlayer.OnPreparedLi
     }
     public ArgMusicService(Context context){
         this.context = context;
+        audioManager = (AudioManager) context.getSystemService(AUDIO_SERVICE);
     }
     public ArgMusicService(){}
     public boolean isOK(){return context!=null;}
@@ -80,8 +83,8 @@ public class ArgMusicService extends Service implements MediaPlayer.OnPreparedLi
     protected void setOnPlaylistAudioChangedListener(OnPlaylistAudioChangedListener onPlaylistAudioChangedListener) { this.onPlaylistAudioChangedListener = onPlaylistAudioChangedListener; }
     protected void setOnPlaylistStateChangedListener(OnPlaylistStateChangedListener onPlaylistStateChangedListener) { this.onPlaylistStateChangedListener = onPlaylistStateChangedListener; }
     protected void setOnEmbeddeImageReadyListener(OnEmbeddedImageReadyListener onEmbeddedImageReadyListener) { this.onEmbeddedImageReadyListener = onEmbeddedImageReadyListener; }
-    //protected void setOnProgressStartedListener(OnProgressStartedListener onProgressStartedListener) { this.onProgressStartedListener = onProgressStartedListener; }
-    protected long getDuration() {  return mediaPlayer.getDuration();  }
+    protected long getDuration() {  return mediaPlayer!=null ? mediaPlayer.getDuration() : -1;  }
+    protected long getCurrentPosition() {  return mediaPlayer!=null ? mediaPlayer.getCurrentPosition() : -1;  }
     protected ArgAudio getCurrentAudio(){  return currentAudio; }
     protected void setCurrentAudio(@NonNull ArgAudio audio){  this.currentAudio = audio; }
     protected void setCurrentPlaylist(ArgAudioList argAudioList){ this.currentPlaylist = argAudioList;}
@@ -96,6 +99,7 @@ public class ArgMusicService extends Service implements MediaPlayer.OnPreparedLi
     protected void playAudioAfterPercent(int percent){this.playAudioPercent=percent;}
     protected AudioState getAudioState(){return audioState;}
     protected boolean isPlaylist(){return currentPlaylist!=null;}
+    public static void setAudioState(AudioState audioState) { ArgMusicService.audioState = audioState; }
     // </setters-getters>
 
     // <checkers>
@@ -166,6 +170,7 @@ public class ArgMusicService extends Service implements MediaPlayer.OnPreparedLi
         return true;
     }
     protected void playAudio(ArgAudio audio){
+        if(!ArgNotification.isActive()) new ArgNotification(context, "", 1);
         ArgAudio temp = currentAudio;
         currentAudio = audio;
         if(audio==null){
@@ -198,7 +203,7 @@ public class ArgMusicService extends Service implements MediaPlayer.OnPreparedLi
             return;
         if(isPlaylist() && !(index<0 || index>=currentPlaylist.size())){
             pauseMediaPlayer();
-            audioState=NO_ACTION;
+            setAudioState(NO_ACTION);
             currentPlaylist.goTo(index);
             onPlaylistAudioChangedListener.onPlaylistAudioChanged(currentPlaylist,currentPlaylist.getCurrentIndex());
         }else{
@@ -243,8 +248,32 @@ public class ArgMusicService extends Service implements MediaPlayer.OnPreparedLi
             mediaPlayer.seekTo(0);
         }
     }
-    protected void seekTo(int time){
-        if(mediaPlayer!=null) mediaPlayer.seekTo(time);
+    protected boolean seekTo(int time){
+        if(mediaPlayer!=null && time <= getDuration()){
+            mediaPlayer.seekTo(time);
+            return true;
+        }
+        return false;
+    }
+    protected boolean forward(int milliSec, boolean willPlay){
+        if(mediaPlayer!=null){
+            int seekTime = mediaPlayer.getCurrentPosition()+milliSec;
+            if(seekTime > mediaPlayer.getDuration()) return false;
+            seekTo(seekTime);
+            if(willPlay) continuePlaying();
+            return true;
+        }
+        return false;
+    }
+    protected boolean backward(int milliSec, boolean willPlay){
+        if(mediaPlayer!=null) {
+            int seekTime = mediaPlayer.getCurrentPosition() - milliSec;
+            if(seekTime < 0) return false;
+            seekTo(seekTime);
+            if(willPlay) continuePlaying();
+            return true;
+        }
+        return false;
     }
     private void mediaPlayerTimeOutCheck(){
         new Handler().postDelayed(new Runnable() {
@@ -361,8 +390,29 @@ public class ArgMusicService extends Service implements MediaPlayer.OnPreparedLi
 
         return player;
     }
+    private void startMediaPlayer(){
+        requestAudioFocus();
+        if(audioFocusHasRequested){
+            mediaPlayer.start();
+            setAudioState(PLAYING);
+        }
+    }
+    private void pauseMediaPlayer(){
+        if (audioState==PLAYING) {
+            timeWhenPaused = System.currentTimeMillis();
+            mediaPlayer.pause();
+            setAudioState(PAUSED);
+        }
+    }
+    private void stopMediaPlayer(){
+        if (audioState==PLAYING) {
+            mediaPlayer.stop();
+            setAudioState(STOPPED);
+            abandonAudioFocus();
+        }
+    }
     private void killMediaPlayer(){
-        audioState = NO_ACTION;
+        setAudioState(NO_ACTION);
         if( mediaPlayer != null ){
             mediaPlayer.stop();
             mediaPlayer.reset();
@@ -370,161 +420,57 @@ public class ArgMusicService extends Service implements MediaPlayer.OnPreparedLi
             mediaPlayer = null;
         }
     }
-    private void startMediaPlayer(){// 1. Acquire audio focus
-        if (!mAudioFocusGranted && requestAudioFocus()) {
-            // 2. Kill off any other play back sources
-            forceMusicStop();
-            // 3. Register broadcast receiver for player intents
-            registerReceiver();
-        }
-        mediaPlayer.start();
-        audioState = PLAYING;
-    }
-    private void pauseMediaPlayer(){
-        if (mAudioFocusGranted && audioState==PLAYING) {
-            mediaPlayer.pause();
-            audioState= PAUSED;
-            abandonAudioFocus();
-            unRegisterReceiver();
-        }
-    }
-    private void stopMediaPlayer(){
-        if (mAudioFocusGranted && audioState==PLAYING) {
-            mediaPlayer.stop();
-            audioState=STOPPED;
-            abandonAudioFocus();
-            unRegisterReceiver();
-        }
-    }
 
 
 
-    //Hangling Changes In Audio Output
-    final String AUDIO_FOCUS_TAG = "AudioFocusChange";
-    private boolean mAudioFocusGranted = false;
-    private AudioManager.OnAudioFocusChangeListener mOnAudioFocusChangeListener = new AudioManager.OnAudioFocusChangeListener() {
+    final String AUDIO_FOCUS_TAG = "ArgLogAudioFocus";
+
+    // After an incoming call or a notification, service gains audio focus. If player was paused, it should not play audio.
+    // We have to check this situation to prevent unexpected playbacks
+    boolean wasPlayingBeforeFocusLoss = false;
+    private AudioManager.OnAudioFocusChangeListener onAudioFocusListener = new AudioManager.OnAudioFocusChangeListener() {
         @Override
         public void onAudioFocusChange(int focusChange) {
             switch (focusChange) {
-                case AudioManager.AUDIOFOCUS_GAIN:
-                    Log.i(AUDIO_FOCUS_TAG, "AUDIOFOCUS_GAIN");
-                    mediaPlayer.setVolume(1f, 1f);
-                    if(audioState== PAUSED) continuePlaying();
-                    else playAudio(currentAudio);
-                    break;
+                case AUDIOFOCUS_GAIN:
                 case AudioManager.AUDIOFOCUS_GAIN_TRANSIENT:
-                    Log.i(AUDIO_FOCUS_TAG, "AUDIOFOCUS_GAIN_TRANSIENT");
-                    if(audioState== PAUSED) continuePlaying();
-                    else playAudio(currentAudio);
-                    break;
                 case AudioManager.AUDIOFOCUS_GAIN_TRANSIENT_MAY_DUCK:
-                    Log.i(AUDIO_FOCUS_TAG, "AUDIOFOCUS_GAIN_TRANSIENT_MAY_DUCK");
-                    if(audioState== PAUSED) continuePlaying();
-                    else playAudio(currentAudio);
+                    mediaPlayer.setVolume(1f, 1f);
+                    //long timeDiffSinceLastPause = System.currentTimeMillis() - timeWhenPaused;
+                    //if audio has been paused 10 or more minutes ago, do not resume
+                    if(wasPlayingBeforeFocusLoss/* && timeDiffSinceLastPause < 10*60*1000*/) continuePlaying();
                     break;
-                case AudioManager.AUDIOFOCUS_LOSS:
-                    Log.e(AUDIO_FOCUS_TAG, "AUDIOFOCUS_LOSS");
-                    pause();
-                    break;
-                case AudioManager.AUDIOFOCUS_LOSS_TRANSIENT:
-                    Log.e(AUDIO_FOCUS_TAG, "AUDIOFOCUS_LOSS_TRANSIENT");
-                    pause();
-                    break;
+
                 case AudioManager.AUDIOFOCUS_LOSS_TRANSIENT_CAN_DUCK:
-                    Log.e(AUDIO_FOCUS_TAG, "AUDIOFOCUS_LOSS_TRANSIENT_CAN_DUCK");
                     if(audioState==PLAYING) mediaPlayer.setVolume(0.1f, 0.1f);
+                    wasPlayingBeforeFocusLoss = audioState == PLAYING;
                     break;
+
+                case AudioManager.AUDIOFOCUS_LOSS:
+                case AudioManager.AUDIOFOCUS_LOSS_TRANSIENT:
+                    wasPlayingBeforeFocusLoss = audioState == PLAYING;
+                    pause();
+                    break;
+
                 case AudioManager.AUDIOFOCUS_REQUEST_FAILED:
-                    Log.e(AUDIO_FOCUS_TAG, "AUDIOFOCUS_REQUEST_FAILED");
                     break;
                 default:
-                    Log.e(AUDIO_FOCUS_TAG, "AUDIOFOCUS default");
             }
         }
     };
-    private boolean requestAudioFocus() {
-        if (!mAudioFocusGranted) {
-            AudioManager am = (AudioManager) context
-                    .getSystemService(Context.AUDIO_SERVICE);
-            // Request audio focus for play back
-            int result = am.requestAudioFocus(mOnAudioFocusChangeListener,
-                    // Use the music stream.
-                    AudioManager.STREAM_MUSIC,
-                    // Request permanent focus.
-                    AudioManager.AUDIOFOCUS_GAIN);
 
-            if (result == AudioManager.AUDIOFOCUS_REQUEST_GRANTED) {
-                mAudioFocusGranted = true;
-            } else {
-                // FAILED
-                Log.e("RequestAudioFocus", "> FAILED TO GET AUDIO FOCUS <");
-            }
-        }
-        return mAudioFocusGranted;
+
+    private boolean audioFocusHasRequested = false;
+    private void requestAudioFocus() {
+        audioFocusHasRequested = audioManager.requestAudioFocus(onAudioFocusListener, STREAM_MUSIC, AUDIOFOCUS_GAIN) == AUDIOFOCUS_REQUEST_GRANTED;
     }
 
     private void abandonAudioFocus() {
-        AudioManager am = (AudioManager) context
-                .getSystemService(Context.AUDIO_SERVICE);
-        int result = am.abandonAudioFocus(mOnAudioFocusChangeListener);
-        if (result == AudioManager.AUDIOFOCUS_REQUEST_GRANTED) {
-            mAudioFocusGranted = false;
-        } else {
-            // FAILED
-            Log.e("AbandonAudioFocus",  "> FAILED TO ABANDON AUDIO FOCUS <");
-        }
-        mOnAudioFocusChangeListener = null;
+        audioFocusHasRequested = audioManager.abandonAudioFocus(onAudioFocusListener) != AUDIOFOCUS_REQUEST_GRANTED;
     }
-    private void checkAudioFocus(){
-        if (!mAudioFocusGranted && requestAudioFocus()) {
-            forceMusicStop();
-        }
-    }
-    private void forceMusicStop() {
-        AudioManager am = (AudioManager) context
-                .getSystemService(Context.AUDIO_SERVICE);
-        if (am.isMusicActive()) {
-            Intent intentToStop = new Intent("com.sec.android.app.music.musicservicecommand");
-            intentToStop.putExtra("command", "pause");
-            context.sendBroadcast(intentToStop);
-            audioState=NO_ACTION;
-        }
-    }
-    private boolean mReceiverRegistered = false;
-    private BroadcastReceiver myReceiver = new BecomingNoisyReceiver();
-    protected void registerReceiver() {
-        // Do the right thing when something else tries to play
-        if (!mReceiverRegistered) {
-            IntentFilter commandFilter = new IntentFilter();
-            commandFilter.addAction(SERVICE_CMD);
-            commandFilter.addAction(PAUSE_SERVICE_CMD);
-            commandFilter.addAction(PLAY_SERVICE_CMD);
-            context.registerReceiver(myReceiver, commandFilter);
-            mReceiverRegistered = true;
-        }
-    }
-    private void unRegisterReceiver(){
-        context.unregisterReceiver(myReceiver);
-        mReceiverRegistered = false;
-    }
-    private class BecomingNoisyReceiver extends BroadcastReceiver {
-        @Override
-        public void onReceive(Context context, Intent intent) {
-            String action = intent.getAction();
-            String cmd = intent.getStringExtra(CMD_NAME);
-            Log.i("BecomingNoisyReceiver", "intent.onReceive " + action + " / " + cmd);
-            if (AudioManager.ACTION_AUDIO_BECOMING_NOISY.equals(action)) {
-                mediaPlayer.pause();
-            }if (PAUSE_SERVICE_CMD.equals(action)
-                    || (SERVICE_CMD.equals(action) && CMD_PAUSE.equals(cmd))) {
-                if(audioState == PAUSE_CMD) continuePlaying();
-            }
-
-            if (PLAY_SERVICE_CMD.equals(action)
-                    || (SERVICE_CMD.equals(action) && CMD_PLAY.equals(cmd))) {
-                mediaPlayer.pause();
-                audioState = PAUSE_CMD;
-            }
-        }
+    @Override
+    public void onTaskRemoved(Intent rootIntent) {
+        ArgNotification.close(context);
+        super.onTaskRemoved(rootIntent);
     }
 }
