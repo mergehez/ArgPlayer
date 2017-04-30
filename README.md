@@ -198,7 +198,7 @@ protected void onCreate(Bundle savedInstanceState) {
 ![](https://raw.githubusercontent.com/mergehez/ArgPlayer/master/ScreenShots/smallviewx.png "")
 ---
 ### Player Views ScreenShots
-![](https://raw.githubusercontent.com/mergehez/ArgPlayer/master/ScreenShots/sxx.png "")
-![](https://raw.githubusercontent.com/mergehez/ArgPlayer/master/ScreenShots/largeviewx.png "")
-![](https://raw.githubusercontent.com/mergehez/ArgPlayer/master/ScreenShots/fullscreen1x.png "")
-![](https://raw.githubusercontent.com/mergehez/ArgPlayer/master/ScreenShots/fullscreen2x.png "")
+![](https://raw.githubusercontent.com/mergehez/ArgPlayer/master/ScreenShots/sa.png "")
+![](https://raw.githubusercontent.com/mergehez/ArgPlayer/master/ScreenShots/largeviewa.png "")
+![](https://raw.githubusercontent.com/mergehez/ArgPlayer/master/ScreenShots/fullscreen1a.png "")
+![](https://raw.githubusercontent.com/mergehez/ArgPlayer/master/ScreenShots/fullscreen2a.png "")
