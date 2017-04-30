@@ -26,7 +26,6 @@ abstract class ArgPlayerViewRoot extends RelativeLayout implements View.OnClickL
     private ArgProgressView progress;
     private ArgErrorView errorView;
     ArgMusicPlayer player;
-    protected static Class mainActivityClass;
     abstract void setEmbeddedImageBitmap(byte[] byteArray);
     abstract void onAudioNameChanged(ArgAudio audio);
     abstract void onPlaylistAudioChanged(ArgAudioList list);
@@ -70,7 +69,7 @@ abstract class ArgPlayerViewRoot extends RelativeLayout implements View.OnClickL
 
         this.progress.setMessage(ArgMusicService.progressMessage);
 
-        player = new ArgMusicPlayer(context) {
+        player = new ArgMusicPlayer(context.getApplicationContext()) {
             @Override protected void hideErrorView() {  errorView.hide(); }
             @Override protected void showErrorView() { if(!ArgMusicService.errorViewCancellation) errorView.show(); }
             @Override protected void changeNextPrevButtons() { ArgPlayerViewRoot.this.changeNextPrevButtons(); }
@@ -126,7 +125,14 @@ abstract class ArgPlayerViewRoot extends RelativeLayout implements View.OnClickL
     }
 
     // UI methods
-    public void enableNotification(Class mainActivityClass){ ArgPlayerViewRoot.mainActivityClass = mainActivityClass;player.setNotif(true);}
+    public void enableNotification(Class mainActivityClass){
+        ArgNotification.mainActivityClass = mainActivityClass;
+        player.setNotif(true);
+    }
+    public void enableNotification(Class homeClass, int notifImgResId){
+        enableNotification(homeClass);
+        ArgNotification.notifImgResId = notifImgResId;
+    }
     public void disableNotification(){player.setNotif(false);}
     public void disableProgress(){ArgMusicService.progressCancellation = true;}
     public void enableProgress(){ArgMusicService.progressCancellation = false;}
@@ -183,11 +189,14 @@ abstract class ArgPlayerViewRoot extends RelativeLayout implements View.OnClickL
 
 
     // Player methods
-    public void seekTo(int progress){ player.seekTo(progress); }
+    public boolean seekTo(int progress){ return player.seekTo(progress); }
+    public boolean forward(int milliSec, boolean willPlay){ return player.forward(milliSec,willPlay);}
+    public boolean backward(int milliSec, boolean willPlay){ return player.backward(milliSec,willPlay);}
     public void playAudioAfterPercent(int percent){player.playAudioAfterPercent(percent);}
     public boolean isPlaying(){ return player.isPlaying(); }
     public boolean isPaused(){ return player.isPaused(); }
     public long getDuration(){return player.getDuration();}
+    public long getCurrentPosition(){return player.getCurrentPosition();}
     public ArgAudio getCurrentAudio() { return player.getCurrentAudio(); }
     public void setPlaylistRepeat(boolean repeat){player.setPlaylistRepeat(repeat);}
     public void loadSingleAudio(@NonNull ArgAudio audio){player.loadSingleAudio(audio);}
@@ -198,6 +207,7 @@ abstract class ArgPlayerViewRoot extends RelativeLayout implements View.OnClickL
     public void play(ArgAudio audio){   player.play(audio); }
     public void playPlaylistItem(int index){player.playPlaylistItem(index);}
     public void pause(){ player.pause(); }
+    public void resume(){ player.continuePlaying(); }
     public void stop(){ player.stop(); }
     public void continuePlaylistWhenError(){ player.continuePlaylistOnError();}
     public void stopPlaylistWhenError(){ player.stopPlaylistOnError(); }
