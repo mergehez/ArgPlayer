@@ -189,4 +189,16 @@ protected void onCreate(Bundle savedInstanceState) {
 
 
 ## ScreenShots
-I will add them later. I am very tired...
+### Progress View
+![](https://raw.githubusercontent.com/mergehez/ArgPlayer/master/ScreenShots/progressview.PNG "")
+### Error View
+![](https://raw.githubusercontent.com/mergehez/ArgPlayer/master/ScreenShots/errorview.PNG "")
+### Notification
+![](https://raw.githubusercontent.com/mergehez/ArgPlayer/master/ScreenShots/notification.PNG "")
+### Small Player View
+![](https://raw.githubusercontent.com/mergehez/ArgPlayer/master/ScreenShots/smallview.PNG "")
+### Player Views ScreenShots
+![](https://raw.githubusercontent.com/mergehez/ArgPlayer/master/ScreenShots/s.PNG "")
+![](https://raw.githubusercontent.com/mergehez/ArgPlayer/master/ScreenShots/largeview.PNG "")
+![](https://raw.githubusercontent.com/mergehez/ArgPlayer/master/ScreenShots/fullscreen1.PNG "")
+![](https://raw.githubusercontent.com/mergehez/ArgPlayer/master/ScreenShots/fullscreen2.PNG "")
