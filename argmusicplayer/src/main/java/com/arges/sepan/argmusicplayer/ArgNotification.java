@@ -17,26 +17,30 @@ import static android.view.View.VISIBLE;
 @SuppressLint("ParcelCreator")
 public class ArgNotification extends Notification {
     private Context context;
-    public static RemoteViews contentView, bigContentView;
+    private static RemoteViews contentView, bigContentView;
     private static NotificationManager mNotificationManager;
     private static Notification notification;
-    private static int notifId = 548853;
+    protected static int notifId = 548853;
     private static boolean notif = false;
     private static boolean progress = false;
+    protected static Class mainActivityClass;
+    protected static int notifImgResId = R.drawable.mergesoftlogo;
 
     @SuppressLint("NewApi")
     public ArgNotification(Context context, String audio, int duration){
         super();
-        Log.d("ARGCIH", "ArgNotif ArgNotif");
         this.context = context;
         mNotificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
         notification = new Builder(context).getNotification();
         notification.when=System.currentTimeMillis();
         notification.tickerText="ArgPlayer";
-        notification.icon= R.drawable.mergesoftlogo;
-        //notification.largeIcon = R.drawable.mergesoftlogo;
+        notification.icon= notifImgResId;
 
         contentView=new RemoteViews(context.getPackageName(), R.layout.notification_layout);
+        Intent homeIntent = new Intent(context, mainActivityClass).setAction("com.arges.intent.HOME");
+        homeIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
+        contentView.setOnClickPendingIntent(R.id.iViewNotif, PendingIntent.getActivity(context, 1, homeIntent, PendingIntent.FLAG_CANCEL_CURRENT));
+        contentView.setImageViewResource(R.id.iViewNotif,notifImgResId);
         Intent playIntent = new Intent(context,ArgNotificationReceiver.class).setAction("com.arges.intent.PLAYPAUSE");
         contentView.setOnClickPendingIntent(R.id.btnPlayPauseNotif, PendingIntent.getBroadcast(context,2,playIntent,PendingIntent.FLAG_CANCEL_CURRENT));
         Intent nextIntent = new Intent(context,ArgNotificationReceiver.class).setAction("com.arges.intent.NEXT");
@@ -50,6 +54,9 @@ public class ArgNotification extends Notification {
             contentView.setTextViewText(R.id.tvTimeTotalNotif, Arg.convertTimeToMinSecString(duration));
             contentView.setTextViewText(R.id.tvTimeNowNotif, "00:00");
             bigContentView=new RemoteViews(context.getPackageName(), R.layout.notification_big_layout);
+
+            bigContentView.setImageViewResource(R.id.iViewBigNotif,notifImgResId);
+            bigContentView.setOnClickPendingIntent(R.id.iViewBigNotif, PendingIntent.getActivity(context, 9, homeIntent, PendingIntent.FLAG_CANCEL_CURRENT));
             Intent prevBigIntent = new Intent(context,ArgNotificationReceiver.class).setAction("com.arges.intent.PREV");
             bigContentView.setOnClickPendingIntent(R.id.btnPrevBigNotif, PendingIntent.getBroadcast(context, 3, prevBigIntent, PendingIntent.FLAG_CANCEL_CURRENT));
             bigContentView.setOnClickPendingIntent(R.id.btnPlayPauseBigNotif, PendingIntent.getBroadcast(context,5,playIntent,PendingIntent.FLAG_CANCEL_CURRENT));
@@ -62,7 +69,6 @@ public class ArgNotification extends Notification {
             contentView.setInt(R.id.relLayProgressNotif,"setVisibility", GONE);
         }
 
-        //Big Content View
         notification.contentView = contentView;
         notification.flags |= Notification.FLAG_NO_CLEAR;   //FLAG_ONGOING_EVENT
     }
@@ -70,7 +76,6 @@ public class ArgNotification extends Notification {
         mNotificationManager.notify(notifId, notification);
     }
     public static void renew(String name, int duration, boolean hasNext, boolean hasPrev){
-        Log.d("ARGCIH", "ArgNotif renew");
         if(progress){
             contentView.setTextViewText(R.id.tvTimeTotalNotif, Arg.convertTimeToMinSecString(duration));
             contentView.setTextViewText(R.id.tvTimeNowNotif, "00:00");
@@ -90,8 +95,11 @@ public class ArgNotification extends Notification {
         show();
     }
     public static void close(){
-        Log.d("ARGCIH", "ArgNotif bidawiBike");
-        mNotificationManager.cancel(notifId);
+        if(contentView!=null)
+            mNotificationManager.cancel(notifId);
+    }
+    public static void close(Context context){
+        ((NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE)).cancel(ArgNotification.notifId);
     }
     public static void startIsLoading(boolean hasNext, boolean hasPrev){
         renew("Audio is loading...",1,hasNext,hasPrev);
@@ -105,10 +113,9 @@ public class ArgNotification extends Notification {
         show();
     }
     public static boolean getNotif(){return notif;}
-    public static void setNotif(boolean notif){  ArgNotification.notif = notif;}
-
+    public static void setNotif(boolean notif){  ArgNotification.notif = notif; if(!notif && isActive()) close();}
+    public static boolean isActive(){return contentView != null;}
     public static void switchPlayPause(boolean playing){
-        Log.d("ARGCIH", "ArgNotif switchPlayPause");
         if(playing)contentView.setInt(R.id.btnPlayPauseNotif, "setImageResource", R.drawable.arg_notif_pause);
         else contentView.setInt(R.id.btnPlayPauseNotif, "setImageResource", R.drawable.arg_notif_play);
         if(progress)
