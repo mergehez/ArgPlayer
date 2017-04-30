@@ -187,12 +187,16 @@ protected void onCreate(Bundle savedInstanceState) {
 ## ScreenShots
 ### Progress View
 ![](https://raw.githubusercontent.com/mergehez/ArgPlayer/master/ScreenShots/progress.png "")
+---
 ### Error View
 ![](https://raw.githubusercontent.com/mergehez/ArgPlayer/master/ScreenShots/errorview.png "")
+---
 ### Notification
 ![](https://raw.githubusercontent.com/mergehez/ArgPlayer/master/ScreenShots/notification.png "")
+---
 ### Small Player View
 ![](https://raw.githubusercontent.com/mergehez/ArgPlayer/master/ScreenShots/smallview.png "")
+---
 ### Player Views ScreenShots
 ![](https://raw.githubusercontent.com/mergehez/ArgPlayer/master/ScreenShots/s.png "")
 ![](https://raw.githubusercontent.com/mergehez/ArgPlayer/master/ScreenShots/largeview.png "")
