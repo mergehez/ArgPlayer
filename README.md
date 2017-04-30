@@ -184,21 +184,17 @@ protected void onCreate(Bundle savedInstanceState) {
 
 
 
-
-
-
-
 ## ScreenShots
 ### Progress View
-![](https://raw.githubusercontent.com/mergehez/ArgPlayer/master/ScreenShots/progressview.PNG "")
+![](https://raw.githubusercontent.com/mergehez/ArgPlayer/master/ScreenShots/progressview.png "")
 ### Error View
-![](https://raw.githubusercontent.com/mergehez/ArgPlayer/master/ScreenShots/errorview.PNG "")
+![](https://raw.githubusercontent.com/mergehez/ArgPlayer/master/ScreenShots/errorview.png "")
 ### Notification
-![](https://raw.githubusercontent.com/mergehez/ArgPlayer/master/ScreenShots/notification.PNG "")
+![](https://raw.githubusercontent.com/mergehez/ArgPlayer/master/ScreenShots/notification.png "")
 ### Small Player View
-![](https://raw.githubusercontent.com/mergehez/ArgPlayer/master/ScreenShots/smallview.PNG "")
+![](https://raw.githubusercontent.com/mergehez/ArgPlayer/master/ScreenShots/smallview.png "")
 ### Player Views ScreenShots
-![](https://raw.githubusercontent.com/mergehez/ArgPlayer/master/ScreenShots/s.PNG "")
-![](https://raw.githubusercontent.com/mergehez/ArgPlayer/master/ScreenShots/largeview.PNG "")
-![](https://raw.githubusercontent.com/mergehez/ArgPlayer/master/ScreenShots/fullscreen1.PNG "")
-![](https://raw.githubusercontent.com/mergehez/ArgPlayer/master/ScreenShots/fullscreen2.PNG "")
+![](https://raw.githubusercontent.com/mergehez/ArgPlayer/master/ScreenShots/s.png "")
+![](https://raw.githubusercontent.com/mergehez/ArgPlayer/master/ScreenShots/largeview.png "")
+![](https://raw.githubusercontent.com/mergehez/ArgPlayer/master/ScreenShots/fullscreen1.png "")
+![](https://raw.githubusercontent.com/mergehez/ArgPlayer/master/ScreenShots/fullscreen2.png "")
