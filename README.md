@@ -121,8 +121,8 @@ protected void onCreate(Bundle savedInstanceState) {
 | void |`resume()` <br>Resume the playing audio|
 | void |`stop()` <br>Stop audio|
 | boolean |`seekTo(int millisec)` <br>Seek audio to *milliSec*<br> **return**: if seeking position is greater than duration or less than 0, it returns *false*|
-| boolean |`forward(int milliSec, boolean willPlay)` <br>Forward audio as long as *milliSec*<br>***willPlay:*** if audio will play after forwarding, set this *true*<br> **return:** If forwarding position is greater than duration, it returns *false*|
-| boolean |`backward(int milliSec, boolean willPlay)` <br>Backward audio as long as *milliSec*<br>***willPlay:*** if audio will play after backwarding, set this *true*<br> **return:** If backwarding position is less than 0, it returns *false*|
+| boolean |`forward(int milliSec, boolean willPlay)` <br>Forward audio as long as *milliSec*<br>*`willPlay:`* if audio will play after forwarding, set this *true*<br> **return:** If forwarding position is greater than duration, it returns *false*|
+| boolean |`backward(int milliSec, boolean willPlay)` <br>Backward audio as long as *milliSec*<br>*`willPlay:`* if audio will play after backwarding, set this *true*<br> **return:** If backwarding position is less than 0, it returns *false*|
 | ArgAudio |`getCurrentAudio()` <br>Get the current audio if available|
 | long|`getDuration()` <br>Get duration of current audio|
 | boolean|`isPlaying()` <br>Check if an audio is playing|
@@ -133,7 +133,7 @@ protected void onCreate(Bundle savedInstanceState) {
 | void |`enableErrorView()` and `disableErrorView()` <br>Enable/Disable Error View. Error view appears when an error has occured. *Defaultly is **enabled*** |
 | void |`enableNextPrevButtons()`and `disableNextPrevButtons()` <br> Use can disable next/previous playback control but *Defaultly is **enabled***|
 | void |`enableNotification(Class activityClass)` <br>Enable notification. With this option users will be able to control music player on notification panel. Look at screenshots.. |
-| void |`enableNotification(Class homeClass, int notifImgResId)` <br>Enable notification. With this option users will be able to control music player on notification panel. Look at screenshots..<br>***homeClass:*** When click on notification home will open.<br>***notifImgResId:*** Resource id for ImageView on the notification layout.  |
+| void |`enableNotification(Class homeClass, int notifImgResId)` <br>Enable notification. With this option users will be able to control music player on notification panel. Look at screenshots..<br>*`homeClass:`* When click on notification home will open.<br>*`notifImgResId:`* Resource id for ImageView on the notification layout.  |
 | void |`disableNotification()` <br> Disable notification option. If notification was enabled before, it will be cancelled. *Notification defaultly is **disabled***|
 | void |`continuePlaylistWhenError()` <br>If an error occures, player won't publish error and will play next audio. |
 | void |`stopPlaylistWhenError()` <br>If an error occures, player will stop playing and publish error. *Defaultly **player publishes errors***.|
