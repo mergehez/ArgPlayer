@@ -3,13 +3,32 @@ An android music player ui library
 
 Builds: [![](https://jitpack.io/v/mergehez/ArgPlayer.svg)](https://jitpack.io/#mergehez/ArgPlayer)
 
+## Table of Contents
+* [Gradle](#gradle)
+* [How to Use](#how-to-use)
+	* [XML Codes](#xml-codes)
+		* [Small View](#for-small-view)
+		* [Large View](#for-large-view)
+		* [Full Screen View](#for-full-screen-view)
+	* [Simplest Usage](#simplest-usage)
+		* [Play Simple Audio](#play-simple-audio)
+		* [Play Playlist](#play-playlist)
+	* [Player Methods](#player-methods)
+	* [ArgAudio Methods](#argaudio)
+	* [ArgAudioList Methods](#argaudiolist)
+* [ScreenShots](#screenshots)
+
 ## Gradle
 To always build from the latest commit with all updates. Add the JitPack repository:
 
 (path:\to\your\projects\MainFolderOfYourProject\build.gradle)
 ```
-repositories {
-    maven { url "https://jitpack.io" }
+
+allprojects {
+    repositories {
+    	...
+	maven { url "https://jitpack.io" }
+    }
 }
 ```
 Make minSdkVersion 14 and add the following dependency:
@@ -24,7 +43,7 @@ android{
   }
 }
 dependencies {
-	compile 'com.github.mergehez:ArgPlayer:master-SNAPSHOT'
+    compile 'com.github.mergehez:ArgPlayer:master-SNAPSHOT'
 }
 ```
 
@@ -32,21 +51,21 @@ dependencies {
 ## How to use
 
 ### XML Codes
-for small view:
+#### for small view:
 ```xml
 <com.arges.sepan.argmusicplayer.PlayerViews.ArgPlayerSmallView
 	android:id="@+id/argmusicplayer"
 	android:layout_width="match_parent"
 	android:layout_height="wrap_content"/>
 ```
-for large view:
+#### for large view:
 ```xml
 <com.arges.sepan.argmusicplayer.PlayerViews.ArgPlayerLargeView
 	android:id="@+id/argmusicplayer"
 	android:layout_width="match_parent"
 	android:layout_height="wrap_content"/>
 ```
-for full screen view:
+#### for full screen view:
 ```xml
 <com.arges.sepan.argmusicplayer.PlayerViews.ArgPlayerFullScreenView
 	android:id="@+id/argmusicplayer"
@@ -55,9 +74,8 @@ for full screen view:
 ```
 
 ----
-### Java Codes
-#### Simplest Usage
-##### Play Simple Audio
+### Simplest Usage
+#### Play Simple Audio
 ```java
 @Override
 protected void onCreate(Bundle savedInstanceState) {
@@ -69,7 +87,7 @@ protected void onCreate(Bundle savedInstanceState) {
 	//... other codes ...
 }
 ```
-#####  Play Playlist
+####  Play Playlist
 
 ```java
 @Override
@@ -100,8 +118,11 @@ protected void onCreate(Bundle savedInstanceState) {
 | void |`loadPlaylist(ArgAudioList list)` <br>Load a playlist to play later|
 | void |`playLoadedPlaylist()` <br>Play the loaded playlist if exists|
 | void |`pause()` <br>Pause a playing audio|
+| void |`resume()` <br>Resume the playing audio|
 | void |`stop()` <br>Stop audio|
-| void |`seekTo(int millisec)` <br>Seek audio to the specified millisecond|
+| boolean |`seekTo(int millisec)` <br>Seek audio to *milliSec*<br> **return**: if seeking position is greater than duration or less than 0, it returns *false*|
+| boolean |`forward(int milliSec, boolean willPlay)` <br>Forward audio as long as *milliSec*<br>***willPlay:*** if audio will play after forwarding, set this *true*<br> **return:** If forwarding position is greater than duration, it returns *false*|
+| boolean |`backward(int milliSec, boolean willPlay)` <br>Backward audio as long as *milliSec*<br>***willPlay:*** if audio will play after backwarding, set this *true*<br> **return:** If backwarding position is less than 0, it returns *false*|
 | ArgAudio |`getCurrentAudio()` <br>Get the current audio if available|
 | long|`getDuration()` <br>Get duration of current audio|
 | boolean|`isPlaying()` <br>Check if an audio is playing|
@@ -112,7 +133,8 @@ protected void onCreate(Bundle savedInstanceState) {
 | void |`enableErrorView()` and `disableErrorView()` <br>Enable/Disable Error View. Error view appears when an error has occured. *Defaultly is **enabled*** |
 | void |`enableNextPrevButtons()`and `disableNextPrevButtons()` <br> Use can disable next/previous playback control but *Defaultly is **enabled***|
 | void |`enableNotification(Class activityClass)` <br>Enable notification. With this option users will be able to control music player on notification panel. Look at screenshots.. |
-| void |`disableNotification()` <br> Disable notification option. *Defaultly is **disabled***|
+| void |`enableNotification(Class homeClass, int notifImgResId)` <br>Enable notification. With this option users will be able to control music player on notification panel. Look at screenshots..<br>***homeClass:*** When click on notification home will open.<br>***notifImgResId:*** Resource id for ImageView on the notification layout.  |
+| void |`disableNotification()` <br> Disable notification option. If notification was enabled before, it will be cancelled. *Notification defaultly is **disabled***|
 | void |`continuePlaylistWhenError()` <br>If an error occures, player won't publish error and will play next audio. |
 | void |`stopPlaylistWhenError()` <br>If an error occures, player will stop playing and publish error. *Defaultly **player publishes errors***.|
 | void |`setPlaylistRepeat(boolean repeat)` <br>Set repetition of the playlist. *Default value is **true***|
