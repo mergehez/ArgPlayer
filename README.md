@@ -186,7 +186,7 @@ protected void onCreate(Bundle savedInstanceState) {
 
 ## ScreenShots
 ### Progress View
-![](https://raw.githubusercontent.com/mergehez/ArgPlayer/master/ScreenShots/progressview.png "")
+![](https://raw.githubusercontent.com/mergehez/ArgPlayer/master/ScreenShots/progress.png "")
 ### Error View
 ![](https://raw.githubusercontent.com/mergehez/ArgPlayer/master/ScreenShots/errorview.png "")
 ### Notification
