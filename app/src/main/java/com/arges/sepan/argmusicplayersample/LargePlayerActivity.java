@@ -51,7 +51,7 @@ public class LargePlayerActivity extends AppCompatActivity {
                 tvMusicType.setText(String.format("PLAYLIST Audio%d: %s", playlist.getCurrentIndex(), playlist.getCurrentAudio().getTitle()));
             }
         });
-        musicPlayer.play(audioFile);
+        musicPlayer.play(audioRaw);
 
         initBtns();
 
