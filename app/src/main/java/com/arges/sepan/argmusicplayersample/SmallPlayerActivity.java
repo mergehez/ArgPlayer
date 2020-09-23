@@ -1,5 +1,6 @@
 package com.arges.sepan.argmusicplayersample;
 
+import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.view.View;
 
@@ -32,21 +33,22 @@ public class SmallPlayerActivity extends AppCompatActivity {
         tvMusicType = (AppCompatTextView) findViewById(R.id.tvMusicType);
         musicPlayer = (ArgPlayerSmallView) findViewById(R.id.argmusicplayer);
 
-        audioUrl = ArgAudio.createFromURL("One Piece", "Binks Sake", url1);
-        audioRaw = ArgAudio.createFromRaw("Joe Hisaishi", "Requiem", res1);
         audioAssets = ArgAudio.createFromAssets("Nîzamettîn Ariç", "Zînê", "zine.mp3");
         audioFile = ArgAudio.createFromFilePath("Andrea Bocelli", "Caruso", "/storage/emulated/0/Music/Andrea Bocelli Caruso.mp3");
         audioFile = ArgAudio.createFromFilePath("Awaz Baran", "Zara", "/storage/emulated/0/Music/zaragiyan.m4a");
+        audioUrl = ArgAudio.createFromURL("One Piece", "Binks Sake", url1);
+        audioRaw = ArgAudio.createFromRaw("Joe Hisaishi", "Requiem", res1);
         playlist.add(audioRaw).add(audioUrl).add(audioAssets).add(audioFile);
 
         musicPlayer.enableNotification(SmallPlayerActivity.class);
         musicPlayer.setOnErrorListener(new Arg.OnErrorListener() {
             @Override
             public void onError(ErrorType errorType, String description) {
-                tvError.setText("Error:\nType: " + errorType + "\nDescription: " + description);
+                tvError.setText(String.format("Error:\nType: %s\nDescription: %s", errorType, description));
             }
         });
         musicPlayer.setOnPlaylistAudioChangedListener(new Arg.OnPlaylistAudioChangedListener() {
+            @SuppressLint("DefaultLocale")
             @Override
             public void onPlaylistAudioChanged(ArgAudioList playlist, int currentAudioIndex) {
                 tvMusicType.setText(String.format("PLAYLIST Audio%d: %s", playlist.getCurrentIndex(), playlist.getCurrentAudio().getTitle()));

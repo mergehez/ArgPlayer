@@ -32,18 +32,18 @@ public class FullScreenPlayerActivity extends AppCompatActivity {
         //tvMusicType = (TextView)findViewById(R.id.tvMusicType);
         musicPlayer = (ArgPlayerFullScreenView) findViewById(R.id.argmusicplayer);
 
-        audioUrl = ArgAudio.createFromURL("One Piece","Binks Sake",url1);
-        audioRaw = ArgAudio.createFromRaw("Joe Hisaishi","Requiem", res1);
-        audioAssets = ArgAudio.createFromAssets("Nîzamettîn Ariç","Zînê","zine.mp3");
-        audioFile2 = ArgAudio.createFromFilePath("Andrea Bocelli","Caruso","/storage/emulated/0/Music/Andrea Bocelli Caruso.mp3");
-        audioFile = ArgAudio.createFromFilePath("Awaz Baran","Zara","/storage/emulated/0/Music/zaragiyan.m4a");
+        audioAssets = ArgAudio.createFromAssets("Nîzamettîn Ariç", "Zînê", "zine.mp3");
+        audioFile2 = ArgAudio.createFromFilePath("Andrea Bocelli", "Caruso", "/storage/emulated/0/Music/Andrea Bocelli Caruso.mp3");
+        audioFile = ArgAudio.createFromFilePath("Awaz Baran", "Zara", "/storage/emulated/0/Music/zaragiyan.m4a");
+        audioUrl = ArgAudio.createFromURL("One Piece", "Binks Sake", url1);
+        audioRaw = ArgAudio.createFromRaw("Joe Hisaishi", "Requiem", res1);
         playlist
-                .add(audioRaw) .add(audioAssets) .add(audioFile)
-                .add(audioRaw) .add(audioUrl)   .add(audioAssets) .add(audioFile2)
-                .add(audioRaw) .add(audioFile2) .add(audioAssets) .add(audioFile)
-                .add(audioRaw) .add(audioFile2) .add(audioAssets) .add(audioFile)
-                .add(audioRaw) .add(audioFile2) .add(audioAssets) .add(audioFile)
-                .add(audioRaw) .add(audioFile2) .add(audioAssets) .add(audioFile);
+                .add(audioRaw).add(audioAssets).add(audioFile)
+                .add(audioRaw).add(audioUrl).add(audioAssets).add(audioFile2)
+                .add(audioRaw).add(audioFile2).add(audioAssets).add(audioFile)
+                .add(audioRaw).add(audioFile2).add(audioAssets).add(audioFile)
+                .add(audioRaw).add(audioFile2).add(audioAssets).add(audioFile)
+                .add(audioRaw).add(audioFile2).add(audioAssets).add(audioFile);
         musicPlayer.continuePlaylistWhenError();
         musicPlayer.playAudioAfterPercent(50);
         musicPlayer.setPlaylistRepeat(true);
