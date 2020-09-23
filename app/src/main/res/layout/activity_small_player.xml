@@ -1,7 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -15,42 +13,42 @@
         android:layout_margin="8dp"
         android:orientation="vertical">
 
-        <Button
+        <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/btnUrl"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textAllCaps="false"
             android:text="From Url" />
 
-        <Button
+        <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/btnRaw"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textAllCaps="false"
             android:text="From Raw" />
 
-        <Button
+        <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/btnAssets"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textAllCaps="false"
             android:text="From Assets" />
 
-        <Button
+        <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/btnFile"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textAllCaps="false"
             android:text="From File Path" />
 
-        <Button
+        <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/btnPlaylist"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Playlist" />
     </LinearLayout>
 
-    <TextView
+    <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/tvMusicType"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -68,7 +66,7 @@
 
     </com.arges.sepan.argmusicplayer.PlayerViews.ArgPlayerSmallView>
 
-    <TextView
+    <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/tvError"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

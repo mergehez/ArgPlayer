@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#d300ff8c"
@@ -14,13 +13,13 @@
         android:gravity="center"
         android:layout_marginLeft="25dp">
 
-        <ImageView
+        <androidx.appcompat.widget.AppCompatImageView
             android:id="@+id/imgViewProgressClock"
             android:layout_width="45dp"
             android:layout_height="45dp"
             android:src="@drawable/saet_tevahi" />
 
-        <ImageView
+        <androidx.appcompat.widget.AppCompatImageView
             android:id="@+id/imgViewProgressMinute"
             android:layout_width="45dp"
             android:layout_height="45dp"
@@ -30,7 +29,7 @@
             android:layout_alignTop="@+id/imgViewProgressClock"
             android:src="@drawable/saet_ibre_dk" />
 
-        <ImageView
+        <androidx.appcompat.widget.AppCompatImageView
             android:id="@+id/imgViewProgressHour"
             android:layout_width="45dp"
             android:layout_height="45dp"
@@ -42,7 +41,7 @@
 
     </RelativeLayout>
 
-    <TextView
+    <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/tvProgressMessage"
         android:layout_width="wrap_content"
         android:layout_height="100dp"

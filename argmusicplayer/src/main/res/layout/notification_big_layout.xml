@@ -1,13 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="128dp"
     android:gravity="center_vertical"
     android:paddingLeft="10dp">
 
-    <ImageView
+    <androidx.appcompat.widget.AppCompatImageView
         android:layout_width="100dp"
         android:layout_height="100dp"
         android:id="@+id/iViewBigNotif"
@@ -31,7 +29,7 @@
             android:padding="5dp"
             android:weightSum="1">
 
-            <TextView
+            <androidx.appcompat.widget.AppCompatTextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:maxHeight="55dp"
@@ -49,7 +47,7 @@
                 android:gravity="center_vertical"
                 android:id="@+id/relLayProgressBigNotif">
 
-                <TextView
+                <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/tvTimeNowBigNotif"
                     android:layout_width="wrap_content"
                     android:layout_height="20dp"
@@ -70,7 +68,7 @@
                     android:paddingLeft="2dp"
                     android:paddingRight="2dp" />
 
-                <TextView
+                <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/tvTimeTotalBigNotif"
                     android:layout_width="wrap_content"
                     android:layout_height="20dp"
@@ -88,7 +86,7 @@
             android:gravity="center"
             android:orientation="horizontal">
 
-            <ImageButton
+            <androidx.appcompat.widget.AppCompatImageButton
                 android:id="@+id/btnPrevBigNotif"
                 android:layout_width="48dp"
                 android:layout_height="match_parent"
@@ -96,7 +94,8 @@
                 android:padding="10dp"
                 android:scaleType="fitXY"
                 android:src="@drawable/arg_notif_prev" />
-            <ImageButton
+
+            <androidx.appcompat.widget.AppCompatImageButton
                 android:id="@+id/btnPlayPauseBigNotif"
                 android:layout_width="48dp"
                 android:layout_height="match_parent"
@@ -105,7 +104,7 @@
                 android:scaleType="fitXY"
                 android:src="@drawable/arg_notif_pause" />
 
-            <ImageButton
+            <androidx.appcompat.widget.AppCompatImageButton
                 android:id="@+id/btnNextBigNotif"
                 android:layout_width="48dp"
                 android:layout_height="match_parent"
@@ -117,7 +116,7 @@
         </LinearLayout>
     </LinearLayout>
 
-    <ImageButton
+    <androidx.appcompat.widget.AppCompatImageButton
         android:id="@+id/btnCloseBigNotif"
         android:layout_width="30dp"
         android:layout_height="30dp"

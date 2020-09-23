@@ -6,7 +6,7 @@
         <item name="buttonStyle">@style/ArgPlayerButton</item>
     </style>
 
-    <style name="ArgPlayerButton" parent="@android:style/android:Widget.ImageButton">
+    <style name="ArgPlayerButton" parent="Widget.AppCompat.ImageButton">
         <item name="android:background">@drawable/back_imagebutton</item>
     </style>
 </resources>

@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_gravity="center_horizontal"
@@ -23,7 +22,7 @@
             android:layout_marginRight="5dp"
             app:srcCompat="@drawable/mergesoft" />
 
-        <TextView
+        <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/tvAudioName"
             android:layout_width="wrap_content"
             android:layout_height="50dp"
@@ -35,7 +34,7 @@
             android:padding="5dp"
             android:text="Andreo Bocelli\nCaruso" />
 
-        <ImageButton
+        <androidx.appcompat.widget.AppCompatImageButton
             android:id="@+id/btnRepeat"
             android:layout_width="45dp"
             android:layout_height="45dp"
@@ -45,7 +44,7 @@
             android:scaleType="fitCenter"
             android:src="@drawable/arg_music_repeat_not" />
 
-        <TextView
+        <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/tvTimeNow"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -54,7 +53,7 @@
             android:layout_toRightOf="@id/imageViewAudio"
             android:text="00:00" />
 
-        <TextView
+        <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/tvTimeTotal"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -85,21 +84,21 @@
         android:paddingBottom="10dp"
         android:paddingTop="10dp">
 
-        <ImageButton
+        <androidx.appcompat.widget.AppCompatImageButton
             android:id="@+id/btnPrev"
             android:layout_width="55dp"
             android:layout_height="48dp"
             android:scaleType="fitCenter"
             android:src="@drawable/arg_music_prev_large" />
 
-        <ImageButton
+        <androidx.appcompat.widget.AppCompatImageButton
             android:id="@+id/btnPlayPause"
             android:layout_width="72dp"
             android:layout_height="72dp"
             android:scaleType="fitCenter"
             android:src="@drawable/arg_music_play" />
 
-        <ImageButton
+        <androidx.appcompat.widget.AppCompatImageButton
             android:id="@+id/btnNext"
             android:layout_width="55dp"
             android:layout_height="48dp"

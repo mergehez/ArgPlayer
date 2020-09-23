@@ -10,24 +10,34 @@ import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Handler;
 import android.os.IBinder;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 import android.util.Log;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+
+import com.arges.sepan.argmusicplayer.Enums.AudioState;
+import com.arges.sepan.argmusicplayer.Enums.AudioType;
+import com.arges.sepan.argmusicplayer.Enums.ErrorType;
+import com.arges.sepan.argmusicplayer.IndependentClasses.Arg.OnCompletedListener;
+import com.arges.sepan.argmusicplayer.IndependentClasses.Arg.OnErrorListener;
+import com.arges.sepan.argmusicplayer.IndependentClasses.Arg.OnPausedListener;
+import com.arges.sepan.argmusicplayer.IndependentClasses.Arg.OnPlayingListener;
+import com.arges.sepan.argmusicplayer.IndependentClasses.Arg.OnPlaylistAudioChangedListener;
+import com.arges.sepan.argmusicplayer.IndependentClasses.Arg.OnPreparedListener;
+import com.arges.sepan.argmusicplayer.IndependentClasses.Arg.OnTimeChangeListener;
+import com.arges.sepan.argmusicplayer.IndependentClasses.ArgAudio;
+import com.arges.sepan.argmusicplayer.IndependentClasses.ArgAudioList;
 
 import java.io.File;
 import java.io.IOException;
 
-import com.arges.sepan.argmusicplayer.IndependentClasses.Arg.*;
-import com.arges.sepan.argmusicplayer.IndependentClasses.ArgAudioList;
-import com.arges.sepan.argmusicplayer.Enums.AudioState;
-import com.arges.sepan.argmusicplayer.Enums.AudioType;
-import com.arges.sepan.argmusicplayer.Enums.ErrorType;
-import com.arges.sepan.argmusicplayer.IndependentClasses.ArgAudio;
-
 import static android.media.AudioManager.AUDIOFOCUS_GAIN;
 import static android.media.AudioManager.AUDIOFOCUS_REQUEST_GRANTED;
 import static android.media.AudioManager.STREAM_MUSIC;
-import static com.arges.sepan.argmusicplayer.Enums.AudioState.*;
+import static com.arges.sepan.argmusicplayer.Enums.AudioState.NO_ACTION;
+import static com.arges.sepan.argmusicplayer.Enums.AudioState.PAUSED;
+import static com.arges.sepan.argmusicplayer.Enums.AudioState.PLAYING;
+import static com.arges.sepan.argmusicplayer.Enums.AudioState.STOPPED;
 import static com.arges.sepan.argmusicplayer.Enums.AudioType.URL;
 
 public class ArgMusicService extends Service implements MediaPlayer.OnPreparedListener, MediaPlayer.OnCompletionListener,

@@ -1,6 +1,6 @@
 package com.arges.sepan.argmusicplayer.IndependentClasses;
 
-import android.support.annotation.RawRes;
+import androidx.annotation.RawRes;
 
 import com.arges.sepan.argmusicplayer.Enums.AudioType;
 

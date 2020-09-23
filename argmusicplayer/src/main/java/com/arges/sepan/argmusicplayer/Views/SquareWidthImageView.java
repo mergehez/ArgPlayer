@@ -1,14 +1,17 @@
 package com.arges.sepan.argmusicplayer.Views;
 
 import android.content.Context;
-import android.support.annotation.Nullable;
 import android.util.AttributeSet;
 
+import androidx.annotation.Nullable;
+import androidx.appcompat.widget.AppCompatImageView;
 
-public class SquareWidthImageView extends android.support.v7.widget.AppCompatImageView {
+
+public class SquareWidthImageView extends AppCompatImageView {
     public SquareWidthImageView(Context context) {
         super(context);
     }
+
     public SquareWidthImageView(Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
     }

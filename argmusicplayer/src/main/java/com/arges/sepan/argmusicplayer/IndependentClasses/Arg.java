@@ -1,5 +1,6 @@
 package com.arges.sepan.argmusicplayer.IndependentClasses;
 
+import android.annotation.SuppressLint;
 import android.app.KeyguardManager;
 import android.content.Context;
 import android.graphics.Bitmap;
@@ -47,30 +48,32 @@ public class Arg {
         {
             Object service  = context.getSystemService("statusbar");
             Class<?> statusbarManager = Class.forName("android.app.StatusBarManager");
-            if (Build.VERSION.SDK_INT <= 16)
-            {
+            if (Build.VERSION.SDK_INT <= 16) {
                 Method collapse = statusbarManager.getMethod("collapse");
                 collapse.setAccessible(true);
                 collapse.invoke(service);
-            }
-            else
-            {
+            } else {
                 Method collapse2 = statusbarManager.getMethod("collapsePanels");
                 collapse2.setAccessible(true);
                 collapse2.invoke(service);
             }
-        }catch(Exception ignored){}
+        } catch (Exception ignored) {
+        }
     }
-    public static void unlockScreen(Context context){
+
+    public static void unlockScreen(Context context) {
         KeyguardManager km = (KeyguardManager) context.getSystemService(Context.KEYGUARD_SERVICE);
-        final KeyguardManager.KeyguardLock kl = km .newKeyguardLock("MyKeyguardLock");
+        assert km != null;
+        final KeyguardManager.KeyguardLock kl = km.newKeyguardLock("MyKeyguardLock");
         kl.disableKeyguard();
 
         PowerManager pm = (PowerManager) context.getSystemService(Context.POWER_SERVICE);
+        assert pm != null;
+        @SuppressLint("InvalidWakeLockTag")
         PowerManager.WakeLock wakeLock = pm.newWakeLock(PowerManager.FULL_WAKE_LOCK
                 | PowerManager.ACQUIRE_CAUSES_WAKEUP
                 | PowerManager.ON_AFTER_RELEASE, "MyWakeLock");
-        wakeLock.acquire();
+        wakeLock.acquire(10 * 60 * 1000L /*10 minutes*/);
     }
     public static Bitmap byteArrayToBitmap(byte[] arr){
         return BitmapFactory.decodeByteArray(arr,0,arr.length);

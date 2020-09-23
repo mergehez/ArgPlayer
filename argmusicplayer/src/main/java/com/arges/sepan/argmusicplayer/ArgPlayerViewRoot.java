@@ -2,13 +2,14 @@ package com.arges.sepan.argmusicplayer;
 
 import android.app.Activity;
 import android.content.Context;
-import android.support.annotation.NonNull;
 import android.util.AttributeSet;
 import android.view.View;
-import android.widget.ImageButton;
 import android.widget.RelativeLayout;
 import android.widget.SeekBar;
-import android.widget.TextView;
+
+import androidx.annotation.NonNull;
+import androidx.appcompat.widget.AppCompatImageButton;
+import androidx.appcompat.widget.AppCompatTextView;
 
 import com.arges.sepan.argmusicplayer.IndependentClasses.Arg;
 import com.arges.sepan.argmusicplayer.IndependentClasses.ArgAudio;
@@ -20,14 +21,17 @@ abstract class ArgPlayerViewRoot extends RelativeLayout implements View.OnClickL
     protected Context context;
     protected int defaultLayoutResId = R.layout.player_small_layout;
     private RelativeLayout panelLayout;
-    private TextView tvTimeNow, tvTimeTotal;
-    private ImageButton btnPlayPause, btnPrev, btnNext, btnRepeat;
+    private AppCompatTextView tvTimeNow, tvTimeTotal;
+    private AppCompatImageButton btnPlayPause, btnPrev, btnNext, btnRepeat;
     private SeekBar seekBar;
     private ArgProgressView progress;
     private ArgErrorView errorView;
     ArgMusicPlayer player;
+
     abstract void setEmbeddedImageBitmap(byte[] byteArray);
+
     abstract void onAudioNameChanged(ArgAudio audio);
+
     abstract void onPlaylistAudioChanged(ArgAudioList list);
 
     public ArgPlayerViewRoot(Context context) {
@@ -45,17 +49,17 @@ abstract class ArgPlayerViewRoot extends RelativeLayout implements View.OnClickL
 
     protected void init(Context context, int layoutResId) {
         inflate(getContext(), layoutResId, this);
-        if(isInEditMode()) return;
+        if (isInEditMode()) return;
         this.context = context;
         this.panelLayout = (RelativeLayout) findViewById(R.id.arg_music_panel_layout);
-        this.tvTimeNow = (TextView)findViewById(R.id.tvTimeNow);
-        this.tvTimeTotal = (TextView)findViewById(R.id.tvTimeTotal);
-        this.btnPlayPause = (ImageButton)findViewById(R.id.btnPlayPause);
-        this.btnPrev = (ImageButton)findViewById(R.id.btnPrev);
-        this.btnNext = (ImageButton)findViewById(R.id.btnNext);
-        this.btnRepeat = (ImageButton)findViewById(R.id.btnRepeat);
+        this.tvTimeNow = (AppCompatTextView) findViewById(R.id.tvTimeNow);
+        this.tvTimeTotal = (AppCompatTextView) findViewById(R.id.tvTimeTotal);
+        this.btnPlayPause = findViewById(R.id.btnPlayPause);
+        this.btnPrev = findViewById(R.id.btnPrev);
+        this.btnNext = findViewById(R.id.btnNext);
+        this.btnRepeat = findViewById(R.id.btnRepeat);
         this.progress = (ArgProgressView) findViewById(R.id.arg_music_progress);
-        this.errorView = (ArgErrorView)findViewById(R.id.arg_music_error_view);
+        this.errorView = (ArgErrorView) findViewById(R.id.arg_music_error_view);
         this.seekBar = (SeekBar) findViewById(R.id.seekBar);
 
         this.seekBar.setOnSeekBarChangeListener(this);

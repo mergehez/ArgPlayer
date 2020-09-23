@@ -1,15 +1,16 @@
 package com.arges.sepan.argmusicplayersample;
 
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.widget.Toast;
 
-import com.arges.sepan.argmusicplayer.ArgPlayerFullScreenViewRoot;
+import androidx.appcompat.app.AppCompatActivity;
+
 import com.arges.sepan.argmusicplayer.Enums.ErrorType;
 import com.arges.sepan.argmusicplayer.IndependentClasses.Arg;
 import com.arges.sepan.argmusicplayer.IndependentClasses.ArgAudio;
 import com.arges.sepan.argmusicplayer.IndependentClasses.ArgAudioList;
 import com.arges.sepan.argmusicplayer.PlayerViews.ArgPlayerFullScreenView;
+
 
 public class FullScreenPlayerActivity extends AppCompatActivity {
     String url1 = "http://www.noiseaddicts.com/samples_1w72b820/2563.mp3";   // 7.5 mb

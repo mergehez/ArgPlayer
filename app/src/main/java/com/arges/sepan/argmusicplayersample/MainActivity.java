@@ -1,19 +1,16 @@
 package com.arges.sepan.argmusicplayersample;
 
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.Button;
-import android.widget.TextView;
 
+import androidx.appcompat.app.AppCompatActivity;
+
+import com.arges.sepan.argmusicplayer.ArgPlayerSmallViewRoot;
+import com.arges.sepan.argmusicplayer.Enums.AudioType;
 import com.arges.sepan.argmusicplayer.IndependentClasses.Arg;
 import com.arges.sepan.argmusicplayer.IndependentClasses.ArgAudio;
 import com.arges.sepan.argmusicplayer.IndependentClasses.ArgAudioList;
-import com.arges.sepan.argmusicplayer.ArgPlayerLargeViewRoot;
-import com.arges.sepan.argmusicplayer.Enums.ErrorType;
-import com.arges.sepan.argmusicplayer.ArgPlayerSmallViewRoot;
-import com.arges.sepan.argmusicplayer.Enums.AudioType;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener{
     @Override

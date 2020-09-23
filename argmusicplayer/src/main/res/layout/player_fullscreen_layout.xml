@@ -34,20 +34,20 @@
                 android:paddingTop="5dp"
                 android:weightSum="1">
 
-                <TextView
+                <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/tvAudioCountPlaylist"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
                     android:text="161 songs"
                     android:textSize="15sp" />
 
-                <TextView
+                <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/tvPositonPlaylist"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"
-                    android:text="2 / 161" />
+                    android:text="2 / 161"
+                    android:layout_alignParentEnd="true" />
             </RelativeLayout>
 
             <ScrollView
@@ -65,7 +65,7 @@
             </ScrollView>
         </LinearLayout>
 
-        <ImageView
+        <androidx.appcompat.widget.AppCompatImageView
             android:id="@+id/imageViewAudio"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -91,7 +91,7 @@
         android:paddingBottom="5dp"
         android:paddingTop="5dp">
 
-        <TextView
+        <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/tvAudioName"
             android:layout_width="match_parent"
             android:layout_height="50dp"
@@ -103,7 +103,7 @@
             android:text="Andreo Bocelli - Caruso"
             android:textStyle="bold" />
 
-        <ImageButton
+        <androidx.appcompat.widget.AppCompatImageButton
             android:id="@+id/btnRepeat"
             android:layout_width="45dp"
             android:layout_height="45dp"
@@ -111,17 +111,19 @@
             android:background="#00ffffff"
             android:padding="8dp"
             android:scaleType="fitCenter"
-            android:src="@drawable/arg_music_repeat_not" />
+            android:src="@drawable/arg_music_repeat_not"
+            android:layout_alignParentEnd="true" />
 
-        <TextView
+        <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/tvTimeNow"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@+id/tvAudioName"
             android:layout_marginLeft="5dp"
-            android:text="00:00" />
+            android:text="00:00"
+            android:layout_marginStart="5dp" />
 
-        <TextView
+        <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/tvTimeTotal"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -139,7 +141,8 @@
             android:layout_below="@+id/tvTimeNow"
             android:layout_gravity="center_horizontal"
             android:max="2"
-            android:progress="1" />
+            android:progress="1"
+            android:layout_alignParentEnd="false" />
     </RelativeLayout>
 
     <RelativeLayout
@@ -157,21 +160,21 @@
             android:paddingBottom="10dp"
             android:paddingTop="10dp">
 
-            <ImageButton
+            <androidx.appcompat.widget.AppCompatImageButton
                 android:id="@+id/btnPrev"
                 android:layout_width="55dp"
                 android:layout_height="48dp"
                 android:scaleType="fitCenter"
                 android:src="@drawable/arg_music_prev_large" />
 
-            <ImageButton
+            <androidx.appcompat.widget.AppCompatImageButton
                 android:id="@+id/btnPlayPause"
                 android:layout_width="72dp"
                 android:layout_height="72dp"
                 android:scaleType="fitCenter"
                 android:src="@drawable/arg_music_play" />
 
-            <ImageButton
+            <androidx.appcompat.widget.AppCompatImageButton
                 android:id="@+id/btnNext"
                 android:layout_width="55dp"
                 android:layout_height="48dp"
@@ -180,7 +183,7 @@
 
         </LinearLayout>
 
-        <ImageButton
+        <androidx.appcompat.widget.AppCompatImageButton
             android:id="@+id/btnViewFlipper"
             android:layout_width="45dp"
             android:layout_height="45dp"

@@ -1,12 +1,14 @@
 package com.arges.sepan.argmusicplayer;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.util.AttributeSet;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.ImageButton;
 import android.widget.LinearLayout;
-import android.widget.TextView;
+
+import androidx.appcompat.widget.AppCompatImageButton;
+import androidx.appcompat.widget.AppCompatTextView;
 
 import com.arges.sepan.argmusicplayer.IndependentClasses.Arg;
 import com.arges.sepan.argmusicplayer.IndependentClasses.ArgAudioList;
@@ -16,17 +18,20 @@ import com.arges.sepan.argmusicplayer.Views.ArgPlaylistListView;
 public class ArgPlayerFullScreenViewRoot extends ArgPlayerLargeViewRoot {
     LinearLayout layPanelPlaylist;
     ArgPlaylistListView listView;
-    ImageButton btnViewFlipper;
+    AppCompatImageButton btnViewFlipper;
     byte[] byteArray;
-    TextView tvAudioCount, tvAudioPosition;
+    AppCompatTextView tvAudioCount, tvAudioPosition;
     boolean isFlipped = false;
     ArgAudioList currentAudioList;
+
     public ArgPlayerFullScreenViewRoot(Context context) {
         super(context);
     }
+
     public ArgPlayerFullScreenViewRoot(Context context, AttributeSet attrs) {
         super(context, attrs);
     }
+
     public ArgPlayerFullScreenViewRoot(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
     }
@@ -36,15 +41,15 @@ public class ArgPlayerFullScreenViewRoot extends ArgPlayerLargeViewRoot {
         super.init(context, layoutResId);
         layPanelPlaylist = (LinearLayout) findViewById(R.id.layPanelPlaylist);
         listView = (ArgPlaylistListView) findViewById(R.id.listViewPlaylist);
-        btnViewFlipper = (ImageButton) findViewById(R.id.btnViewFlipper);
-        tvAudioCount = (TextView) findViewById(R.id.tvAudioCountPlaylist);
-        tvAudioPosition = (TextView) findViewById(R.id.tvPositonPlaylist);
+        btnViewFlipper = (AppCompatImageButton) findViewById(R.id.btnViewFlipper);
+        tvAudioCount = (AppCompatTextView) findViewById(R.id.tvAudioCountPlaylist);
+        tvAudioPosition = (AppCompatTextView) findViewById(R.id.tvPositonPlaylist);
 
         btnViewFlipper.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
                 isFlipped = !isFlipped;
-                if(isFlipped) {
+                if (isFlipped) {
                     listView.scrollToSelected();
                     layPanelPlaylist.setVisibility(VISIBLE);
                     imageView.setVisibility(INVISIBLE);
@@ -76,6 +81,7 @@ public class ArgPlayerFullScreenViewRoot extends ArgPlayerLargeViewRoot {
         setBtnViewFlipperImage(byteArray);
     }
 
+    @SuppressLint("DefaultLocale")
     @Override
     void onPlaylistAudioChanged(ArgAudioList list){
         if(!list.equals(currentAudioList)){

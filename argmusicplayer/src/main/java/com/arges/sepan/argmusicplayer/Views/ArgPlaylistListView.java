@@ -3,16 +3,17 @@ package com.arges.sepan.argmusicplayer.Views;
 import android.app.Activity;
 import android.content.Context;
 import android.os.Handler;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.ImageView;
 import android.widget.ListView;
-import android.widget.TextView;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.appcompat.widget.AppCompatImageView;
+import androidx.appcompat.widget.AppCompatTextView;
 
 import com.arges.sepan.argmusicplayer.IndependentClasses.ArgAudio;
 import com.arges.sepan.argmusicplayer.IndependentClasses.ArgAudioList;
@@ -71,15 +72,15 @@ public class ArgPlaylistListView extends ListView {
         public View getView(final int position, @Nullable View convertView, @NonNull ViewGroup parent) {
             ViewHolder holder;
 
-            if(convertView==null){
+            if (convertView == null) {
                 LayoutInflater inflater = ((Activity) context).getLayoutInflater();
                 convertView = inflater.inflate(R.layout.player_playlist_item, parent, false);
 
                 holder = new ViewHolder();
-                holder.tvListAudioName = (TextView) convertView.findViewById(R.id.tvListAudioName);
-                holder.imgViewListPlaying = (ImageView) convertView.findViewById(R.id.imgViewListPlaying);
+                holder.tvListAudioName = (AppCompatTextView) convertView.findViewById(R.id.tvListAudioName);
+                holder.imgViewListPlaying = (AppCompatImageView) convertView.findViewById(R.id.imgViewListPlaying);
                 convertView.setTag(holder);
-            }else {
+            } else {
                 holder = (ViewHolder) convertView.getTag();
             }
             ArgAudio audio = audioList.get(position);
@@ -90,16 +91,17 @@ public class ArgPlaylistListView extends ListView {
                 if(selectedPosition != position)
                     holder.imgViewListPlaying.setVisibility(INVISIBLE);
 
-                if(audioList.getCurrentIndex() == position)
+                if (audioList.getCurrentIndex() == position)
                     holder.imgViewListPlaying.setVisibility(VISIBLE);
 
             }
             return convertView;
         }
     }
+
     static class ViewHolder {
-        TextView tvListAudioName;
-        ImageView imgViewListPlaying;
+        AppCompatTextView tvListAudioName;
+        AppCompatImageView imgViewListPlaying;
     }
     public void scrollToSelected(){
         new Handler().post(new Runnable() {

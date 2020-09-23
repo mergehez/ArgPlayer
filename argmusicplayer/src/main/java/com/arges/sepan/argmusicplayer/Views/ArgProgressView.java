@@ -1,13 +1,14 @@
 package com.arges.sepan.argmusicplayer.Views;
 
 import android.content.Context;
-import android.util.AttributeSet;
-import android.widget.RelativeLayout;
 import android.os.Handler;
+import android.util.AttributeSet;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
-import android.widget.ImageView;
-import android.widget.TextView;
+import android.widget.RelativeLayout;
+
+import androidx.appcompat.widget.AppCompatImageView;
+import androidx.appcompat.widget.AppCompatTextView;
 
 import com.arges.sepan.argmusicplayer.R;
 
@@ -15,9 +16,10 @@ public class ArgProgressView extends RelativeLayout {
     private String message = "";
     private int maxTime = -1;
     private Context context;
-    private ImageView ivHour, ivMinute;
-    private TextView tvMessage;
+    private AppCompatImageView ivHour, ivMinute;
+    private AppCompatTextView tvMessage;
     private Animation rotationHour, rotationMinute;
+
     public ArgProgressView(Context context) {
         super(context);
         init(context);
@@ -33,11 +35,11 @@ public class ArgProgressView extends RelativeLayout {
         init(context);
     }
 
-    private void init(Context context){
+    private void init(Context context) {
         inflate(getContext(), R.layout.progress_panel_layout, this);
-        this.tvMessage = (TextView)findViewById(R.id.tvProgressMessage);
-        this.ivHour = (ImageView)findViewById(R.id.imgViewProgressHour);
-        this.ivMinute = (ImageView)findViewById(R.id.imgViewProgressMinute);
+        this.tvMessage = (AppCompatTextView) findViewById(R.id.tvProgressMessage);
+        this.ivHour = (AppCompatImageView) findViewById(R.id.imgViewProgressHour);
+        this.ivMinute = (AppCompatImageView) findViewById(R.id.imgViewProgressMinute);
         this.context = context;
     }
 

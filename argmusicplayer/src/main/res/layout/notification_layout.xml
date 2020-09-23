@@ -1,24 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="64dp"
     android:gravity="center_vertical"
-    android:paddingLeft="2dp">
+    android:padding="2dp">
 
-    <ImageView
+    <androidx.appcompat.widget.AppCompatImageView
         android:layout_width="64dp"
         android:layout_height="64dp"
         android:id="@+id/iViewNotif"
         android:src="@drawable/mergesoftlogo"
         android:layout_centerVertical="true"
         android:padding="2dp" />
+
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:id="@+id/arg_music_panel_layout"
-        android:layout_toRightOf="@id/iViewNotif">
+        android:layout_toRightOf="@id/iViewNotif"
+        android:layout_toEndOf="@id/iViewNotif">
+
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
@@ -27,9 +28,11 @@
             android:layout_alignParentLeft="true"
             android:layout_toLeftOf="@+id/layControlsNotif"
             android:gravity="center_vertical"
-            android:weightSum="1">
+            android:weightSum="1"
+            android:layout_alignParentStart="true"
+            android:layout_toStartOf="@+id/layControlsNotif">
 
-            <TextView
+            <androidx.appcompat.widget.AppCompatTextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:maxHeight="44dp"
@@ -37,25 +40,23 @@
                 android:text="Nîzamettîn Ariç - Zînê"
                 android:gravity="center"
                 android:paddingTop="5dp"
-                android:paddingBottom="2dp"
-                android:layout_toRightOf="@+id/tvTimeNowNotif"
-                android:layout_toLeftOf="@+id/tvTimeTotalNotif" />
+                android:paddingBottom="2dp" />
 
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="20dp"
-                android:layout_below="@+id/tvAudioName"
                 android:gravity="center_vertical"
                 android:id="@+id/relLayProgressNotif">
 
-                <TextView
+                <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/tvTimeNowNotif"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:layout_alignParentLeft="true"
                     android:gravity="center"
                     android:text="00:00"
-                    android:textSize="12sp" />
+                    android:textSize="12sp"
+                    android:layout_alignParentStart="true" />
 
                 <ProgressBar
                     android:id="@+id/seekBarNotif"
@@ -66,18 +67,22 @@
                     android:layout_toLeftOf="@+id/tvTimeTotalNotif"
                     android:layout_toRightOf="@+id/tvTimeNowNotif"
                     android:paddingLeft="2dp"
-                    android:paddingRight="2dp" />
+                    android:paddingRight="2dp"
+                    android:layout_toStartOf="@+id/tvTimeTotalNotif"
+                    android:layout_toEndOf="@+id/tvTimeNowNotif" />
 
-                <TextView
+                <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/tvTimeTotalNotif"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:layout_alignParentRight="true"
                     android:gravity="center"
                     android:text="00:00"
-                    android:textSize="12sp" />
+                    android:textSize="12sp"
+                    android:layout_alignParentEnd="true" />
             </RelativeLayout>
         </LinearLayout>
+
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
@@ -85,8 +90,11 @@
             android:orientation="horizontal"
             android:gravity="center_vertical"
             android:layout_alignParentRight="true"
-            android:layout_marginLeft="5dp">
-            <ImageButton
+            android:layout_marginLeft="5dp"
+            android:layout_alignParentEnd="true"
+            android:layout_marginStart="5dp">
+
+            <androidx.appcompat.widget.AppCompatImageButton
                 android:layout_width="48dp"
                 android:layout_height="48dp"
                 android:id="@+id/btnPlayPauseNotif"
@@ -95,16 +103,16 @@
                 android:padding="10dp"
                 android:scaleType="fitXY" />
 
-            <ImageButton
+            <androidx.appcompat.widget.AppCompatImageButton
                 android:layout_width="48dp"
                 android:layout_height="48dp"
                 android:id="@+id/btnNextNotif"
                 android:src="@drawable/arg_notif_next"
                 android:padding="10dp"
                 android:background="@drawable/back_notif_control"
-                android:scaleType="fitXY"/>
+                android:scaleType="fitXY" />
 
-            <ImageButton
+            <androidx.appcompat.widget.AppCompatImageButton
                 android:id="@+id/btnCloseNotif"
                 android:layout_width="30dp"
                 android:layout_height="30dp"

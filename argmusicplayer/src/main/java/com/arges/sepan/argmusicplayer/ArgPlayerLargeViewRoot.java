@@ -2,16 +2,17 @@ package com.arges.sepan.argmusicplayer;
 
 import android.content.Context;
 import android.util.AttributeSet;
-import android.widget.ImageView;
-import android.widget.TextView;
+
+import androidx.appcompat.widget.AppCompatImageView;
+import androidx.appcompat.widget.AppCompatTextView;
 
 import com.arges.sepan.argmusicplayer.IndependentClasses.Arg;
 import com.arges.sepan.argmusicplayer.IndependentClasses.ArgAudio;
 
 
 public class ArgPlayerLargeViewRoot extends ArgPlayerSmallViewRoot {
-    protected ImageView imageView;
-    protected TextView tvAudioName;
+    protected AppCompatImageView imageView;
+    protected AppCompatTextView tvAudioName;
 
     public ArgPlayerLargeViewRoot(Context context) {
         super(context);
@@ -27,9 +28,9 @@ public class ArgPlayerLargeViewRoot extends ArgPlayerSmallViewRoot {
 
     @Override
     protected void init(Context context, int layoutResId) {
-        super.init(context,layoutResId);
-        imageView = (ImageView) findViewById(R.id.imageViewAudio);
-        tvAudioName = (TextView)findViewById(R.id.tvAudioName);
+        super.init(context, layoutResId);
+        imageView = (AppCompatImageView) findViewById(R.id.imageViewAudio);
+        tvAudioName = (AppCompatTextView) findViewById(R.id.tvAudioName);
     }
 
     @Override

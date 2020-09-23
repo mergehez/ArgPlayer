@@ -1,18 +1,26 @@
 package com.arges.sepan.argmusicplayer;
 
 import android.content.Context;
-import android.support.annotation.NonNull;
 import android.view.View;
+
+import androidx.annotation.NonNull;
+
+import com.arges.sepan.argmusicplayer.Enums.ErrorType;
+import com.arges.sepan.argmusicplayer.IndependentClasses.Arg;
+import com.arges.sepan.argmusicplayer.IndependentClasses.Arg.OnCompletedListener;
+import com.arges.sepan.argmusicplayer.IndependentClasses.Arg.OnErrorListener;
+import com.arges.sepan.argmusicplayer.IndependentClasses.Arg.OnPausedListener;
+import com.arges.sepan.argmusicplayer.IndependentClasses.Arg.OnPlayingListener;
+import com.arges.sepan.argmusicplayer.IndependentClasses.Arg.OnPlaylistAudioChangedListener;
+import com.arges.sepan.argmusicplayer.IndependentClasses.Arg.OnPreparedListener;
+import com.arges.sepan.argmusicplayer.IndependentClasses.Arg.OnTimeChangeListener;
+import com.arges.sepan.argmusicplayer.IndependentClasses.ArgAudio;
+import com.arges.sepan.argmusicplayer.IndependentClasses.ArgAudioList;
 
 import java.util.ArrayList;
 
-import com.arges.sepan.argmusicplayer.IndependentClasses.ArgAudioList;
-import com.arges.sepan.argmusicplayer.Enums.ErrorType;
-import com.arges.sepan.argmusicplayer.IndependentClasses.Arg;
-import com.arges.sepan.argmusicplayer.IndependentClasses.Arg.*;
-import com.arges.sepan.argmusicplayer.IndependentClasses.ArgAudio;
-
-import static com.arges.sepan.argmusicplayer.Enums.AudioState.*;
+import static com.arges.sepan.argmusicplayer.Enums.AudioState.PAUSED;
+import static com.arges.sepan.argmusicplayer.Enums.AudioState.PLAYING;
 
 abstract class ArgMusicPlayer{
     private String TAG = ArgMusicPlayer.this.getClass().getSimpleName();
