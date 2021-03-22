@@ -3,10 +3,10 @@
     <!-- Base application theme. -->
     <style name="ArgPlayerTheme" parent="Theme.AppCompat.Light">
         <!-- Customize your theme here. -->
-        <item name="buttonStyle">@style/ArgPlayerButton</item>
+        <!--item name="buttonStyle">@style/ArgPlayerButton</item-->
     </style>
 
-    <style name="ArgPlayerButton" parent="Widget.AppCompat.ImageButton">
+    <!--style name="ArgPlayerButton" parent="Widget.AppCompat.Button">
         <item name="android:background">@drawable/back_imagebutton</item>
-    </style>
+    </style-->
 </resources>

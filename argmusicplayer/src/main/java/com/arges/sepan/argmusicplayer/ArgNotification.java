@@ -6,7 +6,6 @@ import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
-import android.util.Log;
 import android.widget.RemoteViews;
 
 import com.arges.sepan.argmusicplayer.IndependentClasses.Arg;
@@ -16,7 +15,6 @@ import static android.view.View.VISIBLE;
 
 @SuppressLint("ParcelCreator")
 public class ArgNotification extends Notification {
-    private Context context;
     private static RemoteViews contentView, bigContentView;
     private static NotificationManager mNotificationManager;
     private static Notification notification;
@@ -29,17 +27,17 @@ public class ArgNotification extends Notification {
     @SuppressLint("NewApi")
     public ArgNotification(Context context, String audio, int duration){
         super();
-        this.context = context;
         mNotificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
-        notification = new Builder(context).getNotification();
-        notification.when=System.currentTimeMillis();
-        notification.tickerText="ArgPlayer";
-        notification.icon= notifImgResId;
+        notification = new Builder(context).setWhen(System.currentTimeMillis()).setTicker("ArgPlayer").setSmallIcon(notifImgResId).build();
 
         contentView=new RemoteViews(context.getPackageName(), R.layout.notification_layout);
-        Intent homeIntent = new Intent(context, mainActivityClass).setAction("com.arges.intent.HOME");
-        homeIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
-        contentView.setOnClickPendingIntent(R.id.iViewNotif, PendingIntent.getActivity(context, 1, homeIntent, PendingIntent.FLAG_CANCEL_CURRENT));
+        Intent homeIntent = null;
+        if(mainActivityClass != null){
+            homeIntent = new Intent(context, mainActivityClass).setAction("com.arges.intent.HOME");
+            homeIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
+            contentView.setOnClickPendingIntent(R.id.iViewNotif, PendingIntent.getActivity(context, 1, homeIntent, PendingIntent.FLAG_CANCEL_CURRENT));
+        }
+
         contentView.setImageViewResource(R.id.iViewNotif,notifImgResId);
         Intent playIntent = new Intent(context,ArgNotificationReceiver.class).setAction("com.arges.intent.PLAYPAUSE");
         contentView.setOnClickPendingIntent(R.id.btnPlayPauseNotif, PendingIntent.getBroadcast(context,2,playIntent,PendingIntent.FLAG_CANCEL_CURRENT));
@@ -56,7 +54,8 @@ public class ArgNotification extends Notification {
             bigContentView=new RemoteViews(context.getPackageName(), R.layout.notification_big_layout);
 
             bigContentView.setImageViewResource(R.id.iViewBigNotif,notifImgResId);
-            bigContentView.setOnClickPendingIntent(R.id.iViewBigNotif, PendingIntent.getActivity(context, 9, homeIntent, PendingIntent.FLAG_CANCEL_CURRENT));
+            if(homeIntent != null)
+                bigContentView.setOnClickPendingIntent(R.id.iViewBigNotif, PendingIntent.getActivity(context, 9, homeIntent, PendingIntent.FLAG_CANCEL_CURRENT));
             Intent prevBigIntent = new Intent(context,ArgNotificationReceiver.class).setAction("com.arges.intent.PREV");
             bigContentView.setOnClickPendingIntent(R.id.btnPrevBigNotif, PendingIntent.getBroadcast(context, 3, prevBigIntent, PendingIntent.FLAG_CANCEL_CURRENT));
             bigContentView.setOnClickPendingIntent(R.id.btnPlayPauseBigNotif, PendingIntent.getBroadcast(context,5,playIntent,PendingIntent.FLAG_CANCEL_CURRENT));

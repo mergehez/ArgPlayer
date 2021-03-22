@@ -5,7 +5,7 @@
     android:gravity="center_vertical"
     android:padding="2dp">
 
-    <androidx.appcompat.widget.AppCompatImageView
+    <ImageView
         android:layout_width="64dp"
         android:layout_height="64dp"
         android:id="@+id/iViewNotif"
@@ -32,7 +32,7 @@
             android:layout_alignParentStart="true"
             android:layout_toStartOf="@+id/layControlsNotif">
 
-            <androidx.appcompat.widget.AppCompatTextView
+            <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:maxHeight="44dp"
@@ -48,7 +48,7 @@
                 android:gravity="center_vertical"
                 android:id="@+id/relLayProgressNotif">
 
-                <androidx.appcompat.widget.AppCompatTextView
+                <TextView
                     android:id="@+id/tvTimeNowNotif"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
@@ -71,7 +71,7 @@
                     android:layout_toStartOf="@+id/tvTimeTotalNotif"
                     android:layout_toEndOf="@+id/tvTimeNowNotif" />
 
-                <androidx.appcompat.widget.AppCompatTextView
+                <TextView
                     android:id="@+id/tvTimeTotalNotif"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
@@ -94,7 +94,7 @@
             android:layout_alignParentEnd="true"
             android:layout_marginStart="5dp">
 
-            <androidx.appcompat.widget.AppCompatImageButton
+            <ImageButton
                 android:layout_width="48dp"
                 android:layout_height="48dp"
                 android:id="@+id/btnPlayPauseNotif"
@@ -103,7 +103,7 @@
                 android:padding="10dp"
                 android:scaleType="fitXY" />
 
-            <androidx.appcompat.widget.AppCompatImageButton
+            <ImageButton
                 android:layout_width="48dp"
                 android:layout_height="48dp"
                 android:id="@+id/btnNextNotif"
@@ -112,7 +112,7 @@
                 android:background="@drawable/back_notif_control"
                 android:scaleType="fitXY" />
 
-            <androidx.appcompat.widget.AppCompatImageButton
+            <ImageButton
                 android:id="@+id/btnCloseNotif"
                 android:layout_width="30dp"
                 android:layout_height="30dp"

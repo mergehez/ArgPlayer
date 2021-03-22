@@ -10,7 +10,8 @@
         android:layout_height="100dp"
         android:layout_marginLeft="25dp"
         android:gravity="center"
-        android:id="@+id/errorFrame">
+        android:id="@+id/errorFrame"
+        android:layout_marginStart="25dp">
 
         <androidx.appcompat.widget.AppCompatImageView
             android:layout_width="45dp"
@@ -25,12 +26,14 @@
         android:layout_marginLeft="10dp"
         android:layout_marginRight="15dp"
         android:layout_toRightOf="@+id/errorFrame"
-        android:fontFamily="sans-serif"
         android:gravity="center"
         android:text="@string/error_message"
         android:textColor="#f5f2f2"
         android:textIsSelectable="false"
         android:textSize="18sp"
-        android:typeface="serif" />
+        android:typeface="serif"
+        android:layout_marginStart="10dp"
+        android:layout_marginEnd="15dp"
+        android:layout_toEndOf="@+id/errorFrame" />
 
 </RelativeLayout>

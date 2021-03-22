@@ -20,7 +20,8 @@
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_marginRight="5dp"
-            app:srcCompat="@drawable/mergesoft" />
+            app:srcCompat="@drawable/mergesoft"
+            android:layout_marginEnd="5dp" />
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/tvAudioName"
@@ -32,7 +33,9 @@
             android:layout_toLeftOf="@+id/btnRepeat"
             android:gravity="center_vertical"
             android:padding="5dp"
-            android:text="Andreo Bocelli\nCaruso" />
+            android:text="Andreo Bocelli\nCaruso"
+            android:layout_toEndOf="@+id/imageViewAudio"
+            android:layout_toStartOf="@+id/btnRepeat" />
 
         <androidx.appcompat.widget.AppCompatImageButton
             android:id="@+id/btnRepeat"
@@ -42,7 +45,8 @@
             android:background="#00ffffff"
             android:padding="8dp"
             android:scaleType="fitCenter"
-            android:src="@drawable/arg_music_repeat_not" />
+            android:src="@drawable/arg_music_repeat_not"
+            android:layout_alignParentEnd="true" />
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/tvTimeNow"
@@ -51,7 +55,9 @@
             android:layout_above="@+id/seekBar"
             android:layout_marginLeft="5dp"
             android:layout_toRightOf="@id/imageViewAudio"
-            android:text="00:00" />
+            android:text="00:00"
+            android:layout_toEndOf="@id/imageViewAudio"
+            android:layout_marginStart="5dp" />
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/tvTimeTotal"
@@ -59,7 +65,8 @@
             android:layout_height="wrap_content"
             android:layout_above="@+id/seekBar"
             android:layout_alignParentRight="true"
-            android:text="04:20" />
+            android:text="04:20"
+            android:layout_alignParentEnd="true" />
 
         <SeekBar
             android:id="@+id/seekBar"
@@ -71,7 +78,9 @@
             android:layout_gravity="center_horizontal"
             android:layout_toRightOf="@+id/imageViewAudio"
             android:max="2"
-            android:progress="1" />
+            android:progress="1"
+            android:layout_alignParentEnd="true"
+            android:layout_toEndOf="@+id/imageViewAudio" />
     </RelativeLayout>
 
     <LinearLayout

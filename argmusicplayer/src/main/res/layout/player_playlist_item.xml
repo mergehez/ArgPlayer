@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="35dp"
     android:background="@drawable/back_general"
@@ -20,7 +21,11 @@
         android:paddingRight="10dp"
         android:text="Andrea Bocelli Caruso Caruso Carudo"
         android:textSize="16sp"
-        android:textStyle="bold" />
+        android:textStyle="bold"
+        android:layout_alignParentStart="true"
+        android:paddingEnd="10dp"
+        android:layout_toStartOf="@+id/imgViewListPlaying"
+        tools:ignore="RtlSymmetry" />
 
     <com.arges.sepan.argmusicplayer.Views.SquareHeightImageView
         android:id="@+id/imgViewListPlaying"
@@ -28,6 +33,7 @@
         android:layout_height="match_parent"
         android:layout_alignParentRight="true"
         android:visibility="invisible"
-        app:srcCompat="@drawable/arg_music_play" />
+        app:srcCompat="@drawable/arg_music_play"
+        android:layout_alignParentEnd="true" />
 
 </RelativeLayout>

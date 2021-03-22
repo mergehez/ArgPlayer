@@ -197,13 +197,18 @@ abstract class ArgMusicPlayer{
     protected void playLoadedPlaylist(){service.preparePlaylistToPlay(service.getCurrentPlaylist());}
     protected void playPlaylist(@NonNull ArgAudioList argAudioList){
         if(service.preparePlaylistToPlay(argAudioList)){
+            hideErrorView();
             ArgAudioList list = service.getCurrentPlaylist();
             if(!service.isCurrentAudio(list.getCurrentAudio())) startProgress();
             service.playAudio(list.getCurrentAudio());
         }
     }
-    protected void playPlaylistItem(int index){service.playPlaylistItem(index);}
+    protected void playPlaylistItem(int index){
+        hideErrorView();
+        service.playPlaylistItem(index);
+    }
     protected void play(ArgAudio audio){
+        hideErrorView();
         if(!service.isCurrentAudio(audio)) startProgress();
         service.playSingleAudio(audio);
     }

@@ -129,7 +129,8 @@
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
             android:layout_below="@+id/tvAudioName"
-            android:text="04:20" />
+            android:text="04:20"
+            android:layout_alignParentEnd="true" />
 
         <SeekBar
             android:id="@+id/seekBar"
@@ -192,7 +193,8 @@
             android:background="#00ffffff"
             android:padding="8dp"
             android:scaleType="fitCenter"
-            app:srcCompat="@drawable/arg_music_playlist" />
+            app:srcCompat="@drawable/arg_music_playlist"
+            android:layout_alignParentEnd="true" />
     </RelativeLayout>
 
     <com.arges.sepan.argmusicplayer.Views.ArgProgressView

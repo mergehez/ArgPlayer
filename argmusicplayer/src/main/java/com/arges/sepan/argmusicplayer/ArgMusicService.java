@@ -4,10 +4,13 @@ import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.AssetFileDescriptor;
+import android.media.AudioAttributes;
+import android.media.AudioFocusRequest;
 import android.media.AudioManager;
 import android.media.MediaMetadataRetriever;
 import android.media.MediaPlayer;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Handler;
 import android.os.IBinder;
 import android.util.Log;
@@ -33,6 +36,7 @@ import java.io.IOException;
 
 import static android.media.AudioManager.AUDIOFOCUS_GAIN;
 import static android.media.AudioManager.AUDIOFOCUS_REQUEST_GRANTED;
+import static android.media.AudioManager.STREAM_ACCESSIBILITY;
 import static android.media.AudioManager.STREAM_MUSIC;
 import static com.arges.sepan.argmusicplayer.Enums.AudioState.NO_ACTION;
 import static com.arges.sepan.argmusicplayer.Enums.AudioState.PAUSED;
@@ -472,7 +476,15 @@ public class ArgMusicService extends Service implements MediaPlayer.OnPreparedLi
 
     private boolean audioFocusHasRequested = false;
     private void requestAudioFocus() {
-        audioFocusHasRequested = audioManager.requestAudioFocus(onAudioFocusListener, STREAM_MUSIC, AUDIOFOCUS_GAIN) == AUDIOFOCUS_REQUEST_GRANTED;
+        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.O){
+            AudioAttributes attributes = new AudioAttributes.Builder().setContentType(AudioAttributes.CONTENT_TYPE_MUSIC).build();
+            AudioFocusRequest afr = new AudioFocusRequest.Builder(AUDIOFOCUS_GAIN)
+                    .setOnAudioFocusChangeListener(onAudioFocusListener)
+                    .setAudioAttributes(attributes)
+                    .build();
+            audioFocusHasRequested = audioManager.requestAudioFocus(afr) == AUDIOFOCUS_REQUEST_GRANTED;
+        }else
+            audioFocusHasRequested = audioManager.requestAudioFocus(onAudioFocusListener, STREAM_MUSIC, AUDIOFOCUS_GAIN) == AUDIOFOCUS_REQUEST_GRANTED;
     }
 
     private void abandonAudioFocus() {

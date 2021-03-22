@@ -13,6 +13,14 @@ import com.arges.sepan.argmusicplayer.IndependentClasses.ArgAudio;
 import com.arges.sepan.argmusicplayer.IndependentClasses.ArgAudioList;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener{
+
+    public static final String Url1 = "https://www.gotinenstranan.com/joan-baez-north-country-blues.mp3";   // 2.3 mb
+    public static final String Url2 = "https://www.gotinenstranan.com/boney-m-rasputin.mp3";   // 4.2 mb
+    public static final String Url3 = "https://www.gotinenstranan.com/radyo/stran/s%CC%A7ehi%CC%82d%20arges%CC%A7%20-%20dara%20ji%CC%82ne%CC%82.mp3";   // 1.7 mb
+    public static final String Url4 = "https://www.gotinenstranan.com/radyo/stran/victor%20jara%20-%20la%20partida.mp3";   // 1.5 mb
+    public static final String Url5 = "https://www.gotinenstranan.com/radyo/stran/mark%20kelly%20%26%20soraya%20-%20under%20the%20jasmine%20tree.mp3";   // 1.5 mb
+    public static final String Url6 = "https://www.gotinenstranan.com/radyo/stran/koma%20wetan%20-%20fili%CC%82to%20lao.mp3";   // 2.1 mb
+    public static final int RawSong = R.raw.castle_in_the_sky;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -25,17 +33,16 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     @Override
     public void onClick(View v) {
-        if(v!=null)
-            switch (v.getId()){
-                case R.id.btnSmall: startActivity(new Intent(MainActivity.this,SmallPlayerActivity.class)); break;
-                case R.id.btnLarge: startActivity(new Intent(MainActivity.this,LargePlayerActivity.class)); break;
-                case R.id.btnFullScreen: startActivity(new Intent(MainActivity.this,FullScreenPlayerActivity.class)); break;
-            }
+        if(v!=null){
+            int id = v.getId();
+            if(id== R.id.btnSmall)
+                startActivity(new Intent(MainActivity.this,SmallPlayerActivity.class));
+            else if(id == R.id.btnLarge)
+                startActivity(new Intent(MainActivity.this,LargePlayerActivity.class));
+            else if(id == R.id.btnFullScreen)
+                startActivity(new Intent(MainActivity.this,FullScreenPlayerActivity.class));
+        }
     }
-
-
-
-
 
 
     private void allFunctions(){

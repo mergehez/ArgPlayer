@@ -98,10 +98,8 @@ abstract class ArgPlayerViewRoot extends RelativeLayout implements View.OnClickL
         if(ArgMusicService.nextPrevButtons){
             btnNext.setVisibility(VISIBLE);
             btnPrev.setVisibility(VISIBLE);
-            if(!player.hasNextAudio()) btnNext.setEnabled(false);
-            else         btnNext.setEnabled(true);
-            if(!player.hasPrevAudio()) btnPrev.setEnabled(false);
-            else         btnPrev.setEnabled(true);
+            btnNext.setEnabled(player.hasNextAudio());
+            btnPrev.setEnabled(player.hasPrevAudio());
         }else{
             btnNext.setVisibility(GONE);
             btnPrev.setVisibility(GONE);
@@ -129,13 +127,15 @@ abstract class ArgPlayerViewRoot extends RelativeLayout implements View.OnClickL
     }
 
     // UI methods
-    public void enableNotification(Class mainActivityClass){
-        ArgNotification.mainActivityClass = mainActivityClass;
-        player.setNotif(true);
+    public void enableNotification(@NonNull Class mainActivityClass){
+        if(mainActivityClass != null){
+            ArgNotification.mainActivityClass = mainActivityClass;
+            player.setNotif(true);
+        }
     }
-    public void enableNotification(Class homeClass, int notifImgResId){
-        enableNotification(homeClass);
-        ArgNotification.notifImgResId = notifImgResId;
+    public void enableNotification(@NonNull Class mainActivityClass, int notificationImageResourceId){
+        enableNotification(mainActivityClass);
+        ArgNotification.notifImgResId = notificationImageResourceId;
     }
     public void disableNotification(){player.setNotif(false);}
     public void disableProgress(){ArgMusicService.progressCancellation = true;}
@@ -170,6 +170,7 @@ abstract class ArgPlayerViewRoot extends RelativeLayout implements View.OnClickL
 
     // Listener Set Methods
     public void setOnPreparedListener(Arg.OnPreparedListener onPreparedListener) {
+        errorView.hide();
         player.setOnPreparedListener(onPreparedListener);
     }
     public void setOnTimeChangeListener(Arg.OnTimeChangeListener onTimeChangeListener) {
