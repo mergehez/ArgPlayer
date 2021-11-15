@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="128dp"
     android:gravity="center_vertical"
-    android:paddingLeft="10dp"
-    android:paddingStart="10dp">
+    android:padding="2dp">
 
     <ImageView
         android:layout_width="100dp"
@@ -12,37 +13,35 @@
         android:id="@+id/iViewBigNotif"
         android:src="@drawable/mergesoftlogo"
         android:layout_centerVertical="true"
-        android:padding="2dp" />
+        android:padding="2dp"
+        android:contentDescription="@string/app_logo" />
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:id="@+id/arg_music_panel_layout"
         android:orientation="vertical"
         android:gravity="center_horizontal|bottom"
-        android:layout_toRightOf="@id/iViewBigNotif"
         android:layout_toEndOf="@id/iViewBigNotif">
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="80dp"
             android:id="@+id/layInfoBigNotif"
             android:orientation="vertical"
-            android:layout_alignParentLeft="true"
             android:gravity="bottom"
             android:padding="5dp"
-            android:weightSum="1"
-            android:layout_alignParentStart="true">
+            android:weightSum="1">
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:maxHeight="55dp"
                 android:id="@+id/tvAudioNameBigNotif"
-                android:text="Nîzamettîn Ariç - Zînê"
-                android:gravity="left"
+                android:text="@string/placeholder_song_title"
+                android:gravity="start"
                 android:paddingTop="5dp"
                 android:paddingBottom="2dp"
-                android:paddingRight="35dp"
-                android:paddingEnd="35dp" />
+                android:paddingEnd="35dp"
+                android:paddingStart="0dp"/>
 
             <RelativeLayout
                 android:layout_width="match_parent"
@@ -54,9 +53,8 @@
                     android:id="@+id/tvTimeNowBigNotif"
                     android:layout_width="wrap_content"
                     android:layout_height="20dp"
-                    android:layout_alignParentLeft="true"
                     android:gravity="center"
-                    android:text="00:00"
+                    android:text="@string/placeholder_song_time"
                     android:textSize="12sp"
                     android:layout_alignParentStart="true" />
 
@@ -65,12 +63,10 @@
                     style="?android:attr/progressBarStyleHorizontal"
                     android:layout_width="match_parent"
                     android:layout_height="5dp"
-                    android:layout_alignParentLeft="true"
-                    android:layout_alignParentRight="true"
                     android:layout_below="@+id/tvTimeNowBigNotif"
                     android:layout_centerVertical="true"
-                    android:paddingLeft="2dp"
-                    android:paddingRight="2dp"
+                    android:paddingStart="2dp"
+                    android:paddingEnd="2dp"
                     android:layout_alignParentStart="true"
                     android:layout_alignParentEnd="true" />
 
@@ -78,11 +74,11 @@
                     android:id="@+id/tvTimeTotalBigNotif"
                     android:layout_width="wrap_content"
                     android:layout_height="20dp"
-                    android:layout_alignParentRight="true"
                     android:gravity="center"
-                    android:text="00:00"
+                    android:text="@string/placeholder_song_time"
                     android:textSize="12sp"
-                    android:layout_alignParentEnd="true" />
+                    android:layout_alignParentEnd="true"
+                    tools:ignore="RelativeOverlap" />
             </RelativeLayout>
         </LinearLayout>
 
@@ -100,7 +96,9 @@
                 android:background="@drawable/back_notif_control"
                 android:padding="10dp"
                 android:scaleType="fitXY"
-                android:src="@drawable/arg_notif_prev" />
+                android:src="@drawable/arg_prev"
+                android:contentDescription="@string/previous_button"
+                app:tint="?android:attr/colorControlNormal" />
 
             <ImageButton
                 android:id="@+id/btnPlayPauseBigNotif"
@@ -109,7 +107,9 @@
                 android:background="@drawable/back_notif_control"
                 android:padding="5dp"
                 android:scaleType="fitXY"
-                android:src="@drawable/arg_notif_pause" />
+                android:src="@drawable/arg_pause"
+                android:contentDescription="@string/play_or_pause_button"
+                app:tint="?android:attr/colorControlNormal" />
 
             <ImageButton
                 android:id="@+id/btnNextBigNotif"
@@ -118,7 +118,9 @@
                 android:background="@drawable/back_notif_control"
                 android:padding="10dp"
                 android:scaleType="fitXY"
-                android:src="@drawable/arg_notif_next" />
+                android:src="@drawable/arg_next"
+                android:contentDescription="@string/next_button"
+                app:tint="?android:attr/colorControlNormal" />
 
         </LinearLayout>
     </LinearLayout>
@@ -127,15 +129,15 @@
         android:id="@+id/btnCloseBigNotif"
         android:layout_width="30dp"
         android:layout_height="30dp"
-        android:layout_alignParentRight="true"
         android:layout_alignParentTop="true"
-        android:layout_marginRight="5dp"
         android:layout_marginTop="5dp"
         android:background="@drawable/back_notif_control"
         android:padding="5dp"
         android:scaleType="fitXY"
-        android:src="@drawable/arg_notif_close"
+        android:src="@drawable/arg_close"
         android:layout_alignParentEnd="true"
-        android:layout_marginEnd="5dp" />
+        android:layout_marginEnd="5dp"
+        android:contentDescription="@string/close_button"
+        app:tint="?android:attr/colorControlNormal"/>
 
 </RelativeLayout>

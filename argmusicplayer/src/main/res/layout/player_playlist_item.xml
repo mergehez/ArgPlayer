@@ -6,34 +6,32 @@
     android:layout_height="35dp"
     android:background="@drawable/back_general"
     android:paddingBottom="5dp"
-    android:paddingLeft="10dp"
-    android:paddingRight="10dp"
+    android:paddingStart="10dp"
+    android:paddingEnd="10dp"
     android:paddingTop="5dp">
 
 
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/tvListAudioName"
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="match_parent"
-        android:layout_alignParentLeft="true"
-        android:layout_toLeftOf="@+id/imgViewListPlaying"
         android:gravity="center_vertical"
-        android:paddingRight="10dp"
-        android:text="Andrea Bocelli Caruso Caruso Carudo"
+        android:text="@string/placeholder_song_title"
         android:textSize="16sp"
-        android:textStyle="bold"
         android:layout_alignParentStart="true"
+        android:layout_toStartOf="@id/imgViewListPlaying"
         android:paddingEnd="10dp"
-        android:layout_toStartOf="@+id/imgViewListPlaying"
+        android:ellipsize="end"
+        android:singleLine="true"
         tools:ignore="RtlSymmetry" />
 
     <com.arges.sepan.argmusicplayer.Views.SquareHeightImageView
         android:id="@+id/imgViewListPlaying"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
-        android:layout_alignParentRight="true"
         android:visibility="invisible"
-        app:srcCompat="@drawable/arg_music_play"
-        android:layout_alignParentEnd="true" />
+        app:srcCompat="@drawable/arg_play"
+        android:layout_alignParentEnd="true"
+        android:tint="?android:attr/colorControlNormal"/>
 
 </RelativeLayout>

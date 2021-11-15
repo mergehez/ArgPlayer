@@ -1,62 +1,60 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="64dp"
     android:gravity="center_vertical"
     android:padding="2dp">
 
     <ImageView
+        android:id="@+id/iViewNotif"
         android:layout_width="64dp"
         android:layout_height="64dp"
-        android:id="@+id/iViewNotif"
-        android:src="@drawable/mergesoftlogo"
         android:layout_centerVertical="true"
-        android:padding="2dp" />
+        android:contentDescription="@string/app_logo"
+        android:padding="2dp"
+        android:src="@drawable/mergesoftlogo" />
 
     <RelativeLayout
+        android:id="@+id/arg_music_panel_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:id="@+id/arg_music_panel_layout"
-        android:layout_toRightOf="@id/iViewNotif"
         android:layout_toEndOf="@id/iViewNotif">
 
         <LinearLayout
+            android:id="@+id/layInfoNotif"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:id="@+id/layInfoNotif"
-            android:orientation="vertical"
-            android:layout_alignParentLeft="true"
-            android:layout_toLeftOf="@+id/layControlsNotif"
-            android:gravity="center_vertical"
-            android:weightSum="1"
             android:layout_alignParentStart="true"
-            android:layout_toStartOf="@+id/layControlsNotif">
+            android:layout_toStartOf="@+id/layControlsNotif"
+            android:gravity="center_vertical"
+            android:orientation="vertical"
+            android:weightSum="1">
 
             <TextView
+                android:id="@+id/tvAudioNameNotif"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:maxHeight="44dp"
-                android:id="@+id/tvAudioNameNotif"
-                android:text="Nîzamettîn Ariç - Zînê"
                 android:gravity="center"
+                android:maxHeight="44dp"
                 android:paddingTop="5dp"
-                android:paddingBottom="2dp" />
+                android:paddingBottom="2dp"
+                android:text="@string/placeholder_song_title" />
 
             <RelativeLayout
+                android:id="@+id/relLayProgressNotif"
                 android:layout_width="match_parent"
                 android:layout_height="20dp"
-                android:gravity="center_vertical"
-                android:id="@+id/relLayProgressNotif">
+                android:gravity="center_vertical">
 
                 <TextView
                     android:id="@+id/tvTimeNowNotif"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
-                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentStart="true"
                     android:gravity="center"
-                    android:text="00:00"
-                    android:textSize="12sp"
-                    android:layout_alignParentStart="true" />
+                    android:text="@string/placeholder_song_time"
+                    android:textSize="12sp" />
 
                 <ProgressBar
                     android:id="@+id/seekBarNotif"
@@ -64,62 +62,63 @@
                     android:layout_width="match_parent"
                     android:layout_height="5dp"
                     android:layout_centerVertical="true"
-                    android:layout_toLeftOf="@+id/tvTimeTotalNotif"
-                    android:layout_toRightOf="@+id/tvTimeNowNotif"
-                    android:paddingLeft="2dp"
-                    android:paddingRight="2dp"
                     android:layout_toStartOf="@+id/tvTimeTotalNotif"
-                    android:layout_toEndOf="@+id/tvTimeNowNotif" />
+                    android:layout_toEndOf="@+id/tvTimeNowNotif"
+                    android:paddingLeft="2dp"
+                    android:paddingRight="2dp" />
 
                 <TextView
                     android:id="@+id/tvTimeTotalNotif"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
-                    android:layout_alignParentRight="true"
+                    android:layout_alignParentEnd="true"
                     android:gravity="center"
-                    android:text="00:00"
-                    android:textSize="12sp"
-                    android:layout_alignParentEnd="true" />
+                    android:text="@string/placeholder_song_time"
+                    android:textSize="12sp" />
             </RelativeLayout>
         </LinearLayout>
 
         <LinearLayout
+            android:id="@+id/layControlsNotif"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:id="@+id/layControlsNotif"
-            android:orientation="horizontal"
-            android:gravity="center_vertical"
-            android:layout_alignParentRight="true"
-            android:layout_marginLeft="5dp"
             android:layout_alignParentEnd="true"
-            android:layout_marginStart="5dp">
+            android:layout_marginStart="5dp"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
 
             <ImageButton
-                android:layout_width="48dp"
-                android:layout_height="48dp"
                 android:id="@+id/btnPlayPauseNotif"
-                android:src="@drawable/arg_notif_pause"
-                android:background="@drawable/back_notif_control"
-                android:padding="10dp"
-                android:scaleType="fitXY" />
-
-            <ImageButton
                 android:layout_width="48dp"
                 android:layout_height="48dp"
-                android:id="@+id/btnNextNotif"
-                android:src="@drawable/arg_notif_next"
+                android:background="@android:color/transparent"
                 android:padding="10dp"
-                android:background="@drawable/back_notif_control"
-                android:scaleType="fitXY" />
+                android:scaleType="fitXY"
+                android:src="@drawable/arg_pause"
+                android:contentDescription="@string/play_or_pause_button"
+                app:tint="?android:attr/colorControlNormal" />
+
+            <ImageButton
+                android:id="@+id/btnNextNotif"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:background="@android:color/transparent"
+                android:padding="10dp"
+                android:scaleType="fitXY"
+                android:src="@drawable/arg_next"
+                android:contentDescription="@string/next_button"
+                app:tint="?android:attr/colorControlNormal" />
 
             <ImageButton
                 android:id="@+id/btnCloseNotif"
                 android:layout_width="30dp"
                 android:layout_height="30dp"
+                android:background="@android:color/transparent"
                 android:padding="5dp"
                 android:scaleType="fitXY"
-                android:src="@drawable/arg_notif_close"
-                android:background="@drawable/back_notif_control" />
+                android:src="@drawable/arg_close"
+                android:contentDescription="@string/close_button"
+                app:tint="?android:attr/colorControlNormal" />
         </LinearLayout>
     </RelativeLayout>
 
