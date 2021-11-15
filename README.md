@@ -214,7 +214,7 @@ protected void onCreate(Bundle savedInstanceState) {
 ![](https://raw.githubusercontent.com/mergehez/ArgPlayer/master/ScreenShots/notification-without-progress.png "")
 ---
 ### Small Player View
-![](https://raw.githubusercontent.com/mergehez/ArgPlayer/master/ScreenShots/smallviewx.png "")
+![](https://raw.githubusercontent.com/mergehez/ArgPlayer/master/ScreenShots/smallview.png "")
 
 ### Large Player View
 ![](https://raw.githubusercontent.com/mergehez/ArgPlayer/master/ScreenShots/largeview.png "")
