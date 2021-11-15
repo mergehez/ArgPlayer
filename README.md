@@ -18,7 +18,7 @@ Builds: [![](https://jitpack.io/v/mergehez/ArgPlayer.svg)](https://jitpack.io/#m
 	* [ArgAudioList Methods](#argaudiolist)
 	* [ArgNotificationOptions Methods](#argnotificationoptions)
 * [ScreenShots](#screenshots)
-
+ 
 ## Gradle
 To always build from the latest commit with all updates. Add the JitPack repository:
 
