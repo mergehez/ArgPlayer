@@ -1,4 +1,15 @@
 <resources>
     <string name="app_name">ArgMusicPlayer</string>
     <string name="error_message"><b>An error has occurred!</b>\n(tap to hide)</string>
+    <string name="app_logo">app logo</string>
+    <string name="placeholder_song_time">00:00</string>
+    <string name="placeholder_song_title">Nîzamettîn Ariç - Zînê</string>
+    <string name="play_or_pause_button">play or pause button</string>
+    <string name="next_button">next button</string>
+    <string name="close_button">close button</string>
+    <string name="previous_button">previous button</string>
+    <string name="placeholder_song_counts">161 songs</string>
+    <string name="placeholder_current_song_slash_song_count">2 / 161</string>
+    <string name="placeholder_song_title_multiline">Andreo Bocelli\nCaruso</string>
+    <string name="wait_page_is_loading">Wait page is loading</string>
 </resources>
