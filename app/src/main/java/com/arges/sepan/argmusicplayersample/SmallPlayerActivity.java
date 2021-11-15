@@ -5,8 +5,7 @@ import android.os.Bundle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatTextView;
 
-import com.arges.sepan.argmusicplayer.IndependentClasses.ArgAudio;
-import com.arges.sepan.argmusicplayer.IndependentClasses.ArgAudioList;
+import com.arges.sepan.argmusicplayer.Models.ArgAudioList;
 import com.arges.sepan.argmusicplayer.PlayerViews.ArgPlayerSmallView;
 
 import java.util.Locale;
@@ -14,7 +13,6 @@ import java.util.Locale;
 public class SmallPlayerActivity extends AppCompatActivity {
     ArgPlayerSmallView musicPlayer;
     AppCompatTextView tvError, tvMusicType;
-    ArgAudio audioUrl,audioUrl2, audioRaw, audioAssets, audioFile;
     ArgAudioList playlist = new ArgAudioList(true);
 
     @Override
@@ -26,25 +24,22 @@ public class SmallPlayerActivity extends AppCompatActivity {
         tvMusicType = (AppCompatTextView) findViewById(R.id.tvMusicType);
         musicPlayer = (ArgPlayerSmallView) findViewById(R.id.argmusicplayer);
 
-        audioAssets = ArgAudio.createFromAssets("Nîzamettîn Ariç", "Zînê", "zine.mp3");
-        audioFile = ArgAudio.createFromFilePath("Andrea Bocelli", "Caruso", "/storage/emulated/0/Music/Andrea Bocelli Caruso.mp3");
-        audioFile = ArgAudio.createFromFilePath("Awaz Baran", "Zara", "/storage/emulated/0/Music/zaragiyan.m4a");
-        audioUrl = ArgAudio.createFromURL("Joan Baez", "North Country Blues", MainActivity.Url1);
-        audioUrl2 = ArgAudio.createFromURL("Boney M.", "Rasputin", MainActivity.Url2);
-        audioRaw = ArgAudio.createFromRaw("Joe Hisaishi", "Castle in the Sky", MainActivity.RawSong);
-        ArgAudio audioUrl3 = ArgAudio.createFromURL("Şehîd Argeş", "Dara Jînê", MainActivity.Url3);
-        ArgAudio audioUrl4 = ArgAudio.createFromURL("Vicor Jara", "La Partida", MainActivity.Url4);
-        ArgAudio audioUrl5 = ArgAudio.createFromURL("Mark Kelly & Soraya", "Under The Jasmine Tree", MainActivity.Url5);
-        ArgAudio audioUrl6 = ArgAudio.createFromURL("Koma Wetan", "Filîto Lawo", MainActivity.Url6);
-        playlist.add(audioRaw).add(audioUrl).add(audioUrl2).add(audioUrl3).add(audioUrl4).add(audioUrl5).add(audioUrl6);//.add(audioAssets).add(audioFile);
+        playlist.add(MainActivity.audioRaw)
+                .add(MainActivity.audioAsset)
+                .add(MainActivity.audioUrl1)
+                .add(MainActivity.audioUrl2)
+                .add(MainActivity.audioUrl3)
+                .add(MainActivity.audioUrl4)
+                .add(MainActivity.audioUrl5)
+                .add(MainActivity.audioUrl6);//.add(audioFile);
 
-        musicPlayer.enableNotification(SmallPlayerActivity.class);
+        musicPlayer.enableNotification(this);
         musicPlayer.setOnErrorListener((errorType, description)
                 -> tvError.setText(String.format("Error:\nType: %s\nDescription: %s", errorType, description)));
         musicPlayer.setOnPlaylistAudioChangedListener((playlist, currentAudioIndex)
                 -> tvMusicType.setText(String.format(Locale.getDefault(),"PLAYLIST %d: %s", playlist.getCurrentIndex(), playlist.getCurrentAudio().getTitle())));
         musicPlayer.setOnPlayingListener(()-> tvError.setText(""));
-        musicPlayer.play(audioRaw);
+        musicPlayer.play(MainActivity.audioRaw);
 
         initBtns();
 
@@ -65,20 +60,20 @@ public class SmallPlayerActivity extends AppCompatActivity {
     public void initBtns(){
 
         findViewById(R.id.btnUrl).setOnClickListener(v -> {
-            tvMusicType.setText(String.format("URL - %s", audioUrl.getTitle()));
-            musicPlayer.play(audioUrl);
+            tvMusicType.setText(String.format("URL - %s", MainActivity.audioUrl1.getTitle()));
+            musicPlayer.play(MainActivity.audioUrl1);
         });
         findViewById(R.id.btnRaw).setOnClickListener(v -> {
-            tvMusicType.setText(String.format("RAW - %s", audioRaw.getTitle()));
-            musicPlayer.play(audioRaw);
+            tvMusicType.setText(String.format("RAW - %s", MainActivity.audioRaw.getTitle()));
+            musicPlayer.play(MainActivity.audioRaw);
         });
         findViewById(R.id.btnAssets).setOnClickListener(v -> {
-            tvMusicType.setText(String.format("ASSETS - %s", audioAssets.getTitle()));
-            musicPlayer.play(audioAssets);
+            tvMusicType.setText(String.format("ASSETS - %s", MainActivity.audioAsset.getTitle()));
+            musicPlayer.play(MainActivity.audioAsset);
         });
         findViewById(R.id.btnFile).setOnClickListener(v -> {
-            tvMusicType.setText(String.format("FILE PATH - %s", audioFile.getTitle()));
-            musicPlayer.play(audioFile);
+            tvMusicType.setText(String.format("FILE PATH - %s", MainActivity.audioFile.getTitle()));
+            musicPlayer.play(MainActivity.audioFile);
         });
         findViewById(R.id.btnPlaylist).setOnClickListener(v -> {
             musicPlayer.setPlaylistRepeat(true);

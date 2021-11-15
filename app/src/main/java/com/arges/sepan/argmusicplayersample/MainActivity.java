@@ -7,24 +7,45 @@ import android.view.View;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.arges.sepan.argmusicplayer.ArgPlayerSmallViewRoot;
+import com.arges.sepan.argmusicplayer.Callbacks.OnCompletedListener;
+import com.arges.sepan.argmusicplayer.Callbacks.OnErrorListener;
+import com.arges.sepan.argmusicplayer.Callbacks.OnPausedListener;
+import com.arges.sepan.argmusicplayer.Callbacks.OnPlayingListener;
+import com.arges.sepan.argmusicplayer.Callbacks.OnPlaylistAudioChangedListener;
+import com.arges.sepan.argmusicplayer.Callbacks.OnPreparedListener;
+import com.arges.sepan.argmusicplayer.Callbacks.OnTimeChangeListener;
 import com.arges.sepan.argmusicplayer.Enums.AudioType;
-import com.arges.sepan.argmusicplayer.IndependentClasses.Arg;
-import com.arges.sepan.argmusicplayer.IndependentClasses.ArgAudio;
-import com.arges.sepan.argmusicplayer.IndependentClasses.ArgAudioList;
+import com.arges.sepan.argmusicplayer.Models.ArgAudio;
+import com.arges.sepan.argmusicplayer.Models.ArgAudioList;
+import com.arges.sepan.argmusicplayer.PlayerViews.ArgPlayerSmallView;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener{
 
-    public static final String Url1 = "https://www.gotinenstranan.com/joan-baez-north-country-blues.mp3";   // 2.3 mb
-    public static final String Url2 = "https://www.gotinenstranan.com/boney-m-rasputin.mp3";   // 4.2 mb
-    public static final String Url3 = "https://www.gotinenstranan.com/radyo/stran/s%CC%A7ehi%CC%82d%20arges%CC%A7%20-%20dara%20ji%CC%82ne%CC%82.mp3";   // 1.7 mb
-    public static final String Url4 = "https://www.gotinenstranan.com/radyo/stran/victor%20jara%20-%20la%20partida.mp3";   // 1.5 mb
-    public static final String Url5 = "https://www.gotinenstranan.com/radyo/stran/mark%20kelly%20%26%20soraya%20-%20under%20the%20jasmine%20tree.mp3";   // 1.5 mb
-    public static final String Url6 = "https://www.gotinenstranan.com/radyo/stran/koma%20wetan%20-%20fili%CC%82to%20lao.mp3";   // 2.1 mb
+    public static final String Url1 = "https://www.gotinenstranan.com/songs/joan-baez-north-country-blues.mp3";   // 2.3 mb
+    public static final String Url2 = "https://www.gotinenstranan.com/songs/boney-m-rasputin.mp3";   // 4.2 mb
+    public static final String Url3 = "https://www.gotinenstranan.com/songs/s%CC%A7ehi%CC%82d%20arges%CC%A7%20-%20dara%20ji%CC%82ne%CC%82.mp3";   // 1.7 mb
+    public static final String Url4 = "https://www.gotinenstranan.com/songs/victor%20jara%20-%20la%20partida.mp3";   // 1.5 mb
+    public static final String Url5 = "https://www.gotinenstranan.com/songs/mark%20kelly%20%26%20soraya%20-%20under%20the%20jasmine%20tree.mp3";   // 1.5 mb
+    public static final String Url6 = "https://www.gotinenstranan.com/songs/koma%20wetan%20-%20fili%CC%82to%20lao.mp3";   // 2.1 mb
     public static final int RawSong = R.raw.castle_in_the_sky;
+    public static final String AssetSong = "koma gulên xerzan carek.mp3";
+
+    public static ArgAudio audioUrl1 = ArgAudio.createFromURL("Joan Baez", "North Country Blues", Url1);
+    public static ArgAudio audioUrl2 = ArgAudio.createFromURL("Boney M.", "Rasputin", MainActivity.Url2);
+    public static ArgAudio audioUrl3 = ArgAudio.createFromURL("Şehîd Argeş", "Dara Jînê", MainActivity.Url3);
+    public static ArgAudio audioUrl4 = ArgAudio.createFromURL("Vicor Jara", "La Partida", MainActivity.Url4);
+    public static ArgAudio audioUrl5 = ArgAudio.createFromURL("Mark Kelly & Soraya", "Under The Jasmine Tree", MainActivity.Url5);
+    public static ArgAudio audioUrl6 = ArgAudio.createFromURL("Koma Wetan", "Filîto Lawo", MainActivity.Url6);
+    public static ArgAudio audioRaw = ArgAudio.createFromRaw("Joe Hisaishi", "Castle in the Sky", MainActivity.RawSong);
+    public static ArgAudio audioAsset = ArgAudio.createFromAssets("Koma Gulên Xerzan", "Carek", MainActivity.AssetSong);
+    public static ArgAudio audioFile = ArgAudio.createFromFilePath("Andrea Bocelli", "Caruso", "/storage/emulated/0/Music/Andrea Bocelli Caruso.mp3");
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+
 
         findViewById(R.id.btnSmall).setOnClickListener(this);
         findViewById(R.id.btnLarge).setOnClickListener(this);
@@ -48,17 +69,16 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private void allFunctions(){
         final ArgAudio myAudio = new ArgAudio("Singer","My Audio","symphony9",AudioType.RAW);
         final ArgAudioList myPlaylist = new ArgAudioList(true);
-        final Arg.OnErrorListener listener1=null;
-        final Arg.OnPreparedListener listener2=null;
-        final Arg.OnPausedListener listener3=null;
-        final Arg.OnPlayingListener listener4=null;
-        final Arg.OnCompletedListener listener5=null;
-        final Arg.OnTimeChangeListener listener6=null;
-        final Arg.OnPlaylistAudioChangedListener listener7=null;
-        final Class myClass = this.getClass();
+        final OnErrorListener listener1=null;
+        final OnPreparedListener listener2=null;
+        final OnPausedListener listener3=null;
+        final OnPlayingListener listener4=null;
+        final OnCompletedListener listener5=null;
+        final OnTimeChangeListener listener6=null;
+        final OnPlaylistAudioChangedListener listener7=null;
         final ArgAudio audio = new ArgAudio("Singer","Large Mp3","http://www.url.of/music.mp3(m4a/wav etc..)", AudioType.URL);
 
-        ArgPlayerSmallViewRoot small = new ArgPlayerSmallViewRoot(MainActivity.this);
+        ArgPlayerSmallViewRoot small = new ArgPlayerSmallView(MainActivity.this);
         //-----------Methods-----------     ---Default---   ----------------------Description-----------------------
         small.playAudioAfterPercent(80);    //   %50        Audio will plays after %80 buffered. Only when audio type is Url
         small.disableProgress();            //    -         Disabling 'Loading' Progress View
@@ -66,7 +86,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         small.setProgressMessage("...");    //   ...        Setting progress message (default: "Audio is loading..")
         small.disableErrorView();           //    -         Disabling Error View
         small.enableErrorView();            //    +         Enabling Error View
-        small.enableNotification(myClass);  //    -         Enabling notification
+        small.enableNotification(this);  //    -         Enabling notification
         small.disableNotification();        //    +         Disabling notification
         small.enableNextPrevButtons();      //    +         Show prev/next buttons
         small.disableNextPrevButtons();     //    -         Do not show prev/next buttons
