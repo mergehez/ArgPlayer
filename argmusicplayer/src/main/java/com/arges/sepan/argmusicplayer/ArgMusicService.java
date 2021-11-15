@@ -40,6 +40,7 @@ import com.arges.sepan.argmusicplayer.Enums.AudioType;
 import com.arges.sepan.argmusicplayer.Enums.ErrorType;
 import com.arges.sepan.argmusicplayer.Models.ArgAudio;
 import com.arges.sepan.argmusicplayer.Models.ArgAudioList;
+import com.arges.sepan.argmusicplayer.Notification.ArgNotification;
 
 import java.io.File;
 import java.io.IOException;
@@ -114,6 +115,11 @@ class ArgMusicService extends Service implements MediaPlayer.OnPreparedListener,
 
     public ArgMusicService(Context context) {
         this.context = context;
+        audioManager = (AudioManager) context.getSystemService(AUDIO_SERVICE);
+    }
+
+    public ArgMusicService(){
+        context = getApplicationContext();
         audioManager = (AudioManager) context.getSystemService(AUDIO_SERVICE);
     }
 

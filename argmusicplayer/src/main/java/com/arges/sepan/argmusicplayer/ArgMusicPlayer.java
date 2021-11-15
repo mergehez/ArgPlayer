@@ -19,11 +19,12 @@ import com.arges.sepan.argmusicplayer.Enums.ErrorType;
 import com.arges.sepan.argmusicplayer.Models.ArgAudio;
 import com.arges.sepan.argmusicplayer.Models.ArgAudioList;
 import com.arges.sepan.argmusicplayer.Models.ArgNotificationOptions;
+import com.arges.sepan.argmusicplayer.Notification.ArgNotification;
 
 import java.text.SimpleDateFormat;
 import java.util.Locale;
 
-abstract class ArgMusicPlayer {
+public abstract class ArgMusicPlayer {
     ArgMusicService service;
     ArgNotification notification;
     private OnPreparedListener onPreparedListener;
@@ -241,23 +242,23 @@ abstract class ArgMusicPlayer {
         service.playSingleAudio(audio);
     }
 
-    protected void continuePlaying() {
+    public void continuePlaying() {
         service.continuePlaying();
     }
 
-    protected void playNextAudio() {
+    public void playNextAudio() {
         service.playNextAudio();
     }
 
-    protected void playPreviousAudio() {
+    public void playPreviousAudio() {
         service.playPrevAudio();
     }
 
-    protected void pause() {
+    public void pause() {
         service.pause();
     }
 
-    protected void stop() {
+    public void stop() {
         service.stop();
         setPlayPauseAsPlay();
         setSeekBarMax(0);
@@ -281,7 +282,7 @@ abstract class ArgMusicPlayer {
         service.playAudioAfterPercent(percent);
     }
 
-    protected boolean isPlaying() {
+    public boolean isPlaying() {
         return service.getAudioState() == PLAYING;
     }
 
