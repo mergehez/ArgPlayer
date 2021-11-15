@@ -33,7 +33,4 @@ public class ArgErrorView extends RelativeLayout {
     public void hide(){
         this.setVisibility(INVISIBLE);
     }
-    public interface OnClickListener{
-        void onClick();
-    }
 }

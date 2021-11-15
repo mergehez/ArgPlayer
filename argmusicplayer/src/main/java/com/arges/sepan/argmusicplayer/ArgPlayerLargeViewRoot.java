@@ -1,16 +1,16 @@
 package com.arges.sepan.argmusicplayer;
 
 import android.content.Context;
+import android.graphics.BitmapFactory;
 import android.util.AttributeSet;
 
 import androidx.appcompat.widget.AppCompatImageView;
 import androidx.appcompat.widget.AppCompatTextView;
 
-import com.arges.sepan.argmusicplayer.IndependentClasses.Arg;
-import com.arges.sepan.argmusicplayer.IndependentClasses.ArgAudio;
+import com.arges.sepan.argmusicplayer.Models.ArgAudio;
 
 
-public class ArgPlayerLargeViewRoot extends ArgPlayerSmallViewRoot {
+public abstract class ArgPlayerLargeViewRoot extends ArgPlayerSmallViewRoot {
     protected AppCompatImageView imageView;
     protected AppCompatTextView tvAudioName;
 
@@ -29,20 +29,20 @@ public class ArgPlayerLargeViewRoot extends ArgPlayerSmallViewRoot {
     @Override
     protected void init(Context context, int layoutResId) {
         super.init(context, layoutResId);
-        imageView = (AppCompatImageView) findViewById(R.id.imageViewAudio);
-        tvAudioName = (AppCompatTextView) findViewById(R.id.tvAudioName);
+        imageView = findViewById(R.id.imageViewAudio);
+        tvAudioName = findViewById(R.id.tvAudioName);
     }
 
     @Override
-    void setEmbeddedImageBitmap(byte[] byteArray) {
+    protected void setEmbeddedImageBitmap(byte[] byteArray) {
         if(byteArray!=null)
-            imageView.setImageBitmap(Arg.byteArrayToBitmap(byteArray));
+            imageView.setImageBitmap(BitmapFactory.decodeByteArray(byteArray, 0, byteArray.length));
         else
             imageView.setImageResource(R.drawable.mergesoft);
     }
 
     @Override
-    void onAudioNameChanged(ArgAudio audio) {
+    protected void onAudioNameChanged(ArgAudio audio) {
         tvAudioName.setText(audio.getTitle());
     }
 
