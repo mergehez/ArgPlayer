@@ -3,22 +3,22 @@ package com.arges.sepan.argmusicplayer;
 import android.content.Context;
 import android.util.AttributeSet;
 
-import com.arges.sepan.argmusicplayer.IndependentClasses.ArgAudio;
-import com.arges.sepan.argmusicplayer.IndependentClasses.ArgAudioList;
+import com.arges.sepan.argmusicplayer.Models.ArgAudio;
+import com.arges.sepan.argmusicplayer.Models.ArgAudioList;
 
 
 public class ArgPlayerView extends ArgPlayerViewRoot {
     @Override
-    void setEmbeddedImageBitmap(byte[] byteArray) {
+    protected void setEmbeddedImageBitmap(byte[] byteArray) {
     }
 
     @Override
-    void onAudioNameChanged(ArgAudio audio) {
+    protected void onAudioNameChanged(ArgAudio audio) {
 
     }
 
     @Override
-    void onPlaylistAudioChanged(ArgAudioList list) {
+    protected void onPlaylistAudioChanged(ArgAudioList list) {
 
     }
     public ArgPlayerView(Context context) {

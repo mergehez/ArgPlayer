@@ -43,7 +43,7 @@ android{
   }
 }
 dependencies {
-    implementation 'com.github.mergehez:ArgPlayer:v2.1'
+    implementation 'com.github.mergehez:ArgPlayer:v2.0'
 }
 ```
 

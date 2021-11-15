@@ -1,21 +1,20 @@
 package com.arges.sepan.argmusicplayer;
 
-import android.annotation.SuppressLint;
 import android.content.Context;
+import android.graphics.BitmapFactory;
 import android.util.AttributeSet;
-import android.view.View;
-import android.widget.AdapterView;
 import android.widget.LinearLayout;
 
 import androidx.appcompat.widget.AppCompatImageButton;
 import androidx.appcompat.widget.AppCompatTextView;
 
-import com.arges.sepan.argmusicplayer.IndependentClasses.Arg;
-import com.arges.sepan.argmusicplayer.IndependentClasses.ArgAudioList;
+import com.arges.sepan.argmusicplayer.Models.ArgAudioList;
 import com.arges.sepan.argmusicplayer.Views.ArgPlaylistListView;
 
+import java.util.Locale;
 
-public class ArgPlayerFullScreenViewRoot extends ArgPlayerLargeViewRoot {
+
+public abstract class ArgPlayerFullScreenViewRoot extends ArgPlayerLargeViewRoot {
     LinearLayout layPanelPlaylist;
     ArgPlaylistListView listView;
     AppCompatImageButton btnViewFlipper;
@@ -23,6 +22,7 @@ public class ArgPlayerFullScreenViewRoot extends ArgPlayerLargeViewRoot {
     AppCompatTextView tvAudioCount, tvAudioPosition;
     boolean isFlipped = false;
     ArgAudioList currentAudioList;
+    private Locale currentLocale;
 
     public ArgPlayerFullScreenViewRoot(Context context) {
         super(context);
@@ -39,59 +39,55 @@ public class ArgPlayerFullScreenViewRoot extends ArgPlayerLargeViewRoot {
     @Override
     protected void init(Context context, int layoutResId) {
         super.init(context, layoutResId);
-        layPanelPlaylist = (LinearLayout) findViewById(R.id.layPanelPlaylist);
-        listView = (ArgPlaylistListView) findViewById(R.id.listViewPlaylist);
-        btnViewFlipper = (AppCompatImageButton) findViewById(R.id.btnViewFlipper);
-        tvAudioCount = (AppCompatTextView) findViewById(R.id.tvAudioCountPlaylist);
-        tvAudioPosition = (AppCompatTextView) findViewById(R.id.tvPositonPlaylist);
+        currentLocale = Locale.getDefault();
+        layPanelPlaylist = findViewById(R.id.layPanelPlaylist);
+        listView = findViewById(R.id.listViewPlaylist);
+        btnViewFlipper = findViewById(R.id.btnViewFlipper);
+        tvAudioCount = findViewById(R.id.tvAudioCountPlaylist);
+        tvAudioPosition = findViewById(R.id.tvPositonPlaylist);
 
-        btnViewFlipper.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                isFlipped = !isFlipped;
-                if (isFlipped) {
-                    listView.scrollToSelected();
-                    layPanelPlaylist.setVisibility(VISIBLE);
-                    imageView.setVisibility(INVISIBLE);
-                    setBtnViewFlipperImage(byteArray);
-                } else {
-                    layPanelPlaylist.setVisibility(INVISIBLE);
-                    imageView.setVisibility(VISIBLE);
-                    btnViewFlipper.setImageResource(R.drawable.arg_music_playlist);
-                }
+        btnViewFlipper.setOnClickListener(v -> {
+            isFlipped = !isFlipped;
+            if (isFlipped) {
+                listView.scrollToSelected();
+                layPanelPlaylist.setVisibility(VISIBLE);
+                imageView.setVisibility(INVISIBLE);
+                setBtnViewFlipperImage(byteArray);
+            } else {
+                layPanelPlaylist.setVisibility(INVISIBLE);
+                imageView.setVisibility(VISIBLE);
+                btnViewFlipper.setImageResource(R.drawable.arg_playlist);
             }
         });
-        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                player.playPlaylistItem(position);
-            }
-        });
+        listView.setOnItemClickListener((parent, view, position, id) -> player.playPlaylistItem(position));
     }
-    private void setBtnViewFlipperImage(byte[] byteArray){
-        if(byteArray!=null)
-            btnViewFlipper.setImageBitmap(Arg.byteArrayToBitmap(byteArray));
+
+    private void setBtnViewFlipperImage(byte[] byteArray) {
+        if (byteArray != null)
+            btnViewFlipper.setImageBitmap(BitmapFactory.decodeByteArray(byteArray, 0, byteArray.length));
         else
             btnViewFlipper.setImageResource(R.drawable.mergesoftlogo);
     }
+
     @Override
-    void setEmbeddedImageBitmap(byte[] byteArray) {
+    protected void setEmbeddedImageBitmap(byte[] byteArray) {
         super.setEmbeddedImageBitmap(byteArray);
-        this.byteArray = byteArray;
-        setBtnViewFlipperImage(byteArray);
+        if(byteArray != null){
+            this.byteArray = byteArray;
+            setBtnViewFlipperImage(byteArray);
+        }
     }
 
-    @SuppressLint("DefaultLocale")
     @Override
-    void onPlaylistAudioChanged(ArgAudioList list){
-        if(!list.equals(currentAudioList)){
+    protected void onPlaylistAudioChanged(ArgAudioList list) {
+        if (!list.equals(currentAudioList)) {
             currentAudioList = list;
             listView.setAdapter(list);
-            tvAudioCount.setText(String.format("%d songs",list.size()));
-        }else{
+            tvAudioCount.setText(String.format(currentLocale, "%d songs", list.size()));
+        } else {
             listView.setSelectedPosition(list.getCurrentIndex());
             listView.getAdapter().notifyDataSetChanged();
         }
-        tvAudioPosition.setText(String.format("%d / %d", list.getCurrentIndex()+1, list.size()));
+        tvAudioPosition.setText(String.format(currentLocale, "%d / %d", list.getCurrentIndex() + 1, list.size()));
     }
 }
