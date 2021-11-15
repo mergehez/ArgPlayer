@@ -3,6 +3,8 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Users/Mazlum/AndroidStudioProjects/ArgPlayer/app/src/main/res/layout/activity_full_screen_player.xml" value="0.36614583333333334" />
+        <entry key="..\:/Users/Mazlum/AndroidStudioProjects/ArgPlayer/app/src/main/res/layout/activity_small_player.xml" value="0.36614583333333334" />
         <entry key="..\:/Users/Mazlum/AndroidStudioProjects/ArgPlayer/argmusicplayer/src/main/res/drawable/arg_pause.xml" value="0.3880208333333333" />
       </map>
     </option>
