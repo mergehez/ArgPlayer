@@ -4,10 +4,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="#eee"
     android:gravity="center_horizontal"
-    android:paddingLeft="2dp"
-    android:paddingRight="2dp">
+    android:paddingStart="2dp"
+    android:paddingEnd="2dp">
 
     <RelativeLayout
         android:id="@+id/viewFlipper"
@@ -20,17 +19,15 @@
             android:id="@+id/layPanelPlaylist"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="#eee"
             android:orientation="vertical"
             android:visibility="invisible">
 
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="#ddd"
                 android:paddingBottom="5dp"
-                android:paddingLeft="10dp"
-                android:paddingRight="10dp"
+                android:paddingStart="10dp"
+                android:paddingEnd="10dp"
                 android:paddingTop="5dp"
                 android:weightSum="1">
 
@@ -38,16 +35,16 @@
                     android:id="@+id/tvAudioCountPlaylist"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="161 songs"
+                    android:text="@string/placeholder_song_counts"
                     android:textSize="15sp" />
 
                 <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/tvPositonPlaylist"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_alignParentRight="true"
-                    android:text="2 / 161"
-                    android:layout_alignParentEnd="true" />
+                    android:text="@string/placeholder_current_song_slash_song_count"
+                    android:layout_alignParentEnd="true"
+                    tools:ignore="RelativeOverlap" />
             </RelativeLayout>
 
             <ScrollView
@@ -82,7 +79,8 @@
         android:layout_width="match_parent"
         android:layout_height="0.5dp"
         android:layout_above="@+id/arg_music_panel_layout"
-        android:background="#000" />
+        android:background="#000"
+        android:tint="?android:attr/colorControlNormal" />
     <RelativeLayout
         android:id="@+id/arg_music_panel_layout"
         android:layout_width="match_parent"
@@ -98,38 +96,36 @@
             android:layout_alignParentTop="false"
             android:gravity="center"
             android:padding="5dp"
-            android:paddingLeft="45dp"
-            android:paddingRight="45dp"
-            android:text="Andreo Bocelli - Caruso"
+            android:paddingStart="45dp"
+            android:paddingEnd="45dp"
+            android:text="@string/placeholder_song_title"
             android:textStyle="bold" />
 
         <androidx.appcompat.widget.AppCompatImageButton
             android:id="@+id/btnRepeat"
             android:layout_width="45dp"
             android:layout_height="45dp"
-            android:layout_alignParentRight="true"
             android:background="#00ffffff"
             android:padding="8dp"
             android:scaleType="fitCenter"
-            android:src="@drawable/arg_music_repeat_not"
-            android:layout_alignParentEnd="true" />
+            android:src="@drawable/arg_repeat_not"
+            android:layout_alignParentEnd="true"
+            android:tint="?android:attr/colorControlNormal" />
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/tvTimeNow"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@+id/tvAudioName"
-            android:layout_marginLeft="5dp"
-            android:text="00:00"
+            android:text="@string/placeholder_song_time"
             android:layout_marginStart="5dp" />
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/tvTimeTotal"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
             android:layout_below="@+id/tvAudioName"
-            android:text="04:20"
+            android:text="@string/placeholder_song_time"
             android:layout_alignParentEnd="true" />
 
         <SeekBar
@@ -138,7 +134,6 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="false"
-            android:layout_alignParentRight="false"
             android:layout_below="@+id/tvTimeNow"
             android:layout_gravity="center_horizontal"
             android:max="2"
@@ -166,21 +161,24 @@
                 android:layout_width="55dp"
                 android:layout_height="48dp"
                 android:scaleType="fitCenter"
-                android:src="@drawable/arg_music_prev_large" />
+                android:src="@drawable/arg_prev"
+                android:tint="?android:attr/colorControlNormal" />
 
             <androidx.appcompat.widget.AppCompatImageButton
                 android:id="@+id/btnPlayPause"
                 android:layout_width="72dp"
                 android:layout_height="72dp"
                 android:scaleType="fitCenter"
-                android:src="@drawable/arg_music_play" />
+                android:src="@drawable/arg_play"
+                android:tint="?android:attr/colorControlNormal"/>
 
             <androidx.appcompat.widget.AppCompatImageButton
                 android:id="@+id/btnNext"
                 android:layout_width="55dp"
                 android:layout_height="48dp"
                 android:scaleType="fitCenter"
-                android:src="@drawable/arg_music_next_large" />
+                android:src="@drawable/arg_next"
+                android:tint="?android:attr/colorControlNormal" />
 
         </LinearLayout>
 
@@ -188,13 +186,13 @@
             android:id="@+id/btnViewFlipper"
             android:layout_width="45dp"
             android:layout_height="45dp"
-            android:layout_alignParentRight="true"
             android:layout_marginTop="12.5dp"
             android:background="#00ffffff"
             android:padding="8dp"
             android:scaleType="fitCenter"
-            app:srcCompat="@drawable/arg_music_playlist"
-            android:layout_alignParentEnd="true" />
+            app:srcCompat="@drawable/arg_playlist"
+            android:layout_alignParentEnd="true"
+            android:tint="?android:attr/colorControlNormal" />
     </RelativeLayout>
 
     <com.arges.sepan.argmusicplayer.Views.ArgProgressView

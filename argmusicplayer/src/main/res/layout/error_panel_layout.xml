@@ -8,7 +8,6 @@
     <RelativeLayout
         android:layout_width="wrap_content"
         android:layout_height="100dp"
-        android:layout_marginLeft="25dp"
         android:gravity="center"
         android:id="@+id/errorFrame"
         android:layout_marginStart="25dp">
@@ -23,9 +22,7 @@
         android:id="@+id/tvErrorMessage"
         android:layout_width="wrap_content"
         android:layout_height="100dp"
-        android:layout_marginLeft="10dp"
-        android:layout_marginRight="15dp"
-        android:layout_toRightOf="@+id/errorFrame"
+        android:fontFamily="sans-serif"
         android:gravity="center"
         android:text="@string/error_message"
         android:textColor="#f5f2f2"

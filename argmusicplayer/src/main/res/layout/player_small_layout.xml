@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="48dp"
     android:layout_gravity="center_horizontal"
-    android:paddingLeft="2dp"
-    android:paddingRight="2dp">
+    android:paddingStart="2dp"
+    android:paddingEnd="2dp">
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -14,20 +15,18 @@
             android:id="@+id/tvTimeNow"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
             android:layout_alignParentTop="false"
-            android:text="00:00"
+            android:text="@string/placeholder_song_time"
             android:layout_alignParentStart="true" />
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/tvTimeTotal"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentRight="false"
-            android:layout_toLeftOf="@+id/layControls"
-            android:text="00:00"
+            android:text="@string/placeholder_song_time"
             android:layout_alignParentEnd="false"
-            android:layout_toStartOf="@+id/layControls" />
+            android:layout_toStartOf="@+id/layControls"
+            tools:ignore="RelativeOverlap" />
 
         <SeekBar
             android:layout_width="match_parent"
@@ -35,7 +34,6 @@
             android:id="@+id/seekBar"
             android:layout_gravity="center_horizontal"
             android:layout_below="@+id/tvTimeTotal"
-            android:layout_toLeftOf="@+id/layControls"
             android:layout_toStartOf="@+id/layControls" />
         <LinearLayout
             android:layout_width="wrap_content"
@@ -43,7 +41,6 @@
             android:id="@+id/layControls"
             android:orientation="horizontal"
             android:padding="0dp"
-            android:layout_alignParentRight="true"
             android:layout_alignParentEnd="true">
 
             <androidx.appcompat.widget.AppCompatImageButton
@@ -51,30 +48,35 @@
                 android:layout_width="48dp"
                 android:layout_height="48dp"
                 android:scaleType="fitXY"
-                android:src="@drawable/arg_music_prev"
-                android:visibility="gone" />
+                android:src="@drawable/arg_prev"
+                android:visibility="gone"
+                android:tint="?android:attr/colorControlNormal"/>
 
             <androidx.appcompat.widget.AppCompatImageButton
                 android:id="@+id/btnPlayPause"
                 android:layout_width="48dp"
                 android:layout_height="48dp"
                 android:scaleType="fitXY"
-                android:src="@drawable/arg_music_play" />
+                android:src="@drawable/arg_play"
+                android:tint="?android:attr/colorControlNormal"/>
 
             <androidx.appcompat.widget.AppCompatImageButton
                 android:id="@+id/btnNext"
                 android:layout_width="48dp"
                 android:layout_height="48dp"
                 android:scaleType="fitXY"
-                android:src="@drawable/arg_music_next"
-                android:visibility="gone" />
+                android:src="@drawable/arg_next"
+                android:visibility="gone"
+                android:tint="?android:attr/colorControlNormal"/>
 
             <androidx.appcompat.widget.AppCompatImageButton
                 android:id="@+id/btnRepeat"
                 android:layout_width="48dp"
                 android:layout_height="48dp"
-                android:scaleType="fitXY"
-                android:src="@drawable/arg_music_repeat_not" />
+                android:scaleType="fitCenter"
+                android:src="@drawable/arg_repeat_not"
+                android:padding="8dp"
+                android:tint="?android:attr/colorControlNormal"/>
         </LinearLayout>
     </RelativeLayout>
 

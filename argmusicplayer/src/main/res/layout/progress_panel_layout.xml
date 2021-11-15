@@ -11,7 +11,6 @@
         android:layout_width="wrap_content"
         android:layout_height="100dp"
         android:gravity="center"
-        android:layout_marginLeft="25dp"
         android:layout_marginStart="25dp">
 
         <androidx.appcompat.widget.AppCompatImageView
@@ -25,8 +24,6 @@
             android:layout_width="45dp"
             android:layout_height="45dp"
             android:layout_alignBottom="@+id/imgViewProgressClock"
-            android:layout_alignLeft="@+id/imgViewProgressClock"
-            android:layout_alignRight="@+id/imgViewProgressClock"
             android:layout_alignTop="@+id/imgViewProgressClock"
             android:src="@drawable/saet_ibre_dk"
             android:layout_alignEnd="@+id/imgViewProgressClock"
@@ -37,8 +34,6 @@
             android:layout_width="45dp"
             android:layout_height="45dp"
             android:layout_alignBottom="@+id/imgViewProgressClock"
-            android:layout_alignLeft="@+id/imgViewProgressClock"
-            android:layout_alignRight="@+id/imgViewProgressClock"
             android:layout_alignTop="@+id/imgViewProgressClock"
             android:src="@drawable/saet_ibre_saet"
             android:layout_alignStart="@+id/imgViewProgressClock"
@@ -50,11 +45,8 @@
         android:id="@+id/tvProgressMessage"
         android:layout_width="wrap_content"
         android:layout_height="100dp"
-        android:layout_marginLeft="10dp"
-        android:layout_marginRight="15dp"
-        android:layout_toRightOf="@+id/relLayClock"
         android:gravity="center"
-        android:text="Wait page is loading"
+        android:text="@string/wait_page_is_loading"
         android:textIsSelectable="false"
         android:textSize="18sp"
         android:typeface="serif"
