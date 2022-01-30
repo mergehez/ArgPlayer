@@ -1,6 +1,10 @@
 package com.arges.sepan.argmusicplayer.Models;
 
+import android.util.Log;
+
 import androidx.annotation.NonNull;
+
+import com.arges.sepan.argmusicplayer.Callbacks.OnPlaylistUpdateListener;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -10,9 +14,16 @@ public class ArgAudioList {
     private final ArrayList<ArgAudio> list = new ArrayList<>();
     private int currentIndex = -1;
     private boolean repeat;
+    private String logTag;
+
+    private OnPlaylistUpdateListener onAudioAddedToPlaylistListener;
 
     public ArgAudioList(boolean repeat) {
         this.repeat = repeat;
+    }
+    public ArgAudioList(boolean repeat, String logTag) {
+        this.repeat = repeat;
+        this.logTag = logTag;
     }
 
     public boolean hasNext() {
@@ -62,6 +73,13 @@ public class ArgAudioList {
         newAudio.setId(idForAudios++);
         list.add(newAudio.convertToPlaylist());
         if (currentIndex == -1) changeCurrentIndex(0);
+
+        if(logTag != null)
+            Log.d(logTag, "Audio added to playlist");
+
+        if(onAudioAddedToPlaylistListener != null)
+            onAudioAddedToPlaylistListener.onUpdate(newAudio, false);
+
         return this;
     }
 
@@ -105,7 +123,6 @@ public class ArgAudioList {
     public void addAll(Collection<? extends ArgAudio> c) {
         for (ArgAudio a : c) add(a);
     }
-
     public void clear() {
         list.clear();
         idForAudios = 0;
@@ -113,6 +130,17 @@ public class ArgAudioList {
 
     public ArgAudio get(int index) {
         return list.get(index);
+    }
+    public ArrayList<ArgAudio> getAll() {
+        return list;
+    }
+
+    public String getStringForComparison() {
+        StringBuilder builder = new StringBuilder();
+        for (ArgAudio audio : list) {
+            builder.append((audio.getAudioName()));
+        }
+        return builder.toString();
     }
 
     @NonNull
@@ -135,5 +163,9 @@ public class ArgAudioList {
                     && this.get(0).equals(a.get(0))
                     && this.get(this.size() - 1).equals(a.get(a.size() - 1));
         }
+    }
+
+    public void setOnAudioAddedToPlaylistListener(OnPlaylistUpdateListener onAudioAddedToPlaylistListener) {
+        this.onAudioAddedToPlaylistListener = onAudioAddedToPlaylistListener;
     }
 }

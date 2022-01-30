@@ -164,6 +164,7 @@ public abstract class ArgPlayerViewRoot extends RelativeLayout implements View.O
             }
         };
         player.checkIfAppReOpened();
+        player.setOnPlaylistAudioChangedListener((list, currIndex) -> onPlaylistAudioChanged(list));
 
         this.progress.setMessage(player.service.progressMessage);
     }

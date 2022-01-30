@@ -9,7 +9,14 @@
     <com.arges.sepan.argmusicplayer.PlayerViews.ArgPlayerFullScreenView
         android:id="@+id/argmusicplayer"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="0dp"
+        android:layout_weight="1">
 
     </com.arges.sepan.argmusicplayer.PlayerViews.ArgPlayerFullScreenView>
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/btnAddToPlaylist"
+        android:text="Add new audio"/>
 </LinearLayout>

@@ -82,8 +82,8 @@ public abstract class ArgMusicPlayer {
 
             setTimeTotalText(new SimpleDateFormat("mm:ss", Locale.getDefault()).format(duration));
             if (isNotificationEnabled()) {
-                boolean hasNext = service.isPlaylist() && service.getCurrentPlaylist().hasNext();
-                boolean hasPrev = service.isPlaylist() && service.getCurrentPlaylist().hasPrev();
+                boolean hasNext = service.getCurrentPlaylist().hasNext();
+                boolean hasPrev = service.getCurrentPlaylist().hasPrev();
                 notification.renew(audio.getTitle(), duration, hasNext, hasPrev);
             }
             changeAudioName(audio);
@@ -303,11 +303,11 @@ public abstract class ArgMusicPlayer {
     }
 
     protected boolean hasNextAudio() {
-        return service.isPlaylist() && service.getCurrentPlaylist().hasNext();
+        return service.getCurrentPlaylist().hasNext();
     }
 
     protected boolean hasPrevAudio() {
-        return service.isPlaylist() && service.getCurrentPlaylist().hasPrev();
+        return service.getCurrentPlaylist().hasPrev();
     }
 
     // setting listeners

@@ -21,7 +21,7 @@ public abstract class ArgPlayerFullScreenViewRoot extends ArgPlayerLargeViewRoot
     byte[] byteArray;
     AppCompatTextView tvAudioCount, tvAudioPosition;
     boolean isFlipped = false;
-    ArgAudioList currentAudioList;
+    String currentAudioListStrToCompare;
     private Locale currentLocale;
 
     public ArgPlayerFullScreenViewRoot(Context context) {
@@ -80,8 +80,8 @@ public abstract class ArgPlayerFullScreenViewRoot extends ArgPlayerLargeViewRoot
 
     @Override
     protected void onPlaylistAudioChanged(ArgAudioList list) {
-        if (!list.equals(currentAudioList)) {
-            currentAudioList = list;
+        if (!list.getStringForComparison().equals(currentAudioListStrToCompare)) {
+            currentAudioListStrToCompare = list.getStringForComparison();
             listView.setAdapter(list);
             tvAudioCount.setText(String.format(currentLocale, "%d songs", list.size()));
         } else {

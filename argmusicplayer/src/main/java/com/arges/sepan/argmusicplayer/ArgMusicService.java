@@ -66,9 +66,10 @@ class ArgMusicService extends Service implements MediaPlayer.OnPreparedListener,
     // We have to check this situation to prevent unexpected playbacks
     boolean wasPlayingBeforeFocusLoss = false;
     private MediaPlayer mediaPlayer;
+    private boolean isPlaylistActive = false;
     private boolean isRepeatPlaylist = false;
     private boolean playlistError = true;
-    private ArgAudioList currentPlaylist = new ArgAudioList(true);
+    private final ArgAudioList currentPlaylist = new ArgAudioList(true, "ArgCih FromMusicService");
     private ArgAudio currentAudio;
     private OnPreparedListener onPreparedListener;
     private OnTimeChangeListener onTimeChangeListener;
@@ -116,11 +117,8 @@ class ArgMusicService extends Service implements MediaPlayer.OnPreparedListener,
     public ArgMusicService(Context context) {
         this.context = context;
         audioManager = (AudioManager) context.getSystemService(AUDIO_SERVICE);
-    }
 
-    public ArgMusicService(){
-        context = getApplicationContext();
-        audioManager = (AudioManager) context.getSystemService(AUDIO_SERVICE);
+        currentPlaylist.setOnAudioAddedToPlaylistListener((audio, wasRemoved) -> onPlaylistAudioChangedListener.onPlaylistAudioChanged(currentPlaylist, currentPlaylist.getCurrentIndex()));
     }
 
     // region <setters-getters>
@@ -181,7 +179,8 @@ class ArgMusicService extends Service implements MediaPlayer.OnPreparedListener,
     }
 
     protected void setCurrentPlaylist(ArgAudioList argAudioList) {
-        this.currentPlaylist = argAudioList;
+        currentPlaylist.clear();
+        currentPlaylist.addAll(argAudioList.getAll());
     }
 
     protected boolean getRepeatPlaylist() {
@@ -190,7 +189,7 @@ class ArgMusicService extends Service implements MediaPlayer.OnPreparedListener,
 
     protected void setRepeatPlaylist(boolean repeatPlaylist) {
         this.isRepeatPlaylist = repeatPlaylist;
-        if (isPlaylist()) currentPlaylist.setRepeat(repeatPlaylist);
+        currentPlaylist.setRepeat(repeatPlaylist);
     }
 
     protected boolean getPlaylistError() {
@@ -216,7 +215,7 @@ class ArgMusicService extends Service implements MediaPlayer.OnPreparedListener,
     }
 
     protected boolean isPlaylist() {
-        return currentPlaylist != null;
+        return isPlaylistActive;
     }
     //endregion </ServiceOverrides>
 
@@ -278,14 +277,23 @@ class ArgMusicService extends Service implements MediaPlayer.OnPreparedListener,
     }
 
     protected boolean preparePlaylistToPlay(@NonNull ArgAudioList playlist) {
-        ArgAudioList temp = currentPlaylist;
-        currentPlaylist = playlist;
+        final String temp = currentPlaylist.getStringForComparison();
+
+        playlist.setOnAudioAddedToPlaylistListener((audio, wasRemoved) -> currentPlaylist.add(audio));
+
+        currentPlaylist.clear();
+        currentPlaylist.addAll(playlist.getAll());
+
         if (currentPlaylist.size() == 0) {
             killMediaPlayer();
             publishError(ErrorType.EMPTY_PLAYLIST, "Seems you have loaded an empty playlist!");
             return false;
         }
-        if (currentPlaylist.equals(temp)) return false;
+
+        if (currentPlaylist.getStringForComparison().equals(temp))
+            return false;
+
+        isPlaylistActive = true;
         currentPlaylist.setRepeat(getRepeatPlaylist());
         onPlaylistStateChangedListener.onPlaylistStateChanged(true, currentPlaylist);
         return true;
@@ -338,7 +346,8 @@ class ArgMusicService extends Service implements MediaPlayer.OnPreparedListener,
     }
 
     protected void playSingleAudio(ArgAudio audio) {   // Use when play new single audio, not for resuming a paused audio
-        currentPlaylist = null;
+        isPlaylistActive = false;
+        currentPlaylist.clear();
         onPlaylistStateChangedListener.onPlaylistStateChanged(false, null);
         playAudio(audio);
     }
@@ -491,8 +500,6 @@ class ArgMusicService extends Service implements MediaPlayer.OnPreparedListener,
 
     private void publishError(ErrorType type, String description) {
         killMediaPlayer();
-        //currentPlaylist = null;
-        //currentAudio = null;
         onErrorListener.onError(type, description);
     }
 
@@ -517,7 +524,6 @@ class ArgMusicService extends Service implements MediaPlayer.OnPreparedListener,
         AssetFileDescriptor descriptor;
         MediaPlayer player = new MediaPlayer();
         player.setAudioAttributes(new AudioAttributes.Builder().setContentType(AudioAttributes.CONTENT_TYPE_MUSIC).build());
-        //player.setAudioStreamType(AudioManager.USE_DEFAULT_STREAM_TYPE);
         switch (audio.getType()) {
             case ASSETS:
                 descriptor = context.getAssets().openFd(audio.getPath());
