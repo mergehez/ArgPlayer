@@ -43,7 +43,7 @@ afterEvaluate {
                 // You can then customize attributes of the publication as shown below.
                 groupId = 'com.arges.sepan.argmusicplayer'
                 artifactId = 'final'
-                version = '3.0'
+                version = '3.1'
             }
         }
     }
