@@ -4,7 +4,7 @@ An android music player ui library
 Builds: [![](https://jitpack.io/v/mergehez/ArgPlayer.svg)](https://jitpack.io/#mergehez/ArgPlayer)
 
 ## Table of Contents
-* [Gradle](#gradle)
+* [Installation](#installation)
 * [How to Use](#how-to-use)
 	* [XML Codes](#xml-codes)
 		* [Small View](#for-small-view)
@@ -19,7 +19,7 @@ Builds: [![](https://jitpack.io/v/mergehez/ArgPlayer.svg)](https://jitpack.io/#m
 	* [ArgNotificationOptions Methods](#argnotificationoptions)
 * [ScreenShots](#screenshots)
 
-## Gradle
+## Installation
 To always build from the latest commit with all updates. Add the JitPack repository:
 
 (path:\to\your\projects\MainFolderOfYourProject\build.gradle)
@@ -48,6 +48,8 @@ dependencies {
 }
 ```
 
+> Note: You may encounter the error below. See this stackoverflow question: [link](https://stackoverflow.com/questions/69163511/build-was-configured-to-prefer-settings-repositories-over-project-repositories-b) <br/>
+> `Build was configured to prefer settings repositories over project repositories but repository 'maven' was added by build file 'build.gradle'`
 
 ## How to use
 
