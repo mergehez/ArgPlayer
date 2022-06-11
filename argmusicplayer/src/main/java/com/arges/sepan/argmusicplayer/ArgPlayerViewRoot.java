@@ -190,6 +190,11 @@ public abstract class ArgPlayerViewRoot extends RelativeLayout implements View.O
         if (player.getPlaylistRepeat())
             btnRepeat.setImageResource(player.service.repeatButtonResId);
         else btnRepeat.setImageResource(player.service.repeatNotButtonResId);
+        if (player.service.repeatButton) {
+            btnRepeat.setVisibility(VISIBLE);
+        } else {
+            btnRepeat.setVisibility(GONE);
+        }
         changeNextPrevButtons();
     }
 
@@ -229,6 +234,16 @@ public abstract class ArgPlayerViewRoot extends RelativeLayout implements View.O
 
     public void enableProgress() {
         player.service.progressCancellation = false;
+    }
+
+    public void disableRepeatButton() {
+        player.service.repeatButton = false;
+        changeRepeatButton();
+    }
+
+    public void enableRepeatButton() {
+        player.service.repeatButton = true;
+        changeRepeatButton();
     }
 
     public void disableErrorView() {
