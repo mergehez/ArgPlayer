@@ -58,6 +58,7 @@ class ArgMusicService extends Service implements MediaPlayer.OnPreparedListener,
     protected boolean progressCancellation = false;
     protected boolean errorViewCancellation = false;
     protected boolean nextPrevButtons = true;
+    protected boolean repeatButton = true;
     protected int playButtonResId = R.drawable.arg_play;
     protected int pauseButtonResId = R.drawable.arg_pause;
     protected int repeatButtonResId = R.drawable.arg_repeat;
